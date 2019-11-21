@@ -1,0 +1,8 @@
+/build/
+/config/
+/dist/
+/src/iways-ui/dist
+/src/iways-ui/node_modules/
+/*.js
+popper.js
+vuescroll.js

@@ -1,0 +1,18 @@
+{
+  "name": "iways-ui",
+  "version": "1.1.8",
+  "description": "An enterprise definition UI design language and Vue-based implementation",
+  "author": "jacksonvong <hbqprivate@163.com>",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "vue"
+  ],
+  "unpkg": "dist/index.js",
+  "style": "dist/index.css",
+  "dependencies": {
+    "deepmerge": "^1.2.0",
+    "resize-observer-polyfill": "^1.5.0"
+  }
+}

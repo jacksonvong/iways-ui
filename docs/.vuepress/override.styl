@@ -1,0 +1,71 @@
+// .theme-container.custom-button-class{
+//   .sidebar{
+//     background: red;
+//   }
+// }
+
+
+.theme-container.custom-page-class {
+  .navbar{
+    z-index: 0;
+  }
+  /* 特定页面的 CSS */
+  .sidebar{
+    // background: red;
+    width: 16rem;
+  }
+  @media(max-width: 959px){
+    .sidebar{
+      // background: red;
+      width: 15rem;
+    }
+  }
+ @media(max-width: 1080px){
+    .page {
+        padding-left: 16rem;
+    }
+  }
+  @media(max-width: 959px){
+    .page {
+        padding-left: 15rem;
+    }
+  }
+  @media(max-width: 819px){
+    .page {
+        padding-left: 14rem;
+    }
+  }
+  @media(max-width: 719px){
+    .page {
+        padding-left: 0rem;
+    }
+  }
+  @media(min-width :1080px){
+    .page {
+      padding-left: 15rem;
+    }
+  }
+  @media(min-width :1130px){
+    .page {
+      padding-left: 13rem;
+    }
+  }
+
+}
+
+// 代码库重置
+.content pre{ margin: 0!important;}
+
+* {
+  table {
+    border: 0;
+  }  
+  tr {
+    border: 0;
+  }
+  th, td {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+}

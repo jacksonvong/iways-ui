@@ -1,0 +1,148 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(select) {
+  padding: 0;
+  font-size: $--font-size-base;
+  @include m(medium) {
+    font-size: $--font-size-base;
+  }
+  @include m(small) {
+    font-size: $--font-size-small;
+  }
+  @include m(mini) {
+    font-size: $--font-size-extra-small;
+  }
+  @include m(disabled) {
+    // display: none;
+  }
+  
+  @include e(body) {
+    @include e(wrap) {
+      max-height: 336px;
+    }
+    @include e(group) {
+      height: 100%;
+      @include e(group-item) {
+        padding: 7px 12px;
+        @include m(medium) {
+          padding: 6px 12px;
+        }
+        @include m(small) {
+          padding: 5px 12px;
+        }
+        @include m(mini) {
+          padding: 4px 12px;
+        }
+        cursor: pointer;
+        .iw-text {
+          width: inherit;
+        }
+        &.on {
+          background: $--select-option-selected-hover;
+        }
+        &:hover {
+          background: $--select-option-hover-background;
+        }
+        @include e(item-icon) {
+          position: absolute;
+          right: 10px;
+          padding: 4px 0;
+          color: $--color-text-secondary;
+        }
+        @include e(placeholder) {
+          color: $--color-text-placeholder;
+        }
+      }
+    }
+  }
+  
+  @include e(footer) {
+    border-top: 1px solid #f2f2f3;
+    text-align: right;
+    padding: 10px;
+    min-width: 120px;
+  }
+  
+  .iw-checkbox {
+    background: url("~@iways-ui/src/assets/images/icon/checkbox.png") transparent 36px 47px;
+    width: 18px;
+    height: 18px;
+    display: block;
+    float: left;
+    cursor: pointer;
+    &.iw-checkbox--checked {
+      background-position: 36px 74px;
+    }
+    &.iw-checkbox--indeterminate {
+      background-position: 36px 22px;
+    }
+  }
+  .iw-radio {
+    background: url("~@iways-ui/src/assets/images/icon/radio.png") transparent 32px 42px;
+    width: 15px;
+    height: 15px;
+    float: left;
+    display: block;
+    cursor: pointer;
+    margin-top: 2px;
+    &.iw-radio--checked {
+      background-position: 32px 57px;
+    }
+  }
+  .iw-text {
+    padding-left: 4px;
+  }
+}
+
+.iw-select-reference {
+  // display: inline-block;
+  @include b(input) {
+    cursor: pointer;
+    display: block;
+    &.is-focus {
+      @include e(inner) {
+        outline: none;
+        border-color: $--color-primary;
+      }
+    }
+    &.is-disabled {
+      @include e(inner) {
+        border-color: inherit;
+      }
+    }
+    @include e(value) {
+      color: $--color-text-regular;
+      input {
+        border: 0;
+        line-height: 1;
+        font-size: inherit;
+        color: $--color-text-regular;
+        cursor: pointer;
+        &:disabled {
+          background-color: transparent;
+          cursor: not-allowed;
+        }
+        &::placeholder {
+          color: $--color-text-placeholder;
+        }
+      }
+    }
+    @include e(suffix) {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: inherit;
+      @include e(icon) {
+        color: $--color-text-placeholder;
+        font-size: 14px;
+        transition: transform .3s;
+        transform: rotate(180deg);
+        cursor: pointer;
+        &.is-reverse {
+          transform: rotate(0deg);
+        }
+      }
+    }
+  }
+}

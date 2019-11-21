@@ -1,0 +1,347 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(submodel) {
+  padding: 0;
+  font-size: $--font-size-base;
+  @include m(medium) {
+    font-size: $--font-size-base;
+  }
+  @include m(small) {
+    font-size: $--font-size-small;
+  }
+  @include m(mini) {
+    font-size: $--font-size-extra-small;
+  }
+  @include m(disabled) {
+    // display: none;
+  }
+
+  @include e(title) {
+    border-bottom: 1px solid #eee;
+    height: 52px;
+    font-size: 14px;
+    
+    @include e(inner) {
+      padding: 14px;
+      font-weight: 700;
+      display: block;
+      float: left;
+      font-size: $--font-size-medium;
+    }
+
+    @include e(filter) {
+      font-size: $--font-size-extra-small;
+      font-weight: bold;
+      display: block;
+      float: left;
+      height: 52px;
+      line-height: 52px;
+      @include e(filter-item) {
+        padding: 18px 18px;
+        color: $--color-text-secondary;
+        cursor: pointer;
+        &.on {
+          color: $--color-primary;
+        }
+      }
+    }
+
+    @include e(error) {
+      float: right;
+      padding: 17px;
+      font-size: 12px;
+      color: $--color-danger;
+    }
+    
+    @include e(search) {
+      display: block;
+      float: right;
+      position: relative;
+      padding: 8px 50px 8px 10px;
+      @include m(medium) {
+        padding: 10px 50px 10px 10px;
+      }
+      @include m(small) {
+        padding: 12px 50px 12px 10px;
+      }
+      @include m(mini) {
+        padding: 14px 50px 14px 10px;
+      }
+      .iw-input__icon {
+        font-size: 16px;
+      }
+    }
+    
+    @include e(close) {
+      cursor: pointer;
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      padding: 4px;
+      &:hover {
+        background: $--background-color-base;
+        border-radius: 4px;
+      }
+      i {
+        font-size: 16px;
+        color: #aaacb7;
+      }
+    }
+  }
+  
+  @include e(body) {
+
+    @include e(track) {
+      color: $--color-text-secondary;
+      padding: 10px 15px;
+      @include clearfix();
+      @include m((plain, select)) {
+        overflow: hidden;
+        float: left;
+        margin-right: 3px;
+        // width: calc(100% - 360px);
+      }
+      @include m(plain) {
+        margin-right: 10px;
+        > div {
+          padding: 3px 0;
+        }
+        em {
+          padding: 4px;
+          cursor: pointer;
+          border-radius: 2px;
+          &.on {
+            color: #fff;
+            background: $--color-primary;
+          }
+        }
+      }
+      @include m(select) {
+        padding: 0;
+        .iw-select {
+          border: 1px solid #d4d4d4;
+          border-radius: 4px;
+        }
+      }
+      @include e(track-filter) {
+        width: 210px;
+        float: left;
+        > div {
+          display: inline-block;
+        }
+      }
+      @include e(track-desc) {
+        width: 114px;
+        float: right;
+        text-align: right;
+        padding: 3px 0;
+        .font-orange {
+          color: $--color-warning;
+        }
+        .font-blue {
+          color: $--color-primary;
+        }
+        abbr {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    @include e(wrap) {
+      max-height: 336px;
+      @include e(group) {
+        padding: 0 15px;
+        @include e(group_label) {
+          background: #F4F4F6;
+          padding: 4px 6px;
+          border-radius: 2px;
+          .iw-text {
+            color: $--color-text-regular
+          }
+        }
+        @include e(group_table) {
+          padding: 0;
+          > table {
+            border: 0;
+            > tr {
+              border-bottom: 1px solid #eee;
+              > td:nth-child(1) {
+                width: 128px;
+                border-right: 1px solid #eee;
+                .iw-submodel__group_item {
+                  width: 127px;
+                  .iw-text {
+                    width: 108px;
+                  }
+                }
+              }
+              > td:nth-child(2) {
+                table {
+                  tr {
+                    border-bottom: 1px solid #eee;
+                    td {
+                      width: 100px;
+                      padding: 8px 6px;
+                    }
+                  }
+                  tr:last-child {
+                    border-bottom: 0;
+                  }
+                }
+              }
+            }
+            > tr:last-child {
+              border-bottom: 0;
+              > td:nth-child(1) {
+                border-bottom: 0;
+              }
+              > td:nth-child(2) {
+                table {
+                  tr:last-child {
+                    border-bottom: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+        @include e(group_item) {
+          width:100px;
+          cursor: pointer;
+          @include clearfix();
+          .iw-text {
+            width: 80px;
+          }
+        }
+      }
+    }
+  }
+
+  @include e(footer) {
+    border-top: 1px solid #f2f2f3;
+    text-align: right;
+    padding: 10px 15px;
+    min-width: 120px;
+    @include e(footer-selected) {
+      width: calc(100% - 230px);
+      float: left;
+      text-align: left;
+      overflow: auto;
+      overflow-x: hidden;
+      label {
+        float: left;
+        margin-right: 6px;
+        color: $--color-text-secondary;
+      }
+      @include e(footer-scroll) {
+        max-height: 52px;
+        @include m(medium) {
+          max-height: 48px;
+        }
+        @include m(small) {
+          max-height: 44px;
+        }
+        @include m(mini) {
+          max-height: 40px;
+        }
+        .iw-tag {
+          margin-right: 6px;
+          margin-bottom: 4px;
+          cursor: pointer;
+        }
+      }
+    }
+    @include e(footer-checkall) {
+      width: 76px;
+      display: inline-block;
+      cursor: pointer;
+      text-align: left;
+    }
+  }
+  .iw-checkbox {
+    background: url("~@iways-ui/src/assets/images/icon/checkbox.png") transparent 36px 47px;
+    width: 18px;
+    height: 18px;
+    display: block;
+    float: left;
+    cursor: pointer;
+    &.iw-checkbox--checked {
+      background-position: 36px 73px;
+    }
+    &.iw-checkbox--indeterminate {
+      background-position: 36px 21px;
+    }
+  }
+  .iw-radio {
+    background: url("~@iways-ui/src/assets/images/icon/radio.png") transparent 32px 42px;
+    width: 15px;
+    height: 15px;
+    float: left;
+    display: block;
+    cursor: pointer;
+    margin-top: 2px;
+    &.iw-radio--checked {
+      background-position: 32px 57px;
+    }
+  }
+  .iw-text {
+    padding-left: 4px;
+    width: 100px;
+    display: block;
+    color: $--color-primary;
+    @include text-hide();
+    &.font-orange {
+      color: orange;
+    }
+  }
+}
+
+.iw-submodel-reference {
+  display: inline-block;
+  @include b(input) {
+    cursor: pointer;
+    &.is-focus {
+      @include e(inner) {
+        outline: none;
+        border-color: $--color-primary;
+      }
+    }
+    &.is-disabled {
+      @include e(inner) {
+        border-color: inherit;
+      }
+    }
+    @include e(placeholder) {
+      color: $--color-text-placeholder;
+    }
+    @include e(value) {
+      color: $--color-text-regular;
+      input {
+        border: 0;
+        line-height: 1;
+        font-size: inherit;
+        color: $--color-text-regular;
+        cursor: pointer;
+        &:disabled {
+          background-color: $--color-white;
+        }
+      }
+    }
+    @include e(suffix) {
+      position: absolute;
+      right: 0;
+      top: 0;
+      @include e(icon) {
+        color: $--color-text-placeholder;
+        font-size: 14px;
+        transition: transform .3s;
+        transform: rotate(180deg);
+        cursor: pointer;
+        &.is-reverse {
+          transform: rotate(0deg);
+        }
+      }
+    }
+  }
+}

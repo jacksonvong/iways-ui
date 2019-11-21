@@ -1,0 +1,91 @@
+@import "mixins/mixins";
+@import "common/var";
+
+.iw-popover{
+  position: absolute;
+  background: $--popover-fill;
+  min-width: 100px;
+  border-radius: 4px;
+  border: 1px solid $--popover-border-color;
+  padding: $--popover-padding;
+  z-index: $--index-popper;
+  color: $--color-text-primary;
+  line-height: 1.5;
+  font-size: $--popover-font-size;
+  box-shadow: $--box-shadow-light;
+  word-break: break-all;
+  &.iw-placement-top{
+    transform: translateY(-100%);
+    margin-top: 0px;
+    &::before, &::after{
+      left: 10px;
+    }
+    &::before{
+      border-bottom: none;//可以设置button:z-index:1
+      border-top-color: black;
+      top: 100%;
+    }
+    &::after{
+      border-bottom: none;
+      border-top-color: white;
+      top: calc(100% - 1px);
+    }
+  }
+  &.iw-placement-bottom{
+    margin-top: 0px;
+    &::before, &::after{
+      left: 10px;
+    }
+    &::before{
+      border-top: none;
+      border-bottom-color: black;
+      bottom: 100%;
+    }
+    &::after{
+      border-top: none;
+      border-bottom-color: white;
+      bottom: calc(100% - 1px);
+    }
+  }
+  &.iw-placement-left{
+    transform: translateX(-100%);
+    margin-left: 0px;
+    &::before, &::after{
+      transform: translateY(-50%);
+      top: 50%;
+    }
+    &::before{
+      border-right: none;
+      border-left-color: black;
+      left: 100%;
+    }
+    &::after{
+      border-right: none;
+      border-left-color: white;
+      left: calc(100% - 1px);
+    }
+  }
+  &.iw-placement-right{
+    margin-left: 0px;
+    &::before, &::after{
+      transform: translateY(-50%);
+      top: 50%;
+      border-left: none;
+    }
+    &::before{
+      border-right-color: black;
+      right: 100%;
+    }
+    &::after{
+      border-right-color: white;
+      right: calc(100% - 1px);
+    }
+  }
+
+}
+.iw-popover__wrap {
+  display: inline-block;
+}
+.reference-wrap {
+  display: inline-block;
+}

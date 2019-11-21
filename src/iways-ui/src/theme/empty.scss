@@ -1,0 +1,51 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(empty) {
+  
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  position: relative;
+
+  @include e(main) {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    span {
+      color: $--border-color-base;
+      display: inline-block;
+      font-size: 70px;
+    }
+    p {
+      color: $--color-text-secondary;
+      font-size: 14px;
+    }
+  }
+  
+  @include m(medium) {
+    @include e(main) {
+      span { font-size: 55px; }
+      p { font-size: 13px; }
+    }
+    .scalable { min-height: 123px; }
+  }
+  @include m(small) {
+    @include e(main) {
+     span { font-size: 40px; }
+     p { font-size: 12px; }
+    }
+    .scalable { min-height: 84px; }
+  }
+  @include m(mini) {
+    @include e(main) {
+     span { font-size: 28px; }
+     p { font-size: 12px; }
+    }
+    .scalable { min-height: 45px; }
+  }
+  .scalable { min-height: 162px; }
+  
+}
