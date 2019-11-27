@@ -18,12 +18,14 @@
       :before-close="beforeClose">
       <!-- 触发操作 -->
       <div slot="reference" class="iw-favorite-reference">
-        <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="'width:'+referenceWidth+'px'">
+        <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
           <div v-if="popover==='IwPopover'" class="iw-input__inner">
             <span v-if="checkedOption[optionProps.value]" class="iw-input__value">
-              <input :value="checkedOption[optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" disabled>
+              <input :value="checkedOption[optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
             </span>
-            <span v-else class="iw-input__placeholder">{{ placeholder }}</span>
+            <span v-else class="iw-input__value">
+              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+            </span>
             <span class="iw-input__suffix">
               <slot>
                 <i :class="['iw-input__icon', 'iw-icon-' + iconClass]"/>
@@ -326,7 +328,7 @@ export default {
     },
     // 选择器标题发生变化 20191111 远杰
     selectTitle() {
-      switch(this.type) {
+      switch (this.type) {
         case 'subModel':
           this.$set(this.titles, 'subModel', this.selectTitle || '车型')
           break

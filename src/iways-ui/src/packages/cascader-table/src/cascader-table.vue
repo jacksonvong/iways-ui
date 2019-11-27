@@ -16,16 +16,18 @@
       :width="popover==='IwPopover'?null:clientWidth"
       :title="popover==='IwPopover'?null:false">
       <div slot="reference" class="iw-cascader-table-reference">
-        <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="'width:'+referenceWidth+'px'">
+        <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
           <div v-if="popover==='IwPopover'" class="iw-input__inner">
             <span v-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
-              <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" disabled>
-              <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" disabled>
+              <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+              <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
             </span>
             <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
-              <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" disabled>
+              <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
             </span>
-            <span v-else class="iw-input__placeholder">{{ placeholder }}</span>
+            <span v-else class="iw-input__value">
+              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+            </span>
             <span class="iw-input__suffix">
               <slot>
                 <i :class="['iw-input__icon', 'iw-icon-' + iconClass]"/>

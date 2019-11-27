@@ -8,19 +8,21 @@
     :width="null"
   >
     <div slot="reference" class="iw-version-reference">
-      <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="'width:'+referenceWidth+'px'">
+      <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
         <div class="iw-input__inner">
           <span v-if="triggerText" class="iw-input__value">
             <font>{{ triggerText }}</font>
           </span>
           <span v-else-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
-            <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" disabled>
-            <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" disabled>
+            <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+            <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
           </span>
           <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
-            <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" disabled>
+            <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
           </span>
-          <span v-else class="iw-input__placeholder">{{ placeholder }}</span>
+          <span v-else class="iw-input__value">
+            <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly>
+          </span>
           <span class="iw-input__suffix">
             <slot>
               <i :class="['iw-input__icon', 'iw-icon-' + iconClass]"/>
@@ -29,10 +31,10 @@
         </div>
       </div>
     </div>
-    <div v-if="!disabled" :id="'iw-version__popover--'+id" :style="{minWidth: '400px', width: '660px'}">
+    <div v-if="!disabled" :id="'iw-version__popover--'+id" :style="{minWidth: showModel?'400px':'270px', width: showModel?'660px':'530px'}">
       <!-- 标题区 -->
-      <div v-if="title||tabs.length" class="iw-version__title">
-        <div v-if="title" class="iw-version__inner">{{ title }}</div>
+      <div v-if="title" class="iw-version__title">
+        <div class="iw-version__inner">{{ title }}</div>
         <div v-if="showSearch&&data.length" :class="'iw-version__search--'+iwSize" class="iw-version__search">
           <iw-input v-model="keyword" :size="iwSize" style="width: 130px;" prefix-icon="iw-icon-search" placeholder="搜索" @change="handleSearchChange" @keyup.native="handleSearchChange" />
         </div>
@@ -50,7 +52,7 @@
                 <div class="iw-version__group_table">
                   <table>
                     <tr>
-                      <td>车型</td>
+                      <td v-show="showModel">车型</td>
                       <td>
                         <div class="iw-version__group_table">
                           <table>
@@ -73,7 +75,7 @@
                 <div class="iw-version__group_table">
                   <table>
                     <tr v-for="row in datas" :key="row[optionProps.value]">
-                      <td>
+                      <td v-show="showModel">
                         <div :title="row[optionProps.label]" class="iw-version__group_item" @click="handleItemChange(row)">
                           <span
                             :class="[
@@ -154,7 +156,7 @@ export default {
       }
     },
     value: {
-      type: Array,
+      type: [Array, String, Number],
       default() {
         return []
       }
@@ -196,6 +198,11 @@ export default {
     },
     showSearch: {
       // 显示搜索框
+      type: Boolean,
+      default: true
+    },
+    showModel: {
+      // 显示车型列
       type: Boolean,
       default: true
     },

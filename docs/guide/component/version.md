@@ -148,6 +148,75 @@ pageClass: custom-page-class
 </Common-code-format>
 </ClientOnly>
 
+<ClientOnly>
+<Common-code-format>
+  <div slot="description">
+    <header class="iw-description-title">
+      showModel
+    </header>
+    <p class="iw-description-text">
+      是否显示车型列
+    </p>
+  </div>
+
+  <div slot="showComponents" class="iw-show-component">
+    <Version-demo3/>
+  </div>
+
+  <section slot="paraDescription" class="iw-code-description">
+    <p class="iw-paraStyle-wrapper">
+        属性:<span class="iw-paraStyle">showModel</span>属性值:<span class="iw-paraStyle">false(不显示)</span>、<span class="iw-paraStyle">true(显示)</span>
+    </p>
+  </section>
+
+  <highlight-code class="codeStyle" slot="showCode" lang="vue">
+    <template>
+      <div>
+        <iw-version
+          v-model="value"
+          :data="data"
+          :show-search="true"
+          multiple
+          show-check-all
+          title="型号"
+          size="mini"
+          placement="bottomLeft"
+          style="width: 180px;"
+          @change="handleChange"
+        />
+        <iw-button size="mini" @click="reset" >重置</iw-button>
+      </div>
+    </template>
+    <script>
+    import { data } from '../../data/get-version'
+    export default {
+      name: 'Manfbrand',
+      data() {
+        return {
+          value: [],
+          data: [],
+        }
+      },
+      mounted() {
+        this.data = data
+      },
+      methods: {
+        handleChange(value, texts) {
+          console.log('value', value, texts)
+          this.value = value
+          this.texts = texts
+        },
+        reset() {
+          console.log('reset')
+          this.value = []
+        }
+      }
+    }
+    </script>
+  </highlight-code>
+</Common-code-format>
+</ClientOnly>
+
 #### Attributes
 <ClientOnly>
 <Common-create-form>
@@ -223,6 +292,27 @@ pageClass: custom-page-class
           <td class="formBodyCol">array</td>
           <td class="formBodyCol">—</td>
           <td class="formBodyCol">—</td>
+      </tr>
+      <tr class="formBodyRow">
+          <td class="formBodyCol">showSearch</td>
+          <td class="formBodyCol">显示搜索框</td>
+          <td class="formBodyCol">boolean</td>
+          <td class="formBodyCol">—</td>
+          <td class="formBodyCol">true</td>
+      </tr>
+      <tr class="formBodyRow">
+          <td class="formBodyCol">showModel</td>
+          <td class="formBodyCol">显示车型</td>
+          <td class="formBodyCol">boolean</td>
+          <td class="formBodyCol">—</td>
+          <td class="formBodyCol">true</td>
+      </tr>
+      <tr class="formBodyRow">
+          <td class="formBodyCol">showSelected</td>
+          <td class="formBodyCol">显示已选</td>
+          <td class="formBodyCol">boolean</td>
+          <td class="formBodyCol">—</td>
+          <td class="formBodyCol">false</td>
       </tr>
       <tr class="formBodyRow">
           <td class="formBodyCol">showCheckAll</td>

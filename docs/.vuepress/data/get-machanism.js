@@ -1,0 +1,1 @@
+export const data = [{"key":"融资租赁公司","value":"融资租赁公司","children":[{"key":"181","value":"一汽租赁"},{"key":"801","value":"大众租赁"}]},{"key":"银行","value":"银行","children":[{"key":"11","value":"平安银行"},{"key":"18","value":"招商银行"},{"key":"20","value":"中国建设银行"},{"key":"23","value":"中国银行"}]},{"key":"汽车金融公司","value":"汽车金融公司","children":[{"key":"17","value":"一汽金融"},{"key":"61","value":"大众金融"}]}]

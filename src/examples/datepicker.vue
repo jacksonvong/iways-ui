@@ -6,6 +6,8 @@
       size="small"
       style="width: 200px;"
       align="right"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期"
       placeholder="选择日期"
     />
   </div>

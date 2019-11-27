@@ -20,7 +20,7 @@
       v-model="value3"
       :data="[]"
       size="mini"
-      style="width:100px;"
+      style="width:400px;"
       placement="bottomLeft"
     />
   </div>

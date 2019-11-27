@@ -4,19 +4,49 @@
     :trigger="trigger"
     :placement="placement"
     :append-to-body="appendToBody"
-    :popper-class="'iw-select iw-select--'+iwSize + (disabled?' iw-select--disabled':'')"
+    :popper-class="'iw-select iw-select--'+iwSize+(disabled?' iw-select--disabled':'')+(className?' '+className:'')"
     :disabled="disabled"
     :width="null"
   >
     <div slot="reference" class="iw-select-reference">
-      <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="'width:'+referenceWidth+'px'">
+      <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
         <div class="iw-input__inner">
           <span v-if="triggerText" class="iw-input__value">
             <font>{{ triggerText }}</font>
           </span>
+          <span v-else-if="showSearch" class="iw-input__value">
+            <input
+              v-if="visible"
+              ref="input"
+              v-model="keyword"
+              :disabled="disabled"
+              :style="'width:'+(referenceWidth-36)+'px'"
+              :unselectable="!visible?'off':'on'"
+              :placeholder="placeholderText"
+              @input="handleSearchChange"
+              @focus="handleSearchFocus"
+              @blur="handleSearchBlur">
+            <input
+              v-else-if="valueText"
+              ref="input"
+              :style="'width:'+(referenceWidth-36)+'px'"
+              :value="valueText"
+              :disabled="disabled"
+              unselectable="on"
+              readonly>
+            <input v-else :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+          </span>
+          <span v-else-if="valueText&&!showSearch" class="iw-input__value">
+            <input
+              ref="input"
+              :value="valueText"
+              :disabled="disabled"
+              :style="'width:'+(referenceWidth-36)+'px'"
+              unselectable="on"
+              readonly>
+          </span>
           <span v-else class="iw-input__value">
-            <input v-if="showSearch" ref="input" v-model="keyword" :placeholder="placeholderText" :disabled="disabled" :readonly="!visible" :style="'width:'+(referenceWidth-36)+'px'" @input="handleSearchChange" @focus="handleSearchFocus" @blur="handleSearchBlur">
-            <input v-else ref="input" :value="valueText" :placeholder="placeholderText" :disabled="disabled" :style="'width:'+(referenceWidth-36)+'px'" readonly @input="handleSearchChange">
+            <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
           </span>
           <span class="iw-input__suffix">
             <slot>
@@ -39,7 +69,7 @@
                   isCheckAllIndeterminate()?'iw-checkbox--indeterminate':''
                 ]"
               />
-              <span class="iw-text">全选</span>
+              <span :class="[multiple?'iw-text':'']">全选</span>
             </li>
           </ul>
           <ul v-if="datas&&datas.filter(item=>item.visible!==false).length" class="iw-select__group">
@@ -52,7 +82,7 @@
                       multiple&&item.selected?'iw-checkbox--checked':''
                     ]"
                   />
-                  <em :title="item.value" :class="['iw-text', {'font-orange': item.remark=='进口'}]">
+                  <em :title="item.value" :class="[multiple?'iw-text':'', {'font-orange': item.remark=='进口'}]">
                     {{ item.value }}<abbr class="font-gray">{{ item.date ? `(`+item.date+`)` : '' }}</abbr>
                   </em>
                   <i class="iw-select__item-icon" />
@@ -62,7 +92,7 @@
           </ul>
           <ul v-else class="iw-select__group">
             <li :class="'iw-select__group-item--'+iwSize" class="iw-select__group-item" @click="visible = false">
-              <em class="iw-select__placeholder">{{ placeholderText }}</em>
+              <em class="iw-select__placeholder">{{ placeholder }}</em>
             </li>
           </ul>
         </iw-scrollbar>
@@ -243,7 +273,7 @@ export default {
     data() {
       this.initData()
       this.initValue()
-      this.referenceWidth = this.$el.offsetWidth || 100
+      this.referenceWidth = this.$el.offsetWidth
     },
     visible() {
       this.initData()
@@ -255,7 +285,7 @@ export default {
     this.initData()
     this.initValue()
     this.initStatus()
-    this.referenceWidth = this.$el.offsetWidth || 100
+    this.referenceWidth = this.$el.offsetWidth
   },
   methods: {
     initValue(value = this.value) {
@@ -275,8 +305,8 @@ export default {
       this.checkedOptions = deepClone(selectTexts)
       this.placeholderText = this.valueText || this.placeholder
     },
-    initData() {
-      if (this.showSearch) {
+    initData(input = false) {
+      if (this.showSearch && !input) {
         this.keyword = this.visible ? undefined : this.valueText
       }
       this.datas = this.data.map(item => {
@@ -295,7 +325,9 @@ export default {
           this.scrollTop(key)
         })
       }
-      this.$refs.input.focus()
+      if (this.showSearch && this.$refs.input) {
+        this.$refs.input.focus()
+      }
     },
     scrollTop(key, target = 'SELECT') {
       const obj = document.querySelector('#iw-select__popover--' + this.id + ' [scroll-key="' + key + '_' + target + '"]')
@@ -311,7 +343,7 @@ export default {
       this.lastSearch = event.timeStamp
       setTimeout(() => {
         if (this.lastSearch === event.timeStamp) {
-          this.initData(this.data, false)
+          this.initData(true)
         }
       }, 400)
     },
@@ -332,7 +364,9 @@ export default {
       }
       this.selectTexts = this.datas.filter(item => item.selected)
       this.selectValues = this.selectTexts.map(item => item[this.optionProps.value])
-      this.$refs.input.focus()
+      if (this.showSearch && this.$refs.input) {
+        this.$refs.input.focus()
+      }
       this.multiple || this.submit()
     },
     handleCheckAllChange() {
@@ -343,7 +377,9 @@ export default {
       })
       this.selectTexts = this.datas.filter(item => !!item.selected)
       this.selectValues = this.datas.filter(item => !!item.selected).map(item => item[this.optionProps.value])
-      this.$refs.input.focus()
+      if (this.showSearch && this.$refs.input) {
+        this.$refs.input.focus()
+      }
     },
     isCheckAllChecked() {
       return this.selectValues.length === this.data.length

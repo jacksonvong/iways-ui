@@ -106,11 +106,6 @@
         border-color: $--color-primary;
       }
     }
-    &.is-disabled {
-      @include e(inner) {
-        border-color: inherit;
-      }
-    }
     @include e(value) {
       color: $--color-text-regular;
       input {
@@ -119,11 +114,12 @@
         font-size: inherit;
         color: $--color-text-regular;
         cursor: pointer;
+        width: 100%;
         &:disabled {
           background-color: transparent;
           cursor: not-allowed;
         }
-        &::placeholder {
+        &.iw-input__placeholder {
           color: $--color-text-placeholder;
         }
       }

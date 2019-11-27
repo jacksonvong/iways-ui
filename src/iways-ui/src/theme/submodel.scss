@@ -307,11 +307,6 @@
         border-color: $--color-primary;
       }
     }
-    &.is-disabled {
-      @include e(inner) {
-        border-color: inherit;
-      }
-    }
     @include e(placeholder) {
       color: $--color-text-placeholder;
     }
@@ -323,8 +318,13 @@
         font-size: inherit;
         color: $--color-text-regular;
         cursor: pointer;
+        width: 100%;
         &:disabled {
-          background-color: $--color-white;
+          background-color: transparent;
+          cursor: not-allowed;
+        }
+        &.iw-input__placeholder {
+          color: $--color-text-placeholder;
         }
       }
     }

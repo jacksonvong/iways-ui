@@ -27,7 +27,7 @@
             placeholder="请选择"
             size="mini"
             placement="bottom"
-            width="100"
+            style="width: 100px;"
             class="iw-dropdown-filter-wrap"
             @change="handleFuelTypeChange"
           />
@@ -41,7 +41,7 @@
             placeholder="请选择"
             size="mini"
             placement="bottom"
-            width="100"
+            style="width: 100px;"
             class="iw-dropdown-filter-wrap"
           />
         </div>
