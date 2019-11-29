@@ -20,14 +20,9 @@
     @mouseenter.native="handleMouseEnter"
     @mouseleave.native="showClose = false">
     <i
-      slot="prefix"
-      :class="triggerClass"
-      class="iw-input__icon"
-      @click="handleFocus"/>
-    <i
       v-if="haveTrigger"
       slot="suffix"
-      :class="[showClose ? '' + clearIcon : '']"
+      :class="[showClose ? '' + clearIcon : triggerClass]"
       class="iw-input__icon"
       @click="handleClickIcon"/>
   </iw-input>
@@ -46,7 +41,6 @@
     @mouseenter="handleMouseEnter"
     @mouseleave="showClose = false"
     @keydown="handleKeydown">
-    <i :class="['iw-input__icon', 'iw-range__icon', triggerClass]"/>
     <input
       :placeholder="startPlaceholder"
       :value="displayValue && displayValue[0]"
@@ -76,7 +70,7 @@
       @focus="handleFocus">
     <i
       v-if="haveTrigger"
-      :class="[showClose ? '' + clearIcon : '']"
+      :class="[showClose ? '' + clearIcon : triggerClass]"
       class="iw-input__icon iw-range__close-icon"
       @click="handleClickIcon"/>
   </div>

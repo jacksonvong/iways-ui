@@ -1,5 +1,6 @@
 const path = require('path')
 module.exports = {
+  base: '/iways-ui/',
   title: 'IWAYS-UI',
   description: '一个基于vue的ui组件',
   head: [
@@ -39,6 +40,10 @@ module.exports = {
     }
   },
   themeConfig: {
+    // 你的GitHub仓库，请正确填写
+    repo: 'https://github.com/jacksonvong/iways-ui-vuepress',
+    // 自定义仓库链接文字。
+    repoLabel: 'iways-ui',
     nav: [
       {
         text: '指南',
