@@ -21,6 +21,7 @@
     border-bottom: 1px solid #eee;
     height: 52px;
     font-size: 14px;
+    overflow: hidden;
     
     @include e(inner) {
       padding: 14px;
@@ -83,6 +84,7 @@
       min-width: 100px;
       max-width: 180px;
       display: inline-block;
+      vertical-align: top;
       border-right: 1px solid $--border-color-lighter;
       @include e(group-title) {
         padding: 7px 10px;

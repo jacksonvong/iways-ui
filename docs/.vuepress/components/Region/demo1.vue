@@ -1,5 +1,6 @@
 <template>
   <div>
+    selectOnLeaf:
     <iw-select
       v-model="value2"
       :multiple="false"

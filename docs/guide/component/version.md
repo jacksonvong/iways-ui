@@ -176,8 +176,8 @@ pageClass: custom-page-class
           v-model="value"
           :data="data"
           :show-search="true"
-          multiple
-          show-check-all
+          :show-model="false"
+          :height="200"
           title="型号"
           size="mini"
           placement="bottomLeft"
