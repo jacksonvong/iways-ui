@@ -180,16 +180,18 @@ export default {
       }
 
       if (!this.appendToBody) {
-        const { offsetLeft: left } = this.$el
+        const { offsetLeft: offsetLeft } = this.$el
+        const { left: left } = this.$el.getBoundingClientRect()
         const { width: parentWidth } = document.body.getBoundingClientRect()
+        const relativeLeft = left - offsetLeft
         positionValue = {
           top: {
             top: this.$el.offsetTop,
-            left: (left + width2 > parentWidth ? left - width2 + width : left)
+            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : left)
           },
           bottom: {
             top: this.$el.offsetHeight + this.$el.offsetTop,
-            left: (left + width2 > parentWidth ? left - width2 + width : left)
+            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : left)
           },
           left: {
             top: this.$el.offsetTop + (this.$el.offsetHeight - height2) / 2,
