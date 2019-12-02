@@ -181,7 +181,7 @@ export default {
 
       if (!this.appendToBody) {
         const { offsetLeft: left } = this.$el
-        const { width: parentWidth } = this.$el.offsetParent.getBoundingClientRect()
+        const { width: parentWidth } = document.body.getBoundingClientRect()
         positionValue = {
           top: {
             top: this.$el.offsetTop,

@@ -21,7 +21,8 @@
         <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
           <div v-if="popover==='IwPopover'" class="iw-input__inner">
             <span v-if="checkedOption[optionProps.value]" class="iw-input__value">
-              <input :value="checkedOption[optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+              <input v-if="showFolder" :value="checkedOption[optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+              <input v-else :value="checkedOption.children.map(item => item[optionProps.label]).join(', ')" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
             </span>
             <span v-else class="iw-input__value">
               <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
@@ -49,29 +50,29 @@
             <div class="iw-favorite__body-header iw-favorite__wrap">
               <div class="iw-favorite__group">
                 <div class="iw-favorite__group_table">
-                  <table>
-                    <tr>
-                      <td>收藏夹</td>
-                      <td :width="mode==='edit' ? 387 : 492">{{ title || subType || titles[type] }}</td>
-                      <td v-if="mode==='edit'">操作</td>
-                    </tr>
-                  </table>
+                  <div>
+                    <dl>
+                      <dt>收藏夹</dt>
+                      <dt :style="{width: (mode==='edit' ? 385 : 490) + 'px'}">{{ title || subType || titles[type] }}</dt>
+                      <dt v-if="mode==='edit'">操作</dt>
+                    </dl>
+                  </div>
                 </div>
               </div>
             </div>
-            <iw-scrollbar :ref="'scrollbarRight__KEY'" wrap-class="iw-favorite__wrap">
+            <div class="iw-favorite__wrap">
               <div class="iw-favorite__group">
                 <div class="iw-favorite__group_table">
-                  <table>
-                    <tr v-for="(row, index) in tableList" :key="row[optionProps.value]">
-                      <td>
+                  <div>
+                    <dl v-for="(row, index) in tableList" :key="row[optionProps.value]">
+                      <dt>
                         <div>
                           <span v-if="mode!=='edit'" :class="['iw-radio', row.key===checkedValue?'iw-radio--checked':'']" @click="handleRadioClick(row, index)" />
                           <span v-if="mode!=='edit'" class="iw-text"><label :title="row['value']" @click="handleRadioClick(row, index)">{{ row['value'] }}</label></span>
                           <span v-if="mode==='edit'" class="iw-text"><iw-input v-model="row['value']" :disabled="mode!=='edit'" :size="iwSize" placeholder="请输入竞争圈名称" style="width:114px;" /></span>
                         </div>
-                      </td>
-                      <td :width="mode==='edit' ? 387 : 492">
+                      </dt>
+                      <dt :style="{width: (mode==='edit' ? 385 : 490) + 'px', minHeight: '36px'}">
                         <div :class="{'children--model-edit':mode==='edit'}">
                           <span
                             v-if="row.children&&row.children.length"
@@ -89,8 +90,8 @@
                               :filters="filters"
                               :selected-filter="selectedFilter"
                               :title="titles[type]"
+                              :append-to-body="false"
                               show-selected
-                              is-modal
                               multiple
                               size="mini"
                               placement="bottomLeft"
@@ -101,31 +102,31 @@
                             </component>
                           </span>
                         </div>
-                      </td>
-                      <td v-if="mode==='edit'">
+                      </dt>
+                      <dt v-if="mode==='edit'">
                         <span class="iw-favorite__button iw-favorite__button--del" @click="del(index)">删除</span>
                         <span class="iw-favorite__button iw-favorite__button--copy" @click="copy(index)">复制</span>
-                      </td>
-                    </tr>
-                  </table>
+                      </dt>
+                    </dl>
+                  </div>
                 </div>
               </div>
-            </iw-scrollbar>
+            </div>
           </div>
           <iw-empty v-else :style="{height: '150px'}" :status="200" />
         </div>
         <!-- 底部 -->
         <div class="iw-favorite__footer">
           <slot name="desc" />
-          <template v-if="mode==='default'">
+          <div v-show="mode==='view'">
             <iw-button v-if="editable" :size="iwSize" @click="edit()">
               编辑
             </iw-button>
             <iw-button :size="iwSize" type="primary" @click="submit(false)">
               确定
             </iw-button>
-          </template>
-          <template v-if="mode==='edit'">
+          </div>
+          <div v-show="mode==='edit'">
             <iw-button :size="iwSize" @click="create()">
               新建
             </iw-button>
@@ -135,7 +136,7 @@
             <iw-button :size="iwSize" type="primary" @click="save()">
               保存
             </iw-button>
-          </template>
+          </div>
         </div>
       </div>
     </component>
@@ -170,6 +171,11 @@ export default {
       default: false
     },
     editable: {
+      type: Boolean,
+      default: true
+    },
+    showFolder: {
+      // 默认显示文件夹名称，false表示显示具体收藏项目
       type: Boolean,
       default: true
     },
@@ -266,7 +272,7 @@ export default {
       error: '', // 错误信息
       checkedValue: undefined,
       checkedOption: {},
-      mode: 'default', // ['default', 'edit']
+      mode: 'view', // ['view', 'edit']
       maxLength: 10,
       propsOptions: {
         title: this.title
@@ -323,7 +329,7 @@ export default {
       this.init()
     },
     visible() {
-      this.mode = 'default'
+      this.mode = 'view'
       this.init()
     },
     // 选择器标题发生变化 20191111 远杰
@@ -405,14 +411,14 @@ export default {
       this.$set(this.tableList[index], 'selected', true)
     },
     beforeClose(done) {
-      if (this.mode === 'default') {
+      if (this.mode === 'view') {
         done()
       } else {
         this.error = '请先保存'
       }
     },
     close() {
-      if (this.mode === 'default') {
+      if (this.mode === 'view') {
         this.visible = false
       } else {
         this.error = '请先保存'
@@ -422,7 +428,7 @@ export default {
       this.mode = 'edit'
     },
     cancel() {
-      this.mode = 'default'
+      this.mode = 'view'
       this.error = ''
       this.init()
     },
@@ -495,7 +501,7 @@ export default {
         this.error = '超过范围'
         return
       }
-      this.mode = 'default'
+      this.mode = 'view'
       this.error = ''
       this.$emit('save', this.tableList)
     },

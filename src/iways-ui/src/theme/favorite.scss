@@ -73,13 +73,14 @@
       @include e(group) {
         @include e(group_table) {
           padding: 0;
-          > table {
+          > div {
             border: 0;
-            > tr {
+            > dl {
               border-bottom: 1px solid #eee;
-              > td {
-                border-right: 1px solid #eee;
+              @include clearfix();
+              > dt {
                 padding: 6px;
+                float: left;
                 @include e(item) {
                   display: inline-block;
                   @include m(text) {
@@ -108,19 +109,23 @@
                   }
                 }
               }
-              > td:nth-child(1) {
+              > dt:nth-child(1) {
                 width: 160px;
               }
-              > td:nth-child(3) {
+              > dt:nth-child(2) {
+                border-left: 1px solid #eee;
+                border-right: 1px solid #eee;
+              }
+              > dt:nth-child(3) {
                 width: 105px;
               }
-              > td:last-child {
+              > dt:last-child {
                 border-right: 0;
               }
             }
-            > tr:last-child {
+            > dl:last-child {
               border-bottom: 0;
-              > td:nth-child(1) {
+              > dt:nth-child(1) {
                 border-bottom: 0;
               }
             }
@@ -139,12 +144,13 @@
     @include e(body-header) {
       @include e(group) {
         @include e(group_table) {
-          > table {
-            > tr {
+          > div {
+            > dl {
               border-bottom: 1px solid #eee;
-              background: $--background-color-base;
-              td {
+              @include clearfix();
+              dt {
                 text-align: center;
+                background: $--background-color-base;
               }
             }
           }

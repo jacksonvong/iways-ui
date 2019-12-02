@@ -23,15 +23,17 @@
     <iw-favorite
       v-model="value2"
       :data="data"
-      :editable="false"
+      :showFolder="false"
       :type-data="typeData"
       :show-search="true"
+      :append-to-body="false"
       type="subModel"
       title="车型"
       size="mini"
       require
       placement="bottomLeft"
       style="width: 120px;"
+      @save="handleSave"
       @change="handleChange2"
     >
       <span slot="desc" class="iw-favorite__desc">
