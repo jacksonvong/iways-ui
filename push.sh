@@ -6,7 +6,7 @@ set -e
 # git init
 git pull git@github.com:jacksonvong/iways-ui.git master
 git add -A
-git commit -m 'deploy'
+git commit -m 'update'
 git push -f git@github.com:jacksonvong/iways-ui.git master
 
 cd -
