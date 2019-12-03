@@ -46,7 +46,7 @@
         </div>
         <!-- 内容区 -->
         <div v-loading="loading" class="iw-favorite__body">
-          <div v-if="tableList.length" class="clearfloot">
+          <div v-if="tableList.length">
             <div class="iw-favorite__body-header iw-favorite__wrap">
               <div class="iw-favorite__group">
                 <div class="iw-favorite__group_table">
@@ -91,7 +91,6 @@
                               :selected-filter="selectedFilter"
                               :title="titles[type]"
                               :append-to-body="false"
-                              show-selected
                               multiple
                               size="mini"
                               placement="bottomLeft"
@@ -354,6 +353,7 @@ export default {
   },
   methods: {
     init() {
+      this.error = ''
       this.initValue()
       this.initData()
     },
@@ -444,6 +444,7 @@ export default {
       this.visible = false
     },
     del(index) {
+      this.error = ''
       setTimeout(() => {
         this.tableList.splice(index, 1)
         if (this.type === 'manfBrand') {
@@ -458,11 +459,13 @@ export default {
       }, 0)
     },
     copy(index) {
+      this.loading = true
       this.create(index, true)
     },
     create(index = 0, isCopy = false) {
       if (this.tableList.length >= this.maxLength) {
         this.error = '最多不能超过' + this.maxLength + '个'
+        this.loading = false
         return false
       }
       const indexData = deepClone(this.tableList[index])
@@ -473,6 +476,7 @@ export default {
       setTimeout(() => {
         this.tableList.push(indexData)
         this.initData(this.tableList)
+        this.loading = false
       }, 0)
     },
     save() {

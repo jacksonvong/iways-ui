@@ -69,7 +69,6 @@
   @include e(body) {
 
     @include e(wrap) {
-      max-height: 336px;
       @include e(group) {
         @include e(group_table) {
           padding: 0;
@@ -85,6 +84,9 @@
                   display: inline-block;
                   @include m(text) {
                     width: calc(100% - 50px);
+                    max-height: 36px;
+                    overflow: hidden;
+                    float: left;
                   }
                   @include m(select) {
                     cursor: pointer;
