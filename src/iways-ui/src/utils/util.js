@@ -233,10 +233,12 @@ export function getTree(_array_tree, options = {}, level = 0, parent) {
       if (sub_array && sub_array.length) {
         _tree[son] = sub_array
         if (leaf) {
+          const _count = sub_array.filter(item => item.selected).length
           if (multiple) {
-            _tree['selected'] = sub_array.length === sub_array.filter(item => item.selected).length
+            _tree['selected'] = sub_array.length === _count
+            _tree['indeterminate'] = sub_array.length > _count && _count > 0
           } else {
-            _tree['selected'] = sub_array.filter(item => item.selected).length > 0
+            _tree['selected'] = _count > 0
           }
         }
       } else if (sub_array.length === 0 && leaf) {

@@ -642,11 +642,22 @@ export default {
       }
       return true
     },
-    isCheckAllIndeterminate(datas) {
-      const count = this.datas.filter(group => {
-        return group.selected === true
-      }).length
-      return this.datas.length !== count && count > 0
+    isCheckAllIndeterminate(data) {
+      if (data instanceof Array) {
+        for (const item of data) {
+          if (this.isCheckAllIndeterminate(item)) return true
+        }
+      } else if (data instanceof Object) {
+        if (data.selected) return true
+        const children = data[this.optionProps.children]
+        if (children && children.length > 0) {
+          if (this.isCheckAllIndeterminate(children)) return true
+        }
+      }
+      return false
+    },
+    getCheckedKeys() {
+      return this.checkedOptions.map(item => item[this.optionProps.value])
     },
     substr(str, len) {
       return substr(str, len)

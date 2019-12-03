@@ -140,7 +140,8 @@
             <span
               :class="[
                 'iw-checkbox',
-                data.length&&isCheckAllChecked(datas)?'iw-checkbox--checked':''
+                data.length&&isCheckAllChecked(datas)?'iw-checkbox--checked':'',
+                data.length&&isCheckAllIndeterminate(datas)?'iw-checkbox--indeterminate':''
               ]"
             />
             <span class="iw-text">全选所有</span>
@@ -706,8 +707,10 @@ export default {
     },
     isItemIndeterminate(data) {
       const _selected = data[this.optionProps.children].filter(item => item.selected === true)
+      const _indeterminate = data[this.optionProps.children].filter(item => item.indeterminate === true)
       const _children = data[this.optionProps.children]
-      return _selected.length > 0 && _children.length > _selected.length
+      data.indeterminate = (_selected.length > 0 && _children.length > _selected.length) || _indeterminate.length > 0
+      return data.indeterminate
     },
     handleCheckColumnChange(data, checked = false) {
       data.forEach((group, key) => {
@@ -723,10 +726,9 @@ export default {
       })
     },
     isCheckColumnIndeterminate(data) {
-      const count = data.filter(group => {
-        return group.selected === true
-      }).length
-      return data.length !== count && count > 0
+      const _selected = data.filter(group => group.selected === true)
+      const _indeterminate = data.filter(group => group.indeterminate === true)
+      return (data.length !== _selected.length && _selected.length > 0) || _indeterminate.length > 0
     },
     handleCheckAllChange(data, selected = false, go = true) {
       if (data instanceof Array) {
@@ -757,6 +759,23 @@ export default {
         }
       }
       return true
+    },
+    isCheckAllIndeterminate(data) {
+      if (data instanceof Array) {
+        for (const item of data) {
+          if (this.isCheckAllIndeterminate(item)) return true
+        }
+      } else if (data instanceof Object) {
+        if (data.selected) return true
+        const children = data[this.optionProps.children]
+        if (children && children.length > 0) {
+          if (this.isCheckAllIndeterminate(children)) return true
+        }
+      }
+      return false
+    },
+    getCheckedKeys() {
+      return this.checkedOptions.map(item => item[this.optionProps.value])
     },
     selectLetter(key, target = 'KEY', delay = 0) {
       this.selectedKey = key

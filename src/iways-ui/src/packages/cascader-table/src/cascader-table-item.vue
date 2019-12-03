@@ -218,8 +218,10 @@ export default {
     isItemIndeterminate(data) {
       if (!data[this.optionProps.children]) return false
       const _selected = data[this.optionProps.children].filter(item => item.selected === true)
+      const _indeterminate = data[this.optionProps.children].filter(item => item.indeterminate === true)
       const _children = data[this.optionProps.children]
-      return _selected.length > 0 && _children.length > _selected.length
+      data.indeterminate = (_selected.length > 0 && _children.length > _selected.length) || _indeterminate.length > 0
+      return data.indeterminate
     }
   }
 }
