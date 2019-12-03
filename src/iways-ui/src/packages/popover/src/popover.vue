@@ -187,11 +187,11 @@ export default {
         positionValue = {
           top: {
             top: this.$el.offsetTop,
-            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : left)
+            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : offsetLeft)
           },
           bottom: {
             top: this.$el.offsetHeight + this.$el.offsetTop,
-            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : left)
+            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : offsetLeft)
           },
           left: {
             top: this.$el.offsetTop + (this.$el.offsetHeight - height2) / 2,

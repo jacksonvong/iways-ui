@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: ./favicon.ico
+heroImage: /favicon.ico
 actionText: 快速上手 →
 actionLink: /guide/started.html
 sidebarDepth: 2
