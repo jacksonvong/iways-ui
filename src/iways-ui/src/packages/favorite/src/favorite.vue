@@ -72,7 +72,7 @@
                           <span v-if="mode==='edit'" class="iw-text"><iw-input v-model="row['value']" :disabled="mode!=='edit'" :size="iwSize" placeholder="请输入竞争圈名称" style="width:114px;" /></span>
                         </div>
                       </dt>
-                      <dt :style="{width: (mode==='edit' ? 385 : 490) + 'px', minHeight: '36px'}">
+                      <dt :style="{width: (mode==='edit' ? 385 : 490) + 'px', maxHeight: '48px'}">
                         <div :class="{'children--model-edit':mode==='edit'}">
                           <span
                             v-if="row.children&&row.children.length"
@@ -91,6 +91,8 @@
                               :selected-filter="selectedFilter"
                               :title="titles[type]"
                               :append-to-body="false"
+                              show-check-all
+                              select-on-leaf
                               multiple
                               size="mini"
                               placement="bottomLeft"
