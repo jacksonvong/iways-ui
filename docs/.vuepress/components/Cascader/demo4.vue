@@ -1,7 +1,6 @@
 <template>
   <div>
     <iw-cascader
-      ref="cascader"
       v-model="value"
       :data="data"
       :texts="texts"
@@ -19,7 +18,6 @@
       style="width: 120px;"
       @change="handleChange"
     />
-    <iw-button type="primary" @click="getCheckedKeys()">getCheckedKeys</iw-button>
   </div>
 </template>
 <script>
@@ -42,10 +40,6 @@ export default {
       console.log('value', value, texts)
       this.value = value
       this.texts = texts
-    },
-    getCheckedKeys() {
-      const keys = this.$refs['cascader'].getCheckedKeys()
-      console.log(keys)
     }
   }
 }

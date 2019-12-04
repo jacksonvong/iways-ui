@@ -345,21 +345,7 @@ pageClass: custom-page-class
           title="细分市场"
           size="mini"
           placement="bottomLeft"
-          @save="handleSave"
-          @change="handleChange"
-        >
-          <iw-button slot="reference" type="primary" size="mini">管理收藏细分市场</iw-button>
-        </iw-favorite>
-        <iw-favorite
-          v-model="value"
-          :data="data"
-          :type-data="typeData"
-          :show-search="true"
-          type="segment"
-          title="细分市场"
-          size="mini"
-          placement="bottomLeft"
-          style="width: 128px;"
+          style="width: 180px;"
           @save="handleSave"
           @change="handleChange"
         >

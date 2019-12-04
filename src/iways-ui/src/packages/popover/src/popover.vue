@@ -180,27 +180,26 @@ export default {
       }
 
       if (!this.appendToBody) {
-        const { offsetLeft: offsetLeft, offsetTop: offsetTop, offsetHeight: offsetHeight, offsetWidth: offsetWidth } = this.$el
-        const { left: left, top: top } = this.$el.getBoundingClientRect()
-        const { width: parentWidth, width: parentHeight } = document.body.getBoundingClientRect()
+        const { offsetLeft: offsetLeft } = this.$el
+        const { left: left } = this.$el.getBoundingClientRect()
+        const { width: parentWidth } = document.body.getBoundingClientRect()
         const relativeLeft = left - offsetLeft
-        console.log(this.$el.scrollHeight, offsetTop, top, parentHeight)
         positionValue = {
           top: {
-            top: offsetTop,
-            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : offsetLeft)
+            top: this.$el.offsetTop,
+            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : left)
           },
           bottom: {
-            top: offsetHeight + offsetTop,
-            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : offsetLeft)
+            top: this.$el.offsetHeight + this.$el.offsetTop,
+            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : left)
           },
           left: {
-            top: offsetTop + (offsetHeight - height2) / 2,
-            left: offsetLeft
+            top: this.$el.offsetTop + (this.$el.offsetHeight - height2) / 2,
+            left: this.$el.offsetLeft
           },
           right: {
-            top: offsetTop + (offsetHeight - height2) / 2,
-            left: offsetLeft + offsetWidth
+            top: this.$el.offsetTop + (this.$el.offsetHeight - height2) / 2,
+            left: this.$el.offsetLeft + this.$el.offsetWidth
           }
         }
       }

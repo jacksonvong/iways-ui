@@ -16,27 +16,25 @@
       :width="popover==='IwPopover'?null:clientWidth"
       :title="popover==='IwPopover'?null:false">
       <div slot="reference" class="iw-cascader-table-reference">
-        <slot name="reference">
-          <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
-            <div v-if="popover==='IwPopover'" class="iw-input__inner">
-              <span v-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
-                <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
-                <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
-              </span>
-              <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
-                <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
-              </span>
-              <span v-else class="iw-input__value">
-                <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
-              </span>
-              <span class="iw-input__suffix">
-                <slot>
-                  <i :class="['iw-input__icon', 'iw-icon-' + iconClass]"/>
-                </slot>
-              </span>
-            </div>
+        <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
+          <div v-if="popover==='IwPopover'" class="iw-input__inner">
+            <span v-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
+              <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+              <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+            </span>
+            <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
+              <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+            </span>
+            <span v-else class="iw-input__value">
+              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+            </span>
+            <span class="iw-input__suffix">
+              <slot>
+                <i :class="['iw-input__icon', 'iw-icon-' + iconClass]"/>
+              </slot>
+            </span>
           </div>
-        </slot>
+        </div>
       </div>
       <div v-if="!disabled" ref="iw-cascader-table__popover" :id="'iw-cascader-table__popover--'+id" :style="{minWidth: '357px',width: clientWidth}">
         <!-- 标题区 -->
@@ -644,22 +642,11 @@ export default {
       }
       return true
     },
-    isCheckAllIndeterminate(data) {
-      if (data instanceof Array) {
-        for (const item of data) {
-          if (this.isCheckAllIndeterminate(item)) return true
-        }
-      } else if (data instanceof Object) {
-        if (data.selected) return true
-        const children = data[this.optionProps.children]
-        if (children && children.length > 0) {
-          if (this.isCheckAllIndeterminate(children)) return true
-        }
-      }
-      return false
-    },
-    getCheckedKeys() {
-      return this.checkedOptions.map(item => item[this.optionProps.value])
+    isCheckAllIndeterminate(datas) {
+      const count = this.datas.filter(group => {
+        return group.selected === true
+      }).length
+      return this.datas.length !== count && count > 0
     },
     substr(str, len) {
       return substr(str, len)
