@@ -1,0 +1,19 @@
+{
+  "name": "forecast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3",
+    "proxy-middleware": "^0.15.0"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^0.18.0",
+    "morgan": "^1.9.1"
+  }
+}

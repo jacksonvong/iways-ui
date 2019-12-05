@@ -8,28 +8,30 @@
     :width="null"
   >
     <div slot="reference" class="iw-version-reference">
-      <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
-        <div class="iw-input__inner">
-          <span v-if="triggerText" class="iw-input__value">
-            <font>{{ triggerText }}</font>
-          </span>
-          <span v-else-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
-            <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
-            <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
-          </span>
-          <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
-            <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
-          </span>
-          <span v-else class="iw-input__value">
-            <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly>
-          </span>
-          <span class="iw-input__suffix">
-            <slot>
-              <i :class="['iw-input__icon', 'iw-icon-' + iconClass]"/>
-            </slot>
-          </span>
+      <slot name="reference">
+        <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
+          <div class="iw-input__inner">
+            <span v-if="triggerText" class="iw-input__value">
+              <font>{{ triggerText }}</font>
+            </span>
+            <span v-else-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
+              <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+              <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+            </span>
+            <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
+              <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+            </span>
+            <span v-else class="iw-input__value">
+              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly>
+            </span>
+            <span class="iw-input__suffix">
+              <slot>
+                <i :class="['iw-input__icon', 'iw-icon-' + iconClass]"/>
+              </slot>
+            </span>
+          </div>
         </div>
-      </div>
+      </slot>
     </div>
     <div v-if="!disabled" :id="'iw-version__popover--'+id" :style="{minWidth: showModel?'400px':'270px', width: showModel?'660px':'530px'}">
       <!-- 标题区 -->

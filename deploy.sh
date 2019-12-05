@@ -9,8 +9,7 @@ npm run docs:build
 # 进入生成的文件夹
 cd docs/.vuepress/dist
 
-# git init
-git pull git@github.com:jacksonvong/iways-ui.git master
+git init
 git add -A
 git commit -m 'deploy'
 git push -f git@github.com:jacksonvong/iways-ui.git master:gh-pages
