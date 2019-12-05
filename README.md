@@ -9,9 +9,14 @@
 npm install
 
 # serve with hot reload at localhost:8080
-npm run docs:dev
+npm run dev
 
 # build for production with minification
-npm run docs:build
+npm run build
 
-iways-ui [demo]https://jacksonvong.github.io/iways-ui
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+
+[demo](https://jacksonvong.github.io/iways-ui)
