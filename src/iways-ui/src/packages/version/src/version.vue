@@ -15,14 +15,14 @@
               <font>{{ triggerText }}</font>
             </span>
             <span v-else-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
-              <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+              <input v-if="checkedOptions.length>1" :value="t('iw.common.selected')+'(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
               <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
             </span>
             <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
               <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
             </span>
             <span v-else class="iw-input__value">
-              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly>
+              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.common.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly>
             </span>
             <span class="iw-input__suffix">
               <slot>
@@ -38,7 +38,7 @@
       <div v-if="title" class="iw-version__title">
         <div class="iw-version__inner">{{ title }}</div>
         <div v-if="showSearch&&data.length" :class="'iw-version__search--'+iwSize" class="iw-version__search">
-          <iw-input v-model="keyword" :size="iwSize" style="width: 130px;" prefix-icon="iw-icon-search" placeholder="搜索" @change="handleSearchChange" @keyup.native="handleSearchChange" />
+          <iw-input v-model="keyword" :size="iwSize" :placeholder="t('iw.common.search')" style="width: 130px;" prefix-icon="iw-icon-search" @change="handleSearchChange" @keyup.native="handleSearchChange" />
         </div>
         <div v-if="error" class="iw-version__error">{{ error }}</div>
         <div class="iw-version__close" @click="visible = false">
@@ -54,15 +54,15 @@
                 <div class="iw-version__group_table">
                   <table>
                     <tr>
-                      <td v-show="showModel">车型</td>
+                      <td v-show="showModel">{{ t('iw.version.submodel') }}</td>
                       <td>
                         <div class="iw-version__group_table">
                           <table>
                             <tr>
-                              <td>型号</td>
-                              <td>MSRP</td>
-                              <td>热度</td>
-                              <td>数据源</td>
+                              <td>{{ t('iw.version.version') }}</td>
+                              <td>{{ t('iw.version.msrp') }}</td>
+                              <td>{{ t('iw.version.hot') }}</td>
+                              <td>{{ t('iw.version.dataSource') }}</td>
                             </tr>
                           </table>
                         </div>
@@ -134,13 +134,13 @@
               data.length&&isCheckAllIndeterminate(datas)?'iw-checkbox--indeterminate':''
             ]"
           />
-          <span>全选所有</span>
+          <span>{{ t('iw.common.checkAll') }}</span>
         </span>
         <iw-button :size="iwSize" @click="reset()">
-          重置
+          {{ t('iw.common.reset') }}
         </iw-button>
         <iw-button :size="iwSize" type="primary" @click="submit(false)">
-          确定
+          {{ t('iw.common.confirm') }}
         </iw-button>
       </div>
     </div>
@@ -148,8 +148,10 @@
 </template>
 <script>
 import { chunk, getTree, arr2table, findInArray, deepClone, substr } from '@iways-ui/src/utils/util'
+import Locale from '@iways-ui/src/mixins/locale'
 export default {
   name: 'IwVersion',
+  mixins: [Locale],
   props: {
     data: {
       type: Array,
@@ -264,7 +266,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请选择'
+      default: ''
     },
     disabledSelect: {
       tips: '禁止选择',
@@ -455,7 +457,7 @@ export default {
       if (
         (this.require && this.selectTextsTag.length <= 0)
       ) {
-        this.error = '请选择'
+        this.error = this.t('iw.common.placeholder')
         return
       }
       if (this.multiple) {

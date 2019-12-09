@@ -1,7 +1,7 @@
 <template>
   <div style="display: inline-block;">
     <div v-if="popover==='IwDialog'" @click="visible = true">
-      <slot name="reference">{{ placeholder }}</slot>
+      <slot name="reference">{{ placeholder || t('iw.common.placeholder') }}</slot>
     </div>
     <component
       :is="popover"
@@ -20,14 +20,14 @@
           <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
             <div v-if="popover==='IwPopover'" class="iw-input__inner">
               <span v-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
-                <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+                <input v-if="checkedOptions.length>1" :value="t('iw.common.selected')+'(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
                 <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
               </span>
               <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
                 <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
               </span>
               <span v-else class="iw-input__value">
-                <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+                <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.common.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
               </span>
               <span class="iw-input__suffix">
                 <slot>
@@ -43,7 +43,7 @@
         <div v-if="title" class="iw-cascader__title">
           <div v-if="title" class="iw-cascader__inner">{{ title }}</div>
           <div v-if="showSearch&&data.length" :class="'iw-cascader__search--'+iwSize" class="iw-cascader__search">
-            <iw-input v-model="keyword" :size="iwSize" style="width: 120px;" prefix-icon="iw-icon-search" placeholder="搜索" @keyup.native="handleSearchChange" />
+            <iw-input v-model="keyword" :size="iwSize" :placeholder="t('iw.common.search')" style="width: 120px;" prefix-icon="iw-icon-search" @keyup.native="handleSearchChange" />
           </div>
           <div v-if="error" class="iw-cascader__error">{{ error }}</div>
           <div class="iw-cascader__close" @click="visible = false">
@@ -63,7 +63,7 @@
                     multiple&&(listData[index].length&&isCheckColumnIndeterminate(listData[index]))?'iw-checkbox--indeterminate':''
                   ]"
                 />
-                <span class="iw-text"><em>{{ columnName[index] }}(全选)</em></span>
+                <span class="iw-text"><em>{{ columnName[index] }}({{ t('iw.common.checkColumnAll') }})</em></span>
               </div>
               <div v-else class="iw-cascader__group-title">{{ columnName[index] || '&nbsp;' }}</div>
               <iw-scrollbar :ref="'scrollbarRight__KEY'" :wrap-style="'height:'+(height+16)+'px;'" wrap-class="iw-cascader__wrap">
@@ -119,7 +119,7 @@
         <!-- 底部 -->
         <div v-if="datas.length" class="iw-cascader__footer">
           <span v-if="(showSelected||multiple)&&selectTextsTag&&selectTextsTag.length" class="iw-cascader__footer-selected">
-            <label>已选：</label>
+            <label>{{ t('iw.common.selected') }}：</label>
             <div>
               <iw-scrollbar :wrap-class="'iw-cascader__footer-scroll iw-cascader__footer-scroll--'+iwSize">
                 <iw-tag
@@ -146,13 +146,13 @@
                 data.length&&isCheckAllIndeterminate(datas)?'iw-checkbox--indeterminate':''
               ]"
             />
-            <span class="iw-text">全选所有</span>
+            <span class="iw-text">{{ t('iw.common.checkAll') }}</span>
           </span>
           <iw-button :size="iwSize" @click="reset()">
-            重置
+            {{ t('iw.common.reset') }}
           </iw-button>
           <iw-button :size="iwSize" type="primary" @click="submit(false)">
-            确定
+            {{ t('iw.common.confirm') }}
           </iw-button>
         </div>
       </div>
@@ -161,8 +161,10 @@
 </template>
 <script>
 import { getTree, arr2table, findInArray, treeDeep, recursiveLoop, deepClone, substr } from '@iways-ui/src/utils/util'
+import Locale from '@iways-ui/src/mixins/locale'
 export default {
   name: 'IwCascader',
+  mixins: [Locale],
   props: {
     data: {
       type: Array,
@@ -314,7 +316,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请选择'
+      default: ''
     },
     disabledSelect: {
       tips: '禁止选择',
@@ -533,16 +535,16 @@ export default {
       if (
         (this.require && this.selectTextsTag.length <= 0)
       ) {
-        this.error = '请选择'
+        this.error = this.t('iw.common.placeholder')
         return
       }
       if (this.multiple) {
         if (this.min && this.selectTextsTag.length < this.min) {
-          this.error = '最少选择' + this.min + '项'
+          this.error = this.t('iw.common.atLeast', { count: this.min })
           return
         }
         if (this.max && this.selectTextsTag.length > this.max) {
-          this.error = '最多选择' + this.max + '项'
+          this.error = this.t('iw.common.atMost', { count: this.max })
           return
         }
       }
@@ -751,13 +753,13 @@ export default {
     isCheckAllChecked(data) {
       if (data instanceof Array) {
         for (const item of data) {
-          if (!this.isCheckAllChecked(item)) return false
+          if (!this.isCheckAllChecked(item)) { console.log(item); return false }
         }
       } else if (data instanceof Object) {
         if (!data.selected) return false
         const children = data[this.optionProps.children]
         if (children && children.length > 0) {
-          if (!this.isCheckAllChecked(children)) return false
+          if (!this.isCheckAllChecked(children)) { console.log(data); return false }
         }
       }
       return true
@@ -768,7 +770,7 @@ export default {
           if (this.isCheckAllIndeterminate(item)) return true
         }
       } else if (data instanceof Object) {
-        if (data.selected) return true
+        if (data.selected) return false
         const children = data[this.optionProps.children]
         if (children && children.length > 0) {
           if (this.isCheckAllIndeterminate(children)) return true

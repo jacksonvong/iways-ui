@@ -1,5 +1,5 @@
 ---
-title: region
+title: Region
 pageClass: custom-page-class
 ---
 <ClientOnly>

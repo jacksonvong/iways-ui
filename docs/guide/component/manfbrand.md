@@ -1,5 +1,5 @@
 ---
-title: manfbrand
+title: Manfbrand
 pageClass: custom-page-class
 ---
 

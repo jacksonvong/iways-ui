@@ -1,7 +1,7 @@
 <template>
   <div style="display: inline-block;">
     <div v-if="popover==='IwDialog'" @click="visible = true">
-      <slot name="reference">{{ placeholder }}</slot>
+      <slot name="reference">{{ placeholder || t('iw.common.placeholder') }}</slot>
     </div>
     <component
       :is="popover"
@@ -20,14 +20,14 @@
           <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
             <div v-if="popover==='IwPopover'" class="iw-input__inner">
               <span v-if="multiple&&checkedOptions[checkedTab]&&checkedOptions[checkedTab].length>0" class="iw-input__value">
-                <input v-if="checkedOptions[checkedTab].length>1" :value="'已选(' + checkedOptions[checkedTab].length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+                <input v-if="checkedOptions[checkedTab].length>1" :value="t('iw.common.selected')+'(' + checkedOptions[checkedTab].length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
                 <input v-else :value="checkedOptions[checkedTab][0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
               </span>
               <span v-else-if="!multiple&&checkedOptions[checkedTab]&&checkedOptions[checkedTab].length" class="iw-input__value">
                 <input :value="checkedOptions[checkedTab][checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
               </span>
               <span v-else class="iw-input__value">
-                <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+                <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.common.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
               </span>
               <span class="iw-input__suffix">
                 <slot>
@@ -41,12 +41,12 @@
       <div v-if="!disabled" :id="'iw-manfbrand__popover--'+id" :style="{minWidth: '400px', width: '820px'}">
         <!-- 标题区 -->
         <div v-if="title||tabOptions.length" class="iw-manfbrand__title">
-          <div v-if="tabOptions&&tabOptions[selectedTab]" class="iw-manfbrand__inner">{{ tabOptions[selectedTab].value }}选择</div>
+          <div v-if="tabOptions&&tabOptions[selectedTab]" class="iw-manfbrand__inner">{{ tabOptions[selectedTab].value }}</div>
           <div v-if="tabOptions&&tabOptions.length&&tabOptions.length>1" class="iw-manfbrand__filter">
             <span v-for="(item, key) in tabOptions" :key="item.key" :class="{on: item.key==selectedTab}" class="iw-manfbrand__filter-item" @click="handleTabChange(item[optionProps.value], key)">{{ item.value }}</span>
           </div>
           <div v-if="showSearch&&data.length" :class="'iw-manfbrand__search--'+iwSize" class="iw-manfbrand__search">
-            <iw-input v-model="keyword" :size="iwSize" style="width: 120px;" prefix-icon="iw-icon-search" placeholder="搜索" @keyup.native="handleSearchChange" />
+            <iw-input v-model="keyword" :size="iwSize" :placeholder="t('iw.common.search')" style="width: 120px;" prefix-icon="iw-icon-search" @keyup.native="handleSearchChange" />
           </div>
           <div v-if="error" class="iw-manfbrand__error">{{ error }}</div>
           <div class="iw-manfbrand__close" @click="visible = false">
@@ -72,7 +72,7 @@
                     :data="datas"
                     :multiple="false"
                     :size="iwSize"
-                    placeholder="快速定位"
+                    :placeholder="t('iw.manfbrand.quickppositioning')"
                     placement="bottomLeft"
                     style="width:110px;"
                     @change="handleTrackChange"
@@ -131,7 +131,7 @@
         <!-- 底部 -->
         <div v-if="data.length" class="iw-manfbrand__footer">
           <span v-if="(showSelected||multiple)&&selectTextsTag[selectedTab]&&selectTextsTag[selectedTab].length" class="iw-manfbrand__footer-selected">
-            <label>已选：</label>
+            <label>{{ t('iw.common.selected') }}：</label>
             <div>
               <iw-scrollbar :wrap-class="'iw-manfbrand__footer-scroll iw-manfbrand__footer-scroll--'+iwSize">
                 <iw-tag
@@ -158,13 +158,13 @@
                 data.length&&isCheckAllIndeterminate(datas)?'iw-checkbox--indeterminate':''
               ]"
             />
-            <span>全选所有</span>
+            <span>{{ t('iw.common.checkAll') }}</span>
           </span>
           <iw-button :size="iwSize" @click="reset()">
-            重置
+            {{ t('iw.common.reset') }}
           </iw-button>
           <iw-button :size="iwSize" type="primary" @click="submit(false)">
-            确定
+            {{ t('iw.common.confirm') }}
           </iw-button>
         </div>
       </div>
@@ -173,8 +173,10 @@
 </template>
 <script>
 import { chunk, getTree, arr2table, findInArray, deepClone, substr } from '@iways-ui/src/utils/util'
+import Locale from '@iways-ui/src/mixins/locale'
 export default {
   name: 'IwManfbrand',
+  mixins: [Locale],
   props: {
     data: {
       type: Array,
@@ -327,7 +329,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请选择'
+      default: ''
     },
     disabledSelect: {
       tips: '禁止选择',
@@ -519,16 +521,16 @@ export default {
       if (
         (this.require && this.selectTextsTag[this.selectedTab].length <= 0)
       ) {
-        this.error = '请选择'
+        this.error = this.t('iw.common.placeholder')
         return
       }
       if (this.multiple) {
         if (this.selectTextsTag[this.selectedTab] && this.min && this.selectTextsTag[this.selectedTab].length < this.min) {
-          this.error = '最少选择' + this.min + '项'
+          this.error = this.t('iw.common.atLeast', { count: this.min })
           return
         }
         if (this.selectTextsTag[this.selectedTab] && this.max && this.selectTextsTag[this.selectedTab].length > this.max) {
-          this.error = '最多选择' + this.max + '项'
+          this.error = this.t('iw.common.atMost', { count: this.max })
           return
         }
       }

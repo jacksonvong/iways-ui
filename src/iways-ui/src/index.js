@@ -17,6 +17,7 @@ import Cascader from './packages/cascader'
 import CascaderTable from './packages/cascader-table'
 import DatePicker from './packages/date-picker'
 
+import locale from './locale'
 import * as filters from './utils/filters'
 
 var components = [
@@ -39,6 +40,9 @@ var components = [
 ]
 
 var install = (Vue, opts = {}) => {
+  locale.use(opts.locale)
+  locale.i18n(opts.i18n)
+
   components.map(component => {
     Vue.component(component.name, component)
   })
@@ -81,6 +85,8 @@ export {
 }
 
 export default {
+  locale: locale.use,
+  i18n: locale.i18n,
   install,
   Tag,
   Icon,

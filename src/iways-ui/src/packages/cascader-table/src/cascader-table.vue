@@ -1,7 +1,7 @@
 <template>
   <div style="display: inline-block;">
     <div v-if="popover==='IwDialog'" @click="visible = true">
-      <slot name="reference">{{ placeholder }}</slot>
+      <slot name="reference">{{ placeholder || t('iw.common.placeholder') }}</slot>
     </div>
     <component
       :is="popover"
@@ -20,14 +20,14 @@
           <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
             <div v-if="popover==='IwPopover'" class="iw-input__inner">
               <span v-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
-                <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+                <input v-if="checkedOptions.length>1" :value="t('iw.common.selected')+'(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
                 <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
               </span>
               <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
                 <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
               </span>
               <span v-else class="iw-input__value">
-                <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+                <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.common.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
               </span>
               <span class="iw-input__suffix">
                 <slot>
@@ -43,7 +43,7 @@
         <div v-if="title||tabs.length" class="iw-cascader-table__title">
           <div v-if="title" class="iw-cascader-table__inner">{{ title }}</div>
           <div v-if="showSearch&&data.length" :class="'iw-cascader-table__search--'+iwSize" class="iw-cascader-table__search">
-            <iw-input v-model="keyword" :size="iwSize" style="width: 130px;" prefix-icon="iw-icon-search" placeholder="搜索" @change="handleSearchChange" @keyup.native="handleSearchChange" />
+            <iw-input v-model="keyword" :size="iwSize" :placeholder="t('iw.common.search')" style="width: 130px;" prefix-icon="iw-icon-search" @change="handleSearchChange" @keyup.native="handleSearchChange" />
           </div>
           <div v-if="error" class="iw-cascader-table__error">{{ error }}</div>
           <div class="iw-cascader-table__close" @click="visible = false">
@@ -86,7 +86,7 @@
         <!-- 底部 -->
         <div v-if="data.length" class="iw-cascader-table__footer">
           <span v-if="(showSelected)&&selectTextsTag&&selectTextsTag.length" class="iw-cascader-table__footer-selected">
-            <label>已选：</label>
+            <label>{{ t('iw.common.selected') }}：</label>
             <div>
               <iw-scrollbar :wrap-class="'iw-cascader-table__footer-scroll iw-cascader-table__footer-scroll--'+iwSize">
                 <iw-tag
@@ -113,13 +113,13 @@
                 data.length&&isCheckAllIndeterminate(datas)?'iw-checkbox--indeterminate':''
               ]"
             />
-            <span>全选所有</span>
+            <span>{{ t('iw.common.checkAll') }}</span>
           </span>
           <iw-button :size="iwSize" @click="reset()">
-            重置
+            {{ t('iw.common.reset') }}
           </iw-button>
           <iw-button :size="iwSize" type="primary" @click="submit(false)">
-            确定
+            {{ t('iw.common.confirm') }}
           </iw-button>
         </div>
       </div>
@@ -129,11 +129,13 @@
 <script>
 import { getTree, arr2table, treeDeep, deepClone, substr } from '@iways-ui/src/utils/util'
 import IwCascaderTableItem from './cascader-table-item'
+import Locale from '@iways-ui/src/mixins/locale'
 export default {
   name: 'IwCascaderTable',
   components: {
     IwCascaderTableItem: IwCascaderTableItem
   },
+  mixins: [Locale],
   props: {
     data: {
       type: Array,
@@ -294,7 +296,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请选择'
+      default: ''
     },
     disabledSelect: {
       tips: '禁止选择',
@@ -507,7 +509,7 @@ export default {
       if (
         (this.require && this.selectTextsTag.length <= 0)
       ) {
-        this.error = '请选择'
+        this.error = this.t('iw.common.placeholder')
         return
       }
       if (this.multiple) {
@@ -650,7 +652,7 @@ export default {
           if (this.isCheckAllIndeterminate(item)) return true
         }
       } else if (data instanceof Object) {
-        if (data.selected) return true
+        if (data.selected) return false
         const children = data[this.optionProps.children]
         if (children && children.length > 0) {
           if (this.isCheckAllIndeterminate(children)) return true

@@ -1,5 +1,5 @@
 ---
-title: segment
+title: Segment
 pageClass: custom-page-class
 ---
 <ClientOnly>

@@ -34,7 +34,7 @@
               :disabled="disabled"
               unselectable="on"
               readonly>
-            <input v-else :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+            <input v-else :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.select.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
           </span>
           <span v-else-if="valueText&&!showSearch" class="iw-input__value">
             <input
@@ -46,7 +46,7 @@
               readonly>
           </span>
           <span v-else class="iw-input__value">
-            <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+            <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.select.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
           </span>
           <span class="iw-input__suffix">
             <slot>
@@ -69,7 +69,7 @@
                   isCheckAllIndeterminate()?'iw-checkbox--indeterminate':''
                 ]"
               />
-              <span :class="[multiple?'iw-text':'']">全选</span>
+              <span :class="[multiple?'iw-text':'']">{{ t('iw.select.checkAll') }}</span>
             </li>
           </ul>
           <ul v-if="datas&&datas.filter(item=>item.visible!==false).length" class="iw-select__group">
@@ -82,7 +82,7 @@
                       multiple&&item.selected?'iw-checkbox--checked':''
                     ]"
                   />
-                  <em :title="item.value" :class="[multiple?'iw-text':'', {'font-orange': item.remark=='进口'}]">
+                  <em :title="item.value" :class="[multiple?'iw-text':'']">
                     {{ item.value }}<abbr class="font-gray">{{ item.date ? `(`+item.date+`)` : '' }}</abbr>
                   </em>
                   <i class="iw-select__item-icon" />
@@ -92,17 +92,17 @@
           </ul>
           <ul v-else class="iw-select__group">
             <li :class="'iw-select__group-item--'+iwSize" class="iw-select__group-item" @click="visible = false">
-              <em class="iw-select__placeholder">{{ placeholder }}</em>
+              <em class="iw-select__placeholder">{{ placeholder || t('iw.select.placeholder') }}</em>
             </li>
           </ul>
         </iw-scrollbar>
       </div>
       <div v-if="multiple&&datas&&datas.filter(item=>item.visible!==false).length" class="iw-select__footer">
         <iw-button :size="iwSize" @click="reset()">
-          重置
+          {{ t('iw.common.reset') }}
         </iw-button>
         <iw-button :size="iwSize" type="primary" @click="submit(false)">
-          确定
+          {{ t('iw.common.confirm') }}
         </iw-button>
       </div>
     </div>
@@ -111,8 +111,10 @@
 
 <script>
 import { deepClone, substr } from '@iways-ui/src/utils/util'
+import Locale from '@iways-ui/src/mixins/locale'
 export default {
   name: 'IwSelect',
+  mixins: [Locale],
   props: {
     data: {
       type: Array,
@@ -191,7 +193,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请选择'
+      default: ''
     },
     /**
      * Popover的属性

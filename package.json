@@ -30,14 +30,15 @@
   },
   "dependencies": {
     "cross-env": "^5.2.0",
-    "iways-ui": "^1.0.0",
-    "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
-    "highlight.js": "^9.13.1",
-    "vue-highlight.js": "^2.2.0",
     "deepmerge": "^1.2.0",
+    "highlight.js": "^9.13.1",
+    "iways-ui": "^1.0.0",
     "moment": "^2.24.0",
-    "resize-observer-polyfill": "^1.5.0"
+    "resize-observer-polyfill": "^1.5.0",
+    "vue": "^2.5.2",
+    "vue-highlight.js": "^2.2.0",
+    "vue-i18n": "=5.0.3",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -66,6 +67,7 @@
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "js-cookie": "^2.2.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "node-notifier": "^5.1.2",

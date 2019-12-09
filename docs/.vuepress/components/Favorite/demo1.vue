@@ -5,19 +5,19 @@
       :data="data"
       :type-data="typeData"
       :show-search="true"
+      :title="$t('favorite.submodel')"
       type="subModel"
       is-modal
-      title="车型"
       size="mini"
       require
       placement="bottomLeft"
       @save="handleSave"
       @change="handleChange"
     >
-      <iw-button slot="reference" type="primary" size="mini">管理收藏车型</iw-button>
+      <iw-button slot="reference" type="primary" size="mini">{{ $t('favorite.manageSubmodel') }}</iw-button>
       <span slot="desc" class="iw-favorite__desc">
-        <abbr class="font-blue">■ 国产 </abbr>
-        <abbr class="font-orange">■ 进口</abbr>
+        <abbr class="font-blue">■ {{ $t('submodel.local') }} </abbr>
+        <abbr class="font-orange">■ {{ $t('submodel.import') }}</abbr>
       </span>
     </iw-favorite>
     <iw-favorite
@@ -27,8 +27,8 @@
       :type-data="typeData"
       :show-search="true"
       :append-to-body="false"
+      :title="$t('favorite.submodel')"
       type="subModel"
-      title="车型"
       size="mini"
       require
       placement="bottomLeft"
@@ -37,8 +37,8 @@
       @change="handleChange2"
     >
       <span slot="desc" class="iw-favorite__desc">
-        <abbr class="font-blue">■ 国产 </abbr>
-        <abbr class="font-orange">■ 进口</abbr>
+        <abbr class="font-blue">■ {{ $t('submodel.local') }} </abbr>
+        <abbr class="font-orange">■ {{ $t('submodel.import') }}</abbr>
       </span>
     </iw-favorite>
   </div>

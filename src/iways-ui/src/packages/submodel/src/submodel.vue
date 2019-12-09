@@ -1,7 +1,7 @@
 <template>
   <div style="display: inline-block;">
     <div v-if="popover==='IwDialog'" @click="visible = true">
-      <slot name="reference">{{ placeholder }}</slot>
+      <slot name="reference">{{ placeholder || t('iw.common.placeholder') }}</slot>
     </div>
     <component
       :is="popover"
@@ -20,14 +20,14 @@
           <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
             <div v-if="popover==='IwPopover'" class="iw-input__inner">
               <span v-if="multiple&&checkedOptions&&checkedOptions.length>0" class="iw-input__value">
-                <input v-if="checkedOptions.length>1" :value="'已选(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+                <input v-if="checkedOptions.length>1" :value="t('iw.common.selected')+'(' + checkedOptions.length +')'" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
                 <input v-else :value="checkedOptions[0][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
               </span>
               <span v-else-if="!multiple&&checkedOptions&&checkedOptions.length" class="iw-input__value">
                 <input :value="checkedOptions[checkedOptions.length-1][optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
               </span>
               <span v-else class="iw-input__value">
-                <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+                <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.common.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
               </span>
               <span class="iw-input__suffix">
                 <slot>
@@ -46,7 +46,7 @@
             <span v-for="item in filters" :key="item.key" :class="{on: item.key==selectedFilter}" class="iw-submodel__filter-item" @click="handleFilterChange(item.key)">{{ item.value }}</span>
           </div>
           <div v-if="showSearch&&data.length" :class="'iw-submodel__search--'+iwSize" class="iw-submodel__search">
-            <iw-input v-model="keyword" :size="iwSize" style="width: 130px;" prefix-icon="iw-icon-search" placeholder="搜索" @change="handleSearchChange" @keyup.native="handleSearchChange" />
+            <iw-input v-model="keyword" :size="iwSize" :placeholder="t('iw.common.search')" style="width: 130px;" prefix-icon="iw-icon-search" @change="handleSearchChange" @keyup.native="handleSearchChange" />
           </div>
           <div v-if="error" class="iw-submodel__error">{{ error }}</div>
           <div class="iw-submodel__close" @click="visible = false">
@@ -73,7 +73,7 @@
                   :size="iwSize"
                   :append-to-body="false"
                   :disabled="!datas||datas.length<=0"
-                  placeholder="快速定位"
+                  :placeholder="t('iw.submodel.quickppositioning')"
                   placement="bottom"
                   style="width: 100px;"
                   @change="handleTrackChange"
@@ -82,8 +82,8 @@
             </div>
             <div class="iw-submodel__track-desc">
               <span>
-                <abbr class="font-blue">■ 国产 </abbr>
-                <abbr class="font-orange">■ 进口</abbr>
+                <abbr class="font-blue">■ {{ t('iw.submodel.local') }} </abbr>
+                <abbr class="font-orange">■ {{ t('iw.submodel.import') }}</abbr>
               </span>
             </div>
             <div class="iw-submodel__track-filter">
@@ -159,7 +159,7 @@
         <!-- 底部 -->
         <div v-if="data.length" class="iw-submodel__footer">
           <span v-if="(showSelected)&&selectTextsTag&&selectTextsTag.length" class="iw-submodel__footer-selected">
-            <label>已选：</label>
+            <label>{{ t('iw.common.selected') }}：</label>
             <div>
               <iw-scrollbar :wrap-class="'iw-submodel__footer-scroll iw-submodel__footer-scroll--'+size">
                 <iw-tag
@@ -186,13 +186,13 @@
                 data.length&&isCheckAllIndeterminate(datas)?'iw-checkbox--indeterminate':''
               ]"
             />
-            <span>全选所有</span>
+            <span>{{ t('iw.common.checkAll') }}</span>
           </span>
           <iw-button :size="iwSize" @click="reset()">
-            重置
+            {{ t('iw.common.reset') }}
           </iw-button>
           <iw-button :size="iwSize" type="primary" @click="submit(false)">
-            确定
+            {{ t('iw.common.confirm') }}
           </iw-button>
         </div>
       </div>
@@ -201,8 +201,10 @@
 </template>
 <script>
 import { chunk, getTree, arr2table, findInArray, deepClone, substr } from '@iways-ui/src/utils/util'
+import Locale from '@iways-ui/src/mixins/locale'
 export default {
   name: 'IwSubmodel',
+  mixins: [Locale],
   props: {
     data: {
       type: Array,
@@ -355,7 +357,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请选择'
+      default: ''
     },
     disabledSelect: {
       tips: '禁止选择',
@@ -550,7 +552,7 @@ export default {
       if (
         (this.require && this.selectTextsTag.length <= 0)
       ) {
-        this.error = '请选择'
+        this.error = this.t('iw.common.placeholder')
         return
       }
       if (this.multiple) {

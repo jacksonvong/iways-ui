@@ -181,10 +181,9 @@ export default {
 
       if (!this.appendToBody) {
         const { offsetLeft: offsetLeft, offsetTop: offsetTop, offsetHeight: offsetHeight, offsetWidth: offsetWidth } = this.$el
-        const { left: left, top: top } = this.$el.getBoundingClientRect()
-        const { width: parentWidth, width: parentHeight } = document.body.getBoundingClientRect()
+        const { left: left } = this.$el.getBoundingClientRect()
+        const { width: parentWidth } = document.body.getBoundingClientRect()
         const relativeLeft = left - offsetLeft
-        console.log(this.$el.scrollHeight, offsetTop, top, parentHeight)
         positionValue = {
           top: {
             top: offsetTop,

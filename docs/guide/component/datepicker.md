@@ -1,5 +1,5 @@
 ---
-title: datepicker
+title: Datepicker
 pageClass: custom-page-class
 ---
 <ClientOnly>

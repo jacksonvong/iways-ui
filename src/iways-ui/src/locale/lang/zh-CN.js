@@ -64,17 +64,63 @@ export default {
         Q4: 'Q4'
       }
     },
+    common: {
+      noMatch: '无匹配数据',
+      loading: '加载中',
+      placeholder: '请选择',
+      search: '搜索',
+      selected: '已选',
+      checkColumnAll: '全选',
+      reset: '重置',
+      confirm: '确定',
+      checkAll: '全选所有',
+      noData: '暂无数据',
+      atLeast: '最少选择{count}项',
+      atMost: '最多选择{count}项'
+    },
+    empty: {
+      wait: '等待请求',
+      exception: '网络异常',
+      unknow: '未知错误'
+    },
     select: {
       loading: '加载中',
       noMatch: '无匹配数据',
       noData: '无数据',
-      placeholder: '请选择'
-    },
-    cascader: {
-      noMatch: '无匹配数据',
-      loading: '加载中',
       placeholder: '请选择',
-      noData: '暂无数据'
+      checkAll: '全选'
+    },
+    manfbrand: {
+      quickppositioning: '快速定位'
+    },
+    submodel: {
+      quickppositioning: '快速定位',
+      local: '国产',
+      import: '进口'
+    },
+    version: {
+      submodel: '车型',
+      version: '型号',
+      msrp: 'MSRP',
+      hot: '热度',
+      dataSource: '数据源'
+    },
+    favorite: {
+      subModel: '车型',
+      manfBrand: '厂商品牌',
+      segment: '细分市场',
+      placeholder: '请选择',
+      folder: '收藏夹',
+      operation: '操作',
+      select: '选择',
+      del: '删除',
+      copy: '复制',
+      edit: '编辑',
+      confirm: '确定',
+      create: '新建',
+      cancel: '取消',
+      save: '保存',
+      saveFirst: '请先保存'
     },
     pagination: {
       goto: '前往',

@@ -18,8 +18,10 @@
   </div>
 </template>
 <script>
+import Locale from '@iways-ui/src/mixins/locale'
 export default {
   name: 'IwEmpty',
+  mixins: [Locale],
   props: {
     size: {
       type: String,
@@ -37,13 +39,13 @@ export default {
         return this.status
       }
       switch (parseInt(this.status)) {
-        case 0 : tips = '等待请求'
+        case 0 : tips = this.t('iw.empty.wait')
           break
-        case 500 : tips = '网络异常'
+        case 500 : tips = this.t('iw.empty.exception')
           break
-        case 200 : tips = '暂无数据'
+        case 200 : tips = this.t('iw.common.noData')
           break
-        default: tips = '未知错误'
+        default: tips = this.t('iw.empty.unknow')
           break
       }
       return tips

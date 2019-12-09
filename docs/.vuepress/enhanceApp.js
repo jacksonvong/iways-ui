@@ -4,6 +4,7 @@ import 'highlight.js/styles/shades-of-purple.css'
 // 源码引入
 import IwaysUI from '@iways-ui/src'
 import '@iways-ui/src/theme/index.scss'
+import i18n from '@/lang' // Internationalization
 // NPM引入
 // import IwaysUI from 'iways-ui'
 // import 'iways-ui/dist/index.css'
@@ -15,15 +16,21 @@ import './public/scss/base.scss'
 export default ({
   Vue, // VuePress 正在使用的 Vue 构造函数
   options, // 附加到根实例的一些选项
-  router, // 当前应用的路由实例
+  router, // 当前应用的路由实例 
   siteData // 站点元数据
 }) => {
   // ...做一些其他的应用级别的优化
   Vue.use(VueHighlightJS)//高亮代码
+  router.beforeEach((to, from, next) => {
+    Vue.config.lang = to.path.indexOf('/en/') > -1 ? 'en' : 'zh-cn'
+    next()
+  })
   Vue.use(IwaysUI, {
     size: 'mini'
   })
   Vue.config.productionTip = false
+  Vue.locale('zh-cn', i18n.zh)
+  Vue.locale('en', i18n.en)
   // Vue.use(Element)
   // Vue.component('chart', VueECharts)
 }

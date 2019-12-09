@@ -7,14 +7,14 @@
       :show-search="true"
       type="manfBrand"
       is-modal
-      title="厂商品牌"
+      :title="$t('favorite.manfbrand')"
       size="mini"
       placement="bottomLeft"
       style="width: 180px;"
       @save="handleSave"
       @change="handleChange"
     >
-      <iw-button slot="reference" type="primary" size="mini">管理收藏厂商品牌</iw-button>
+      <iw-button slot="reference" type="primary" size="mini">{{ $t('favorite.manageManfbrand') }}</iw-button>
     </iw-favorite>
   </div>
 </template>

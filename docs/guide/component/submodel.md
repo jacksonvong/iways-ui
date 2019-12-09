@@ -1,5 +1,5 @@
 ---
-title: submodel
+title: Submodel
 pageClass: custom-page-class
 ---
 <ClientOnly>

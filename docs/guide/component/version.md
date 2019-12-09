@@ -1,5 +1,5 @@
 ---
-title: version
+title: Version
 pageClass: custom-page-class
 ---
 <ClientOnly>

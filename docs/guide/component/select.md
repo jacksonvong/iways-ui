@@ -1,5 +1,5 @@
 ---
-title: select
+title: Select
 pageClass: custom-page-class
 ---
 <ClientOnly>

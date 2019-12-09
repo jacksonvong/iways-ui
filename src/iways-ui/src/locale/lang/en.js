@@ -64,17 +64,63 @@ export default {
         Q4: 'Q4'
       }
     },
+    common: {
+      noMatch: 'No matching data',
+      loading: 'Loading',
+      placeholder: 'Select',
+      search: 'Search',
+      selected: 'Selected',
+      checkColumnAll: 'Check All',
+      reset: 'Reset',
+      confirm: 'Confirm',
+      checkAll: 'Check All',
+      noData: 'No data',
+      atLeast: 'Select {count} Items At Least',
+      atMost: 'Select Less Than {count} Items'
+    },
     select: {
       loading: 'Loading',
       noMatch: 'No matching data',
       noData: 'No data',
-      placeholder: 'Select'
-    },
-    cascader: {
-      noMatch: 'No matching data',
-      loading: 'Loading',
       placeholder: 'Select',
-      noData: 'No data'
+      checkAll: 'Check All'
+    },
+    empty: {
+      wait: 'Wait',
+      exception: 'Exception',
+      unknow: 'Unknow'
+    },
+    manfbrand: {
+      quickppositioning: 'Quick Position'
+    },
+    submodel: {
+      quickppositioning: 'Quick Position',
+      local: 'Local',
+      import: 'Import'
+    },
+    version: {
+      submodel: 'Submodel',
+      version: 'Version',
+      msrp: 'MSRP',
+      hot: 'Hot',
+      dataSource: 'DataSource'
+    },
+    favorite: {
+      subModel: 'SubModel',
+      manfBrand: 'ManfBrand',
+      segment: 'Segment',
+      placeholder: 'Select',
+      folder: 'Folder',
+      operation: 'Operat',
+      select: 'Select',
+      del: 'Delete',
+      copy: 'Copy',
+      edit: 'Edit',
+      confirm: 'Comfirm',
+      create: 'Create',
+      cancel: 'Cancel',
+      save: 'Save',
+      saveFirst: 'Save First'
     },
     pagination: {
       goto: 'Go to',

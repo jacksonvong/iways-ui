@@ -1,7 +1,7 @@
 <template>
   <div style="display: inline-block;">
     <div v-if="popover==='IwDialog'" @click="visible = true">
-      <slot name="reference">{{ placeholder }}</slot>
+      <slot name="reference">{{ placeholder || t('iw.favorite.placeholder') }}</slot>
     </div>
     <component
       :is="popover"
@@ -25,7 +25,7 @@
               <input v-else :value="checkedOption.children.map(item => item[optionProps.label]).join(', ')" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
             </span>
             <span v-else class="iw-input__value">
-              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.favorite.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
             </span>
             <span class="iw-input__suffix">
               <slot>
@@ -38,7 +38,7 @@
       <div v-if="!disabled" :id="'iw-favorite__popover--'+id" :style="{width: '650px', minWidth: '400px'}">
         <!-- 标题区 -->
         <div v-if="title" class="iw-favorite__title">
-          <div v-if="title" class="iw-favorite__inner">收藏{{ title }}</div>
+          <div v-if="title" class="iw-favorite__inner">{{ title }}</div>
           <div v-if="error" :class="['iw-favorite__error','iw-favorite__error--'+size]">{{ error }}</div>
           <div class="iw-favorite__close" @click="close">
             <i class="iw-icon-close" />
@@ -52,9 +52,9 @@
                 <div class="iw-favorite__group_table">
                   <div>
                     <dl>
-                      <dt>收藏夹</dt>
-                      <dt :style="{width: (mode==='edit' ? 385 : 490) + 'px'}">{{ title || subType || titles[type] }}</dt>
-                      <dt v-if="mode==='edit'">操作</dt>
+                      <dt>{{ t('iw.favorite.folder') }}</dt>
+                      <dt :style="{width: (mode==='edit' ? 385 : 490) + 'px'}">{{ subType || titles[type] }}</dt>
+                      <dt v-if="mode==='edit'">{{ t('iw.favorite.operation') }}</dt>
                     </dl>
                   </div>
                 </div>
@@ -98,14 +98,14 @@
                               @filterChange="(value, text) => handleFilterChange(value, text, index)"
                               @change="(value, text) => handleChange(value, text, index)"
                             >
-                              <span slot="reference" class="iw-favorite__button--select">选择</span>
+                              <span slot="reference" class="iw-favorite__button--select">{{ t('iw.favorite.select') }}</span>
                             </component>
                           </span>
                         </div>
                       </dt>
                       <dt v-if="mode==='edit'">
-                        <span class="iw-favorite__button iw-favorite__button--del" @click="del(index)">删除</span>
-                        <span class="iw-favorite__button iw-favorite__button--copy" @click="copy(index)">复制</span>
+                        <span class="iw-favorite__button iw-favorite__button--del" @click="del(index)">{{ t('iw.favorite.del') }}</span>
+                        <span class="iw-favorite__button iw-favorite__button--copy" @click="copy(index)">{{ t('iw.favorite.copy') }}</span>
                       </dt>
                     </dl>
                   </div>
@@ -120,21 +120,21 @@
           <slot name="desc" />
           <div v-show="mode==='view'">
             <iw-button v-if="editable" :size="iwSize" @click="edit()">
-              编辑
+              {{ t('iw.favorite.edit') }}
             </iw-button>
             <iw-button :size="iwSize" type="primary" @click="submit(false)">
-              确定
+              {{ t('iw.favorite.confirm') }}
             </iw-button>
           </div>
           <div v-show="mode==='edit'">
             <iw-button :size="iwSize" @click="create()">
-              新建
+              {{ t('iw.favorite.create') }}
             </iw-button>
             <iw-button :size="iwSize" @click="cancel()">
-              取消
+              {{ t('iw.favorite.cancel') }}
             </iw-button>
             <iw-button :size="iwSize" type="primary" @click="save()">
-              保存
+              {{ t('iw.favorite.save') }}
             </iw-button>
           </div>
         </div>
@@ -145,8 +145,10 @@
 
 <script>
 import { deepClone } from '@iways-ui/src/utils/util'
+import Locale from '@iways-ui/src/mixins/locale'
 export default {
   name: 'IwFavorite',
+  mixins: [Locale],
   props: {
     value: {
       type: [String, Number],
@@ -254,7 +256,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请选择'
+      default: ''
     },
     loading: {
       type: Boolean,
@@ -279,9 +281,9 @@ export default {
       },
       tableList: [],
       titles: {
-        subModel: this.selectTitle || '车型',
-        manfBrand: this.selectTitle || '厂商品牌',
-        segment: this.selectTitle || '细分市场'
+        subModel: this.selectTitle || this.t('iw.favorite.subModel'),
+        manfBrand: this.selectTitle || this.t('iw.favorite.manfBrand'),
+        segment: this.selectTitle || this.t('iw.favorite.segment')
       },
       // 编辑状态
       dataForm: {
@@ -415,14 +417,14 @@ export default {
       if (this.mode === 'view') {
         done()
       } else {
-        this.error = '请先保存'
+        this.error = this.t('iw.favorite.saveFirst')
       }
     },
     close() {
       if (this.mode === 'view') {
         this.visible = false
       } else {
-        this.error = '请先保存'
+        this.error = this.t('iw.favorite.saveFirst')
       }
     },
     edit() {
@@ -437,7 +439,7 @@ export default {
       if (
         (this.require && !this.checkedValue)
       ) {
-        this.error = '请选择'
+        this.error = this.t('iw.favorite.placeholder')
         return
       }
       this.checkedOption = this.tableList.find(item => item.key === this.checkedValue)
@@ -482,11 +484,11 @@ export default {
     },
     save() {
       if (!this.tableList.length) {
-        this.error = '请选择'
+        this.error = this.t('iw.favorite.placeholder')
         return
       }
       if (this.tableList.filter(item => !!item.value).length !== this.tableList.length) {
-        this.error = '请选择'
+        this.error = this.t('iw.favorite.placeholder')
         return
       }
       if (this.tableList.length !== this.tableList.filter(item => item.value.length <= 30).length) {
@@ -494,7 +496,7 @@ export default {
         return
       }
       if (this.tableList.length !== this.tableList.filter(item => item.children.length > 0).length) {
-        this.error = '请选择'
+        this.error = this.t('iw.favorite.placeholder')
         return
       }
       const names = this.tableList.map(item => item.value)
