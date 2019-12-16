@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /favicon.ico
-actionText: Start →
+actionText: Get Started →
 actionLink: /en/guide/started.html
 sidebarDepth: 2
 

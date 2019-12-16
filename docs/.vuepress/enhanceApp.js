@@ -3,7 +3,7 @@ import 'highlight.js/styles/shades-of-purple.css'
 //xt256.css'//tomorrow.css'//dark.css';//高亮代码样式
 // 源码引入
 import IwaysUI from '@iways-ui/src'
-import '@iways-ui/src/theme/index.scss'
+import '@iways-ui/packages/theme-chalk/src/index.scss'
 import i18n from '@/lang' // Internationalization
 // NPM引入
 // import IwaysUI from 'iways-ui'

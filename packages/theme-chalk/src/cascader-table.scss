@@ -1,0 +1,299 @@
+@import "mixins/mixins";
+@import "common/var";
+
+@include b(cascader-table) {
+  padding: 0;
+  font-size: $--font-size-base;
+  @include m(medium) {
+    font-size: $--font-size-base;
+  }
+  @include m(small) {
+    font-size: $--font-size-small;
+  }
+  @include m(mini) {
+    font-size: $--font-size-extra-small;
+  }
+  @include m(disabled) {
+    // display: none;
+  }
+
+  @include e(title) {
+    border-bottom: 1px solid #eee;
+    height: 52px;
+    font-size: 14px;
+    
+    @include e(inner) {
+      padding: 14px;
+      font-weight: 700;
+      display: block;
+      float: left;
+      font-size: $--font-size-medium;
+    }
+
+    @include e(error) {
+      float: right;
+      padding: 17px;
+      font-size: 12px;
+      color: $--color-danger;
+    }
+    
+    @include e(search) {
+      display: block;
+      float: right;
+      position: relative;
+      padding: 8px 50px 8px 10px;
+      @include m(medium) {
+        padding: 10px 50px 10px 10px;
+      }
+      @include m(small) {
+        padding: 12px 50px 12px 10px;
+      }
+      @include m(mini) {
+        padding: 14px 50px 14px 10px;
+      }
+      .iw-input__icon {
+        font-size: 16px;
+      }
+    }
+    
+    @include e(close) {
+      cursor: pointer;
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      padding: 4px;
+      &:hover {
+        background: $--background-color-base;
+        border-radius: 4px;
+      }
+      i {
+        font-size: 16px;
+        color: #aaacb7;
+      }
+    }
+  }
+  
+  @include e(body) {
+    @include e(wrap) {
+      max-height: 336px;
+      @include e(group) {
+        @include e(group_table) {
+          padding: 0;
+          > table {
+            border: 0;
+            > tr {
+              border-bottom: 1px solid #eee;
+              > td:nth-child(1) {
+                width: 128px;
+                border-right: 1px solid #eee;
+                padding: 8px 6px;
+                .iw-cascader-table__group_item {
+                  width: 120px;
+                  .iw-text {
+                    width: 100px;
+                  }
+                }
+              }
+              > td:nth-child(2) {
+                table {
+                  tr {
+                    border-bottom: 1px solid #eee;
+                  }
+                  tr:last-child {
+                    border-bottom: 0;
+                  }
+                }
+              }
+            }
+            > tr:last-child {
+              border-bottom: 0;
+              > td:nth-child(1) {
+                border-bottom: 0;
+              }
+              > td:nth-child(2) {
+                table {
+                  tr:last-child {
+                    border-bottom: 0;
+                  }
+                }
+              }
+            }
+          }
+          > table.iw-cascader-table__group_table--plain {
+            > tr {
+              > td {
+                padding: 8px 6px;
+                width: 100px;
+              }
+              > td:nth-child(1) {
+                border-right: 0;
+                .iw-cascader-table__group_item {
+                  width: 100px;
+                  .iw-text {
+                    width: 80px;
+                  }
+                }
+              }
+            }
+          }
+        }
+        @include e(group_item) {
+          width:100px;
+          cursor: pointer;
+          @include clearfix();
+          .iw-text {
+            width: 80px;
+          }
+        }
+      }
+    }
+    @include e(body-header) {
+      @include e(group) {
+        @include e(group_table) {
+          > table {
+            > tr:last-child {
+              border-bottom: 1px solid #eee;
+              background: $--background-color-base;
+              > td:nth-child(1) {
+                padding: 6px 6px;
+              }
+            }
+          }
+        }
+        @include e(group_item) {
+          .iw-text {
+            color: $--color-text-regular;
+          }
+        }
+      }
+    }
+  }
+
+  @include e(footer) {
+    border-top: 1px solid #f2f2f3;
+    text-align: right;
+    padding: 10px 15px;
+    min-width: 120px;
+    @include e(footer-selected) {
+      width: calc(100% - 234px);
+      float: left;
+      text-align: left;
+      overflow: auto;
+      overflow-x: hidden;
+      label {
+        float: left;
+        margin-right: 6px;
+        color: $--color-text-secondary;
+      }
+      @include e(footer-scroll) {
+        max-height: 52px;
+        @include m(medium) {
+          max-height: 48px;
+        }
+        @include m(small) {
+          max-height: 44px;
+        }
+        @include m(mini) {
+          max-height: 40px;
+        }
+        .iw-tag {
+          margin-right: 6px;
+          margin-bottom: 4px;
+          cursor: pointer;
+        }
+      }
+    }
+    @include e(footer-checkall) {
+      width: 76px;
+      display: inline-block;
+      cursor: pointer;
+      text-align: left;
+    }
+  }
+  .iw-checkbox {
+    background: url("./images/icon/checkbox.png") transparent 36px 47px;
+    width: 18px;
+    height: 18px;
+    display: block;
+    float: left;
+    cursor: pointer;
+    &.iw-checkbox--checked {
+      background-position: 36px 73px;
+    }
+    &.iw-checkbox--indeterminate {
+      background-position: 36px 21px;
+    }
+  }
+  .iw-radio {
+    background: url("./images/icon/radio.png") transparent 32px 42px;
+    width: 15px;
+    height: 15px;
+    float: left;
+    display: block;
+    cursor: pointer;
+    margin-top: 2px;
+    &.iw-radio--checked {
+      background-position: 32px 57px;
+    }
+  }
+  .iw-text {
+    padding-left: 4px;
+    width: 100px;
+    display: block;
+    float: left;
+    color: $--color-primary;
+    @include text-hide();
+    &.font-orange {
+      color: orange;
+    }
+  }
+}
+
+.iw-cascader-table-reference {
+  display: inline-block;
+  @include b(input) {
+    cursor: pointer;
+    &.is-focus {
+      @include e(inner) {
+        outline: none;
+        border-color: $--color-primary;
+      }
+    }
+    @include e(placeholder) {
+      color: $--color-text-placeholder;
+    }
+    @include e(value) {
+      color: $--color-text-regular;
+      input {
+        border: 0;
+        line-height: 1;
+        font-size: inherit;
+        color: $--color-text-regular;
+        cursor: pointer;
+        width: 100%;
+        &:disabled {
+          background-color: transparent;
+          cursor: not-allowed;
+        }
+        &.iw-input__placeholder {
+          color: $--color-text-placeholder;
+        }
+      }
+    }
+    @include e(suffix) {
+      position: absolute;
+      right: 0;
+      top: 0;
+      @include e(icon) {
+        color: $--color-text-placeholder;
+        font-size: 14px;
+        transition: transform .3s;
+        transform: rotate(180deg);
+        cursor: pointer;
+        &.is-reverse {
+          transform: rotate(0deg);
+        }
+      }
+    }
+  }
+}

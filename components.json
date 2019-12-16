@@ -1,0 +1,20 @@
+{
+  "icon": "./packages/icon",
+  "tag": "./packages/tag",
+  "popover": "./packages/popover",
+  "dialog": "./packages/dialog",
+  "scrollbar": "./packages/scrollbar",
+  "input": "./packages/input",
+  "empty": "./packages/empty",
+  "button": "./packages/button",
+  "select": "./packages/select",
+  "loading": "./packages/loading",
+
+  "favorite": "./packages/favorite",
+  "submodel": "./packages/submodel",
+  "version": "./packages/version",
+  "manfbrand": "./packages/manfbrand",
+  "cascader": "./packages/cascader",
+  "cascader-table": "./packages/cascader-table",
+  "date-picker": "./packages/date-picker"
+}

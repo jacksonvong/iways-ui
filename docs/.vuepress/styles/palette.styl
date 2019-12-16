@@ -1,0 +1,71 @@
+//$accentColor =blue//默认主题颜色
+//$textColor = red//默认字体颜色
+//$borderColor = #eaecef//默认边框颜色
+//$codeBgColor = #282c34//默认背景颜色
+ 
+//示例修改相关样式f12找到需要修改的地方找到对应class类拿过来直接用就行了
+
+.theme-container.custom-page-class {
+  .navbar{
+    z-index: 1;
+  }
+  /* 特定页面的 CSS */
+  .sidebar{
+    // background: red;
+    width: 16rem;
+  }
+  @media(max-width: 959px){
+    .sidebar{
+      // background: red;
+      width: 15rem;
+    }
+  }
+ @media(max-width: 1080px){
+    .page {
+        padding-left: 16rem;
+    }
+  }
+  @media(max-width: 959px){
+    .page {
+        padding-left: 15rem;
+    }
+  }
+  @media(max-width: 819px){
+    .page {
+        padding-left: 14rem;
+    }
+  }
+  @media(max-width: 719px){
+    .page {
+        padding-left: 0rem;
+    }
+  }
+  @media(min-width :1080px){
+    .page {
+      padding-left: 15rem;
+    }
+  }
+  @media(min-width :1130px){
+    .page {
+      padding-left: 13rem;
+    }
+  }
+
+}
+
+// 代码库重置
+.content pre{ margin: 0!important;}
+
+* {
+  table {
+    border: 0;
+  }  
+  tr {
+    border: 0;
+  }
+  th, td {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+}

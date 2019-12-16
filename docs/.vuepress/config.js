@@ -34,7 +34,7 @@ module.exports = {
       alias: {
         'vue$': 'vue/dist/vue.esm.js',
         '@': path.join(__dirname, '../../src'),
-        '@iways-ui': path.join(__dirname, '../../src/iways-ui'),
+        '@iways-ui': path.join(__dirname, '../..'),
       }
     },
     module: {
