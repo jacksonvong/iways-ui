@@ -1,5 +1,5 @@
 ---
-title: submodel
+title: CascaderTable
 pageClass: custom-page-class
 ---
 

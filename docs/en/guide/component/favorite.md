@@ -1,5 +1,5 @@
 ---
-title: version
+title: Favorite
 pageClass: custom-page-class
 ---
 

@@ -2,8 +2,9 @@
   <div>
     <iw-date-picker
       v-model="value1"
+      :picker-options="pickerOptions"
       type="quarter"
-      format="yyyy/Q"
+      format="yyyy/QQ"
       value-format="yyyyQ"
       size="mini"
       style="width: 130px;"
@@ -18,8 +19,20 @@ export default {
   name: '',
   data() {
     return {
-      value1: '',
+      value1: new Date(1522425599000),
       value: []
+    }
+  },
+  computed: {
+    pickerOptions() { // 日期选择控制
+      const months = [new Date(1483200000000), new Date(1519833600000)].map(item => {
+        return item.valueOf()
+      })
+      return {
+        disabledDate(time) {
+          return months[1] < time.getTime() || time.getTime() < months[0]
+        }
+      }
     }
   },
   mounted() {

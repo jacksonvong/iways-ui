@@ -91,6 +91,8 @@ module.exports = {
           ['/guide/component/datepicker', '日历'],
           ['/guide/component/cascader', '级联'],
           ['/guide/component/cascader-table', '级联表格'],
+          ['/guide/component/empty', '空值'],
+          ['/guide/component/scrollbar', '滚动条'],
         ],
         displayAllHeaders: true // 默认值：false
       },
@@ -131,6 +133,8 @@ module.exports = {
           ['/en/guide/component/datepicker', 'Datepicker'],
           ['/en/guide/component/cascader', 'Cascader'],
           ['/en/guide/component/cascader-table', 'Cascader-Table'],
+          ['/en/guide/component/empty', 'Empty'],
+          ['/en/guide/component/scrollbar', 'Scrollbar'],
         ],
         displayAllHeaders: true // 默认值：false
       }

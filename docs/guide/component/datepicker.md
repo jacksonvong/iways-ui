@@ -154,29 +154,60 @@ pageClass: custom-page-class
     <template>
       <div>
         <iw-date-picker
-          v-model="value"
+          v-model="value1"
+          :picker-options="pickerOptions"
           type="month"
           size="mini"
-          style="width: 220px;"
+          style="width: 130px;"
           align="right"
-          placeholder="选择日期">
-        </iw-date-picker>
+          placeholder="选择月份"
+          @change="handleChange"
+        />
       </div>
     </template>
     <script>
+    import moment from 'moment'
     export default {
       name: '',
       data() {
         return {
-          value: []
+          value1: '',
+          value: [],
+          dataTime: [
+            {
+              key: 201910,
+              selected: true,
+              value: "201910"
+            },
+            {
+              key: 201909,
+              value: "201909"
+            }
+          ]
+        }
+      },
+      computed: {
+        pickerOptions() { // 日期选择控制
+          const months = this.dataTime.map(item => {
+            const date = (new Date(String(item.key).substr(0, 4), String(item.key).substr(4, 2) - 1))
+            return [moment(date).valueOf(), moment(date).add(1, 'months').valueOf()]
+          })
+          return {
+            disabledDate(time) {
+              return !months.find(item => {
+                return item[0] <= time.getTime() && time.getTime() < item[1]
+              })
+            }
+          }
         }
       },
       mounted() {
       },
       methods: {
         handleChange(value) {
-          console.log('value', value)
-          this.value = value
+          setTimeout(() => {
+            console.log('value', value)
+          }, 5000)
         }
       }
     }
@@ -388,11 +419,13 @@ pageClass: custom-page-class
     <template>
       <div>
         <iw-date-picker
-          v-model="value"
-          :editable="false"
+          v-model="value1"
+          :picker-options="pickerOptions"
           type="quarter"
+          format="yyyy/Q"
+          value-format="yyyyQ"
           size="mini"
-          style="width: 120px;"
+          style="width: 130px;"
           align="right"
           placeholder="选择季度"
           @change="handleChange">
@@ -404,7 +437,21 @@ pageClass: custom-page-class
       name: '',
       data() {
         return {
+          value1: new Date(1522425599000),
           value: []
+        }
+      },
+      computed: {
+        pickerOptions() { // 日期选择控制
+          const months = [new Date(1483200000000), new Date(1519833600000)].map(item => {
+            return item.valueOf()
+          })
+          return {
+            disabledDate(time) {
+              console.log(months, time, time.getTime(), months[1] < time.getTime() || time.getTime() < months[0])
+              return months[1] < time.getTime() || time.getTime() < months[0]
+            }
+          }
         }
       },
       mounted() {

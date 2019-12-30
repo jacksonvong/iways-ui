@@ -56,7 +56,7 @@
         <!-- 内容区 -->
         <div class="iw-submodel__body">
           <div class="iw-submodel__track">
-            <div :class="'iw-submodel__track--'+(showLetter?'plain':'select')">
+            <div v-if="datas&&datas.length" :class="'iw-submodel__track--'+(showLetter?'plain':'select')">
               <div v-if="showLetter===true">
                 <em
                   v-for="group in datas"
@@ -300,7 +300,7 @@ export default {
     },
     status: {
       type: [Number, String],
-      default: 0
+      default: 200
     },
     height: {
       type: [Number, String],

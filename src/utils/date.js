@@ -136,6 +136,9 @@
       return i18n.monthNames[dateObj.getMonth()];
     },
     Q: function(dateObj) {
+      return Math.ceil((dateObj.getMonth() + 1) / 3);
+    },
+    QQ: function(dateObj) {
       return 'Q' + Math.ceil((dateObj.getMonth() + 1) / 3);
     },
     yy: function(dateObj) {
@@ -199,8 +202,11 @@
     M: [twoDigits, function (d, v) {
       d.month = v - 1;
     }],
-    Q: [word + oneDigits, function (d, v) {
+    Q: [oneDigits, function (d, v) {
       d.month = (v.replace('Q','') - 1) * 3;
+    }],
+    QQ: [word + oneDigits, function (d, v) {
+      d.month = (v.replace('QQ','') - 1) * 3;
     }],
     yy: [twoDigits, function (d, v) {
       var da = new Date(), cent = +('' + da.getFullYear()).substr(0, 2);

@@ -272,7 +272,7 @@ export default {
     },
     status: {
       type: [Number, String],
-      default: 0
+      default: 200
     },
     height: {
       type: [Number, String],

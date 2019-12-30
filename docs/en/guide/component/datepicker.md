@@ -1,5 +1,5 @@
 ---
-title: datepicker
+title: Datepicker
 pageClass: custom-page-class
 ---
 <ClientOnly>
@@ -388,11 +388,13 @@ pageClass: custom-page-class
     <template>
       <div>
         <iw-date-picker
-          v-model="value"
-          :editable="false"
+          v-model="value1"
+          :picker-options="pickerOptions"
           type="quarter"
+          format="yyyy/Q"
+          value-format="yyyyQ"
           size="mini"
-          style="width: 120px;"
+          style="width: 130px;"
           align="right"
           placeholder="选择季度"
           @change="handleChange">
@@ -404,7 +406,21 @@ pageClass: custom-page-class
       name: '',
       data() {
         return {
+          value1: new Date(1522425599000),
           value: []
+        }
+      },
+      computed: {
+        pickerOptions() { // 日期选择控制
+          const months = [new Date(1483200000000), new Date(1519833600000)].map(item => {
+            return item.valueOf()
+          })
+          return {
+            disabledDate(time) {
+              console.log(months, time, time.getTime(), months[1] < time.getTime() || time.getTime() < months[0])
+              return months[1] < time.getTime() || time.getTime() < months[0]
+            }
+          }
         }
       },
       mounted() {

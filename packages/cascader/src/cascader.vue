@@ -247,7 +247,7 @@ export default {
     },
     status: {
       type: [Number, String],
-      default: 0
+      default: 200
     },
     width: {
       // 单列宽度
@@ -449,6 +449,7 @@ export default {
       if (texts instanceof Array) {
         this.selectTexts = deepClone(texts)
         this.selectTextsTag = deepClone(texts)
+        this.activeItemKey = []
         if (!reset) this.checkedOptions = deepClone(texts)
       } else {
         this.selectTexts = []

@@ -180,7 +180,7 @@ export default {
       const month = cell.text
       const defaultValue = this.defaultValue ? Array.isArray(this.defaultValue) ? this.defaultValue : [this.defaultValue] : []
       style.disabled = typeof this.disabledDate === 'function'
-        ? datesInMonth(year, month).every(this.disabledDate)
+        ? datesInMonth(year, month * 3).every(this.disabledDate)
         : false
       if (this.selectionSide === 'left' && this.maxDate && new Date(year, month * 3, 1) > this.maxDate) {
         style.disabled = true
@@ -188,7 +188,7 @@ export default {
       if (this.selectionSide === 'right' && this.minDate && new Date(year, month * 3, 1) < this.minDate) {
         style.disabled = true
       }
-      style.current = arrayFindIndex(coerceTruthyValueToArray(this.value), date => date.getFullYear() === year && Math.ceil(date.getMonth() / 3) === month) >= 0
+      style.current = arrayFindIndex(coerceTruthyValueToArray(this.value), date => date.getFullYear() === year && Math.floor(date.getMonth() / 3) === month) >= 0
       style.today = today.getFullYear() === year && today.getMonth() === month
       style.default = defaultValue.some(date => this.cellMatchesDate(cell, date))
 

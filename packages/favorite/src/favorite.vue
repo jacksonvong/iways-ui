@@ -113,7 +113,7 @@
               </div>
             </div>
           </div>
-          <iw-empty v-else :style="{height: '150px'}" :status="200" />
+          <iw-empty v-else :style="{height: '150px'}" :status="status" />
         </div>
         <!-- 底部 -->
         <div class="iw-favorite__footer">
@@ -263,11 +263,14 @@ export default {
       default() {
         return false
       }
+    },
+    status: {
+      type: [Number, String],
+      default: 200
     }
   },
   data() {
     return {
-      status: 0,
       visible: false,
       popover: 'IwPopover',
       referenceWidth: null,
@@ -462,13 +465,11 @@ export default {
       }, 0)
     },
     copy(index) {
-      this.loading = true
       this.create(index, true)
     },
     create(index = 0, isCopy = false) {
       if (this.tableList.length >= this.maxLength) {
         this.error = '最多不能超过' + this.maxLength + '个'
-        this.loading = false
         return false
       }
       const indexData = deepClone(this.tableList[index])
@@ -479,7 +480,6 @@ export default {
       setTimeout(() => {
         this.tableList.push(indexData)
         this.initData(this.tableList)
-        this.loading = false
       }, 0)
     },
     save() {

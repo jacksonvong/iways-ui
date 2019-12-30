@@ -17,7 +17,7 @@ export default {
   name: '',
   data() {
     return {
-      value1: ["2019Q2", "2020Q1"]
+      value1: ["20192", "20201"]
     }
   },
   mounted() {
