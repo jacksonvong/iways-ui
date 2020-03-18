@@ -7,7 +7,7 @@ pageClass: custom-page-class
 
   <div slot="componentNameTitle" class="component">
     <header class="component-name">
-      Scrollbar空值显示
+      Scrollbar滚动条
     </header>
     <p class="component-text">
       高级组件。

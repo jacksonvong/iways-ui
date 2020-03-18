@@ -75,7 +75,6 @@
   .iw-range-separator {
     display: inline-block;
     height: 100%;
-    padding: 0 5px;
     margin: 0;
     text-align: center;
     line-height: 32px;
@@ -127,7 +126,6 @@
     }
 
     .iw-range-separator {
-      line-height: 28px;
       font-size: $--input-medium-font-size;
     }
 
@@ -147,7 +145,6 @@
     }
 
     .iw-range-separator {
-      line-height: 24px;
       font-size: $--input-small-font-size;
     }
 
@@ -167,7 +164,6 @@
     }
 
     .iw-range-separator {
-      line-height: 20px;
       font-size: $--input-mini-font-size;
     }
 

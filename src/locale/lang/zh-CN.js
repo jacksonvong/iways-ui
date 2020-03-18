@@ -109,7 +109,7 @@ export default {
       subModel: '车型',
       manfBrand: '厂商品牌',
       segment: '细分市场',
-      placeholder: '请选择',
+      placeholder: '请输入',
       folder: '收藏夹',
       operation: '操作',
       select: '选择',
@@ -120,7 +120,12 @@ export default {
       create: '新建',
       cancel: '取消',
       save: '保存',
-      saveFirst: '请先保存'
+      saveFirst: '请先保存',
+      customFolder: '自定义文件夹',
+      maxFolders: '最多不能超过{maxLength}个',
+      maxFolderName: '名称不能超过{maxLength}个字',
+      nameExist: '名称已重复',
+      outOfRange: '超过范围'
     },
     pagination: {
       goto: '前往',

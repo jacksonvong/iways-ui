@@ -1,5 +1,7 @@
 @import "mixins/mixins";
 @import "common/var";
+@import "checkbox";
+@import "radio";
 
 @include b(select) {
   padding: 0;
@@ -64,32 +66,6 @@
     min-width: 120px;
   }
   
-  .iw-checkbox {
-    background: url("./images/icon/checkbox.png") transparent 36px 47px;
-    width: 18px;
-    height: 18px;
-    display: block;
-    float: left;
-    cursor: pointer;
-    &.iw-checkbox--checked {
-      background-position: 36px 74px;
-    }
-    &.iw-checkbox--indeterminate {
-      background-position: 36px 22px;
-    }
-  }
-  .iw-radio {
-    background: url("./images/icon/radio.png") transparent 32px 42px;
-    width: 15px;
-    height: 15px;
-    float: left;
-    display: block;
-    cursor: pointer;
-    margin-top: 2px;
-    &.iw-radio--checked {
-      background-position: 32px 57px;
-    }
-  }
   .iw-text {
     padding-left: 4px;
   }
@@ -104,6 +80,11 @@
       @include e(inner) {
         outline: none;
         border-color: $--color-primary;
+      }
+    }
+    &.has-error {
+      @include e(inner) {
+        border-color: $--color-danger;
       }
     }
     @include e(value) {

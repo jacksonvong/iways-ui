@@ -109,7 +109,7 @@ export default {
       subModel: 'SubModel',
       manfBrand: 'ManfBrand',
       segment: 'Segment',
-      placeholder: 'Select',
+      placeholder: 'Input',
       folder: 'Folder',
       operation: 'Operat',
       select: 'Select',
@@ -120,7 +120,12 @@ export default {
       create: 'Create',
       cancel: 'Cancel',
       save: 'Save',
-      saveFirst: 'Save First'
+      saveFirst: 'Save First',
+      customFolder: 'Custom Folder',
+      maxFolders: 'No more than {maxLength}',
+      maxFolderName: 'The name cannot exceed {maxLength} words',
+      nameExist: 'Name is duplicated',
+      outOfRange: 'Out of range'
     },
     pagination: {
       goto: 'Go to',

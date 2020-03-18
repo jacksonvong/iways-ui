@@ -1,7 +1,7 @@
 <template>
   <div style="display: inline-block;">
     <div v-if="popover==='IwDialog'" @click="visible = true">
-      <slot name="reference">{{ placeholder || t('iw.favorite.placeholder') }}</slot>
+      <slot name="reference">{{ placeholder || t('iw.common.placeholder') }}</slot>
     </div>
     <component
       :is="popover"
@@ -25,7 +25,7 @@
               <input v-else :value="checkedOption.children.map(item => item[optionProps.label]).join(', ')" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
             </span>
             <span v-else class="iw-input__value">
-              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.favorite.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
+              <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.common.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
             </span>
             <span class="iw-input__suffix">
               <slot>
@@ -69,7 +69,7 @@
                         <div>
                           <span v-if="mode!=='edit'" :class="['iw-radio', row.key===checkedValue?'iw-radio--checked':'']" @click="handleRadioClick(row, index)" />
                           <span v-if="mode!=='edit'" class="iw-text"><label :title="row['value']" @click="handleRadioClick(row, index)">{{ row['value'] }}</label></span>
-                          <span v-if="mode==='edit'" class="iw-text"><iw-input v-model="row['value']" :disabled="mode!=='edit'" :size="iwSize" placeholder="请输入竞争圈名称" style="width:114px;" /></span>
+                          <span v-if="mode==='edit'" class="iw-text"><iw-input v-model="row['value']" :disabled="mode!=='edit'" :size="iwSize" :placeholder="t('iw.favorite.placeholder')" style="width:146px;" /></span>
                         </div>
                       </dt>
                       <dt :style="{width: (mode==='edit' ? 385 : 490) + 'px', maxHeight: '48px'}">
@@ -86,6 +86,7 @@
                               :disabled-select="dataForm[type+'Disabled'][index]"
                               :data="searchFormData[type]"
                               :show-search="true"
+                              :show-selected="showSelected"
                               :show-letter="showLetter"
                               :filters="filters"
                               :selected-filter="selectedFilter"
@@ -267,6 +268,11 @@ export default {
     status: {
       type: [Number, String],
       default: 200
+    },
+    showSelected: {
+      // 是否显示已选项
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -341,13 +347,13 @@ export default {
     selectTitle() {
       switch (this.type) {
         case 'subModel':
-          this.$set(this.titles, 'subModel', this.selectTitle || '车型')
+          this.$set(this.titles, 'subModel', this.selectTitle || this.t('iw.favorite.subModel'))
           break
         case 'manfBrand':
-          this.$set(this.titles, 'manfBrand', this.selectTitle || '厂商品牌')
+          this.$set(this.titles, 'manfBrand', this.selectTitle || this.t('iw.favorite.manfBrand'))
           break
         case 'segment':
-          this.$set(this.titles, 'segment', this.selectTitle || '细分市场')
+          this.$set(this.titles, 'segment', this.selectTitle || this.t('iw.favorite.segment'))
           break
       }
     }
@@ -404,7 +410,7 @@ export default {
         this.$set(this.searchFormData, 'subModel', this.segmentSubModel)
         this.showLetter = false
         this.selectedFilter = 1
-        this.filters = [{ key: 1, value: '细分市场' }, { key: 2, value: '品牌' }]
+        this.filters = [{ key: 1, value: this.t('iw.favorite.segment') }, { key: 2, value: this.t('iw.favorite.manfBrand') }] 
       }
       if (this.type === 'segment') {
         this.$set(this.searchFormData, 'segment', deepClone(this.typeData))
@@ -442,7 +448,7 @@ export default {
       if (
         (this.require && !this.checkedValue)
       ) {
-        this.error = this.t('iw.favorite.placeholder')
+        this.error = this.t('iw.common.placeholder')
         return
       }
       this.checkedOption = this.tableList.find(item => item.key === this.checkedValue)
@@ -469,12 +475,12 @@ export default {
     },
     create(index = 0, isCopy = false) {
       if (this.tableList.length >= this.maxLength) {
-        this.error = '最多不能超过' + this.maxLength + '个'
+        this.error = this.t('iw.favorite.maxFolders', {maxLength: this.maxLength})
         return false
       }
       const indexData = deepClone(this.tableList[index])
       indexData['key'] = parseInt(Math.random() * 1000000)
-      indexData['value'] = '自定义文件夹' + (this.tableList.length + 1)
+      indexData['value'] = this.t('iw.favorite.customFolder') + (this.tableList.length + 1)
       indexData['children'] = isCopy ? indexData['children'] : []
       indexData['selected'] = 0
       setTimeout(() => {
@@ -491,21 +497,21 @@ export default {
         this.error = this.t('iw.favorite.placeholder')
         return
       }
-      if (this.tableList.length !== this.tableList.filter(item => item.value.length <= 30).length) {
-        this.error = '名称不能超过30个字'
+      if (this.tableList.length !== this.tableList.filter(item => item.value.length <= 50).length) {
+        this.error = this.t('iw.favorite.maxFolderName', {maxLength: 50})
         return
       }
       if (this.tableList.length !== this.tableList.filter(item => item.children.length > 0).length) {
-        this.error = this.t('iw.favorite.placeholder')
+        this.error = this.t('iw.common.placeholder')
         return
       }
       const names = this.tableList.map(item => item.value)
       if ([...new Set(names)].length !== this.tableList.length) {
-        this.error = '名称已重复'
+        this.error = this.t('iw.favorite.nameExist')
         return
       }
       if (!this.tableList.every(item => item.children.length < 1000)) {
-        this.error = '超过范围'
+        this.error = this.t('iw.favorite.outOfRange')
         return
       }
       this.mode = 'view'

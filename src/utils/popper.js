@@ -901,7 +901,8 @@
 
         var arrowStyle  = {};
         var placement   = data.placement.split('-')[0];
-        var popper      = getPopperClientRect(data.offsets.popper);
+        // var popper      = getPopperClientRect(data.offsets.popper);
+        var popper      = (data.offsets.popper);
         var reference   = data.offsets.reference;
         var isVertical  = ['left', 'right'].indexOf(placement) !== -1;
 

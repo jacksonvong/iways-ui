@@ -1,13 +1,12 @@
 @import "mixins/mixins";
 @import "common/var";
 
-.iw-popover{
+@include b(popover) {
   position: absolute;
   background: $--popover-fill;
   min-width: 100px;
   border-radius: 4px;
   border: 1px solid $--popover-border-color;
-  padding: $--popover-padding;
   z-index: $--index-popper;
   color: $--color-text-primary;
   line-height: 1.5;
@@ -16,72 +15,89 @@
   word-break: break-all;
   &.iw-placement-top{
     transform: translateY(-100%);
-    margin-top: 0px;
-    &::before, &::after{
-      left: 10px;
+    margin-top: -6px;
+    .iw-popover__arrow::after {
+      right: -6px;
+      bottom: 1px;
+      border-top-color: #fff;
+      border-bottom-width: 0;
     }
-    &::before{
-      border-bottom: none;//可以设置button:z-index:1
-      border-top-color: black;
-      top: 100%;
-    }
-    &::after{
-      border-bottom: none;
-      border-top-color: white;
-      top: calc(100% - 1px);
+    @include e(arrow) {
+      bottom: -6px;
+      left: 50%;
+      margin-right: 3px;
+      border-bottom-width: 0;
+      border-top-color: #ebeef5;
     }
   }
   &.iw-placement-bottom{
-    margin-top: 0px;
-    &::before, &::after{
-      left: 10px;
+    margin-top: 6px;
+    .iw-popover__arrow::after {
+      right: -6px;
+      top: 1px;
+      border-bottom-color: #fff;
+      border-top-width: 0;
     }
-    &::before{
-      border-top: none;
-      border-bottom-color: black;
-      bottom: 100%;
-    }
-    &::after{
-      border-top: none;
-      border-bottom-color: white;
-      bottom: calc(100% - 1px);
+    @include e(arrow) {
+      top: -6px;
+      left: 50%;
+      margin-right: 3px;
+      border-top-width: 0;
+      border-bottom-color: #ebeef5;
     }
   }
   &.iw-placement-left{
     transform: translateX(-100%);
-    margin-left: 0px;
-    &::before, &::after{
-      transform: translateY(-50%);
+    margin-left: -6px;
+    .iw-popover__arrow::after {
+      bottom: -6px;
+      right: 1px;
+      border-left-color: #fff;
+      border-right-width: 0;
+    }
+    @include e(arrow) {
       top: 50%;
-    }
-    &::before{
-      border-right: none;
-      border-left-color: black;
-      left: 100%;
-    }
-    &::after{
-      border-right: none;
-      border-left-color: white;
-      left: calc(100% - 1px);
+      right: -6px;
+      margin-bottom: 3px;
+      border-left-color: #ebeef5;
+      border-right-width: 0;
     }
   }
   &.iw-placement-right{
-    margin-left: 0px;
-    &::before, &::after{
-      transform: translateY(-50%);
+    margin-left: 6px;
+    .iw-popover__arrow::after {
+      bottom: -6px;
+      left: 1px;
+      border-right-color: #fff;
+      border-left-width: 0;
+    }
+    @include e(arrow) {
       top: 50%;
-      border-left: none;
-    }
-    &::before{
-      border-right-color: black;
-      right: 100%;
-    }
-    &::after{
-      border-right-color: white;
-      right: calc(100% - 1px);
+      left: -6px;
+      margin-bottom: 3px;
+      border-right-color: #ebeef5;
+      border-left-width: 0;
     }
   }
-
+  @include e(content) {
+  }
+  .iw-popover__arrow,
+  .iw-popover__arrow::after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+  .iw-popover__arrow::after {
+    content: " ";
+    border-width: 6px;
+  }
+  @include e(arrow) {
+    border-width: 6px;
+    filter: drop-shadow(0 2px 12px rgba(0,0,0,.03));
+  }
 }
 .iw-popover__wrap {
   display: inline-block;

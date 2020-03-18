@@ -1,5 +1,7 @@
 @import "mixins/mixins";
 @import "common/var";
+@import "checkbox";
+@import "radio";
 
 @include b(submodel) {
   padding: 0;
@@ -167,12 +169,13 @@
             > tr {
               border-bottom: 1px solid #eee;
               > td:nth-child(1) {
-                width: 128px;
+                width: 116px;
+                padding: 8px 6px;
                 border-right: 1px solid #eee;
                 .iw-submodel__group_item {
-                  width: 127px;
+                  width: 115px;
                   .iw-text {
-                    width: 108px;
+                    width: 96px;
                   }
                 }
               }
@@ -234,6 +237,7 @@
         margin-right: 6px;
         color: $--color-text-secondary;
       }
+      .iw-scrollbar > .iw-scrollbar__bar { opacity: 1; }
       @include e(footer-scroll) {
         max-height: 52px;
         @include m(medium) {
@@ -259,32 +263,7 @@
       text-align: left;
     }
   }
-  .iw-checkbox {
-    background: url("./images/icon/checkbox.png") transparent 36px 47px;
-    width: 18px;
-    height: 18px;
-    display: block;
-    float: left;
-    cursor: pointer;
-    &.iw-checkbox--checked {
-      background-position: 36px 73px;
-    }
-    &.iw-checkbox--indeterminate {
-      background-position: 36px 21px;
-    }
-  }
-  .iw-radio {
-    background: url("./images/icon/radio.png") transparent 32px 42px;
-    width: 15px;
-    height: 15px;
-    float: left;
-    display: block;
-    cursor: pointer;
-    margin-top: 2px;
-    &.iw-radio--checked {
-      background-position: 32px 57px;
-    }
-  }
+  
   .iw-text {
     padding-left: 4px;
     width: 100px;

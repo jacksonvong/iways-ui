@@ -1,5 +1,12 @@
 <template>
   <div>
+    <iw-select
+      v-model="leafsPerColumn"
+      :data="data2"
+      size="mini"
+      style="width: 100px;"
+      placement="bottomLeft"
+    />
     <iw-submodel
       v-model="value"
       :default-value="[]"
@@ -8,6 +15,7 @@
       :show-letter="showLetter"
       :filters="[{key: 1, value: '细分市场'}, {key: 2, value: '品牌'}]"
       :selected-filter="selectedFilter"
+      :leafs-per-column="leafsPerColumn"
       title="车型"
       size="mini"
       placement="bottomLeft"
@@ -45,7 +53,13 @@ export default {
       defaultValue2: [61],
       selectedFilter: 1,
       showLetter: false,
-      data: []
+      data: [],
+      leafsPerColumn: undefined,
+      data2: [
+        {key: 4, value: 4},
+        {key: 5, value: 5},
+        {key: 6, value: 6},
+      ]
     }
   },
   mounted() {

@@ -70,6 +70,12 @@
       color: $--input-clear-hover-color;
     }
   }
+  
+  &.has-error {
+    @include e(inner) {
+      border-color: $--color-danger;
+    }
+  }
 
   @include e(inner) {
     -webkit-appearance: none;

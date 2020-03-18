@@ -9,7 +9,7 @@
     :width="null"
   >
     <div slot="reference" class="iw-select-reference">
-      <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
+      <div :class="[{'is-focus': !disabled&&visible, 'is-disabled': disabled, 'has-error': hasError}, 'iw-input', 'iw-input--' + iwSize]" :style="referenceWidth?'width:'+referenceWidth+'px':''">
         <div class="iw-input__inner">
           <span v-if="triggerText" class="iw-input__value">
             <font>{{ triggerText }}</font>
@@ -226,6 +226,7 @@ export default {
   data() {
     return {
       visible: false, // 弹出层状态
+      hasError: false,
       referenceWidth: null,
       datas: [],
       selectValues: [], // 多选状态下的选中值
@@ -406,6 +407,9 @@ export default {
     },
     substr(str, len) {
       return substr(str, len)
+    },
+    setError(error = true) {
+      this.hasError = error
     }
   }
 }

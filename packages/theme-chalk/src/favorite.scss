@@ -1,5 +1,6 @@
 @import "mixins/mixins";
 @import "common/var";
+@import "radio";
 
 @include b(favorite) {
   padding: 0;
@@ -170,19 +171,7 @@
       float: left;
     }
   }
-  .iw-radio {
-    background: url("./images/icon/radio.png") transparent 32px 42px;
-    width: 15px;
-    height: 15px;
-    float: left;
-    display: block;
-    cursor: pointer;
-    margin-top: 2px;
-    margin-right: 4px;
-    &.iw-radio--checked {
-      background-position: 32px 57px;
-    }
-  }
+  
   .font-blue {
     color: $--color-primary;
   }

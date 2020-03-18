@@ -4,6 +4,7 @@
       type === 'textarea' ? 'iw-textarea' : 'iw-input',
       inputSize ? 'iw-input--' + inputSize : '',
       {
+        'has-error': hasError,
         'is-disabled': inputDisabled,
         'iw-input-group': $slots.prepend || $slots.append,
         'iw-input-group--append': $slots.append,
@@ -198,6 +199,7 @@ export default {
 
   data() {
     return {
+      hasError: false,
       textareaCalcStyle: {},
       hovering: false,
       focused: false,
@@ -405,6 +407,9 @@ export default {
     },
     getInput() {
       return this.$refs.input || this.$refs.textarea
+    },
+    setError(error = true) {
+      this.hasError = error
     }
   }
 }

@@ -431,6 +431,7 @@ export default {
         this.initData()
       } else {
         this.$emit('close')
+        // this.scrollToTop()
       }
     }
   },
@@ -566,6 +567,10 @@ export default {
         const scrollTop = parseInt(obj['offsetTop'])
         document.querySelector('#iw-manfbrand__popover--' + this.id + ' .iw-manfbrand__wrap').scrollTop = scrollTop
       }
+    },
+    scrollToTop() {
+      this.selectedKey = undefined
+      document.querySelector('#iw-manfbrand__popover--' + this.id + ' .iw-manfbrand__wrap').scrollTop = 0
     },
     /**
      * 回调函数，过滤数据源
