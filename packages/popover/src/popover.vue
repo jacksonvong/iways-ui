@@ -117,6 +117,11 @@ export default {
         this.visible = this.value
         this.zIndex = PopupManager.nextZIndex()
       }, 100)
+    },
+    visible() {
+      setTimeout(() => {
+        this.zIndex = PopupManager.nextZIndex()
+      }, 100)
     }
   },
   mounted() {
