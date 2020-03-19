@@ -25,7 +25,9 @@ import { PopupManager } from '@iways-ui/src/utils/popup'
 const positions = [
   'top', 'bottom', 'left', 'right',
   'top-start', 'top-end', 'bottom-start', 'bottom-end',
-  'left-start', 'left-end', 'right-start', 'right-end'
+  'left-start', 'left-end', 'right-start', 'right-end',
+  'topLeft', 'topRight', 'bottomLeft', 'bottomRight',
+  'leftTop', 'leftBottom', 'rightTop', 'rightBottom',
 ]
 const stop = e => e.stopPropagation()
 export default {
@@ -129,6 +131,7 @@ export default {
     }
 
     this.currentPlacement = this.currentPlacement || this.placement
+    this.currentPlacement = this.convertPlacement(this.currentPlacement)
     if (this.trigger === 'click') {
       this.$refs.popover.addEventListener('click', this.onClick)
     } else {
@@ -152,6 +155,13 @@ export default {
   },
 
   methods: {
+    convertPlacement(placement) {
+      placement = placement.replace('Left', '-start') 
+      placement = placement.replace('Top', '-start') 
+      placement = placement.replace('Right', '-end') 
+      placement = placement.replace('Bottom', '-end') 
+      return placement
+    },
     positionContent() {
       this.popperElm = this.popperElm || this.$refs.contentWrapper
       if (this.appendToBody) document.body.appendChild(this.popperElm)
@@ -162,8 +172,6 @@ export default {
       const windowScrollY = window.scrollY || window.pageYOffset
       const windowHeight = window.innerHeight
       const windowWidth = window.innerWidth
-      /* ?????? */
-      this.currentPlacement = this.placement
       /**
        * ??? top bottom left right ??????
        * ????????????????
