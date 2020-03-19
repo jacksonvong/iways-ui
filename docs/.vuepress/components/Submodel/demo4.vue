@@ -80,7 +80,7 @@
             :title="false"
             size="mini"
             require
-            placement="bottomLeft"
+            placement="bottom-start"
             style="width: 120px;"
             @change="handleChange3"
           >

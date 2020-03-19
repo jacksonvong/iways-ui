@@ -48,7 +48,6 @@
             :sub-type="tabs[selectedTab].value"
             type="manfBrand"
             size="mini"
-            placement="bottomLeft"
             @change="handleChange3"
           >
           </iw-favorite>

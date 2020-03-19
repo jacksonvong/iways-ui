@@ -23,7 +23,7 @@
       :select-on-leaf="false"
       :column-name="['国家', '大区', '省份', '城市']"
       title="区域选择"
-      placement="bottom-start"
+      placement="bottom"
       :size="size"
       :height="200"
       @change="handleChange2"
@@ -38,7 +38,7 @@
       :column-name="['国家', '大区', '省份', '城市']"
       :size="size"
       title="区域选择"
-      placement="bottom-start"
+      placement="bottom-end"
       :height="200"
       @change="handleChange3"
     />

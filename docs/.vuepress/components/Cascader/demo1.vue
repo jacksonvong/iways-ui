@@ -13,7 +13,7 @@
       title="政策类型"
       size="mini"
       clearable
-      placement="bottomLeft"
+      placement="bottom-start"
       style="width: 120px;"
       @change="handleChange"
     />

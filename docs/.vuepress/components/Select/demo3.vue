@@ -6,7 +6,7 @@
       multiple
       show-check-all
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       @change="handleChange"
     />
   </div>

@@ -24,8 +24,6 @@ import { addClass } from '@iways-ui/src/utils/dom'
 import { PopupManager } from '@iways-ui/src/utils/popup'
 const positions = [
   'top', 'bottom', 'left', 'right',
-  'topLeft', 'topRight', 'bottomLeft', 'bottomRight',
-  'leftTop', 'leftBottom', 'rightTop', 'rightBottom',
   'top-start', 'top-end', 'bottom-start', 'bottom-end',
   'left-start', 'left-end', 'right-start', 'right-end'
 ]
@@ -39,9 +37,8 @@ export default {
     },
     placement: {
       type: String,
-      default: 'top',
       validator(value) {
-        return positions.indexOf(value) >= 0
+        return positions.indexOf(value) >= 0 || value === undefined  || value === ''
       }
     },
     trigger: {
@@ -128,11 +125,10 @@ export default {
     if (reference) {
       addClass(reference, 'iw-popover__reference')
       reference.setAttribute('aria-describedby', this.tooltipId)
-      reference.setAttribute('tabindex', 0) // tab序列
+      reference.setAttribute('tabindex', 0)
     }
 
     this.currentPlacement = this.currentPlacement || this.placement
-    this.currentPlacement = this.convertPlacement(this.currentPlacement)
     if (this.trigger === 'click') {
       this.$refs.popover.addEventListener('click', this.onClick)
     } else {
@@ -156,69 +152,136 @@ export default {
   },
 
   methods: {
-    convertPlacement(placement) {
-      const partters = ['right-start', 'right-end', 'top', 'bottom', 'left', 'right']
-      for (const pattern of partters) {
-        const reg = new RegExp('^' + pattern)
-        if (reg.test(placement)) {
-          return pattern
-        }
-      }
-      return placement
-    },
     positionContent() {
       this.popperElm = this.popperElm || this.$refs.contentWrapper
       if (this.appendToBody) document.body.appendChild(this.popperElm)
       const { width, height, left, top } = this.referenceElm.getBoundingClientRect()
-      const { height: height2, width: width2 } = this.popperElm.getBoundingClientRect()
-      let left2 = Math.max(0, left + width - width2)
+      const { height: popperHeight, width: popperWidth } = this.popperElm.getBoundingClientRect()
+
       const windowScrollX = window.scrollX || window.pageXOffset
       const windowScrollY = window.scrollY || window.pageYOffset
       const windowHeight = window.innerHeight
-      const windowWidth = window.innerWidth      
-      const positionY = height2 < top && height2 < top ? 'top' : (windowHeight > height2 + top + height ? 'bottom' : '')
-      const positionX = windowWidth - width2 < left && width2 < left ? 'left' : (windowWidth > width2 + width + left ? 'right' : '')
+      const windowWidth = window.innerWidth
+      /* ?????? */
+      this.currentPlacement = this.placement
+      /**
+       * ??? top bottom left right ??????
+       * ????????????????
+      */
+      let placementArr = ['bottom', 'top', 'right', 'left']
+      let placement = this.currentPlacement.split('-')[0]
+      placement = placementArr.includes(placement) ? placement : ''
+      if (placement) placementArr.unshift(placement)
+      placementArr = [...new Set(placementArr)]
 
-      this.currentPlacement = this.convertPlacement(this.placement)
-      this.currentPlacement = ['bottom', 'top'].includes(this.currentPlacement) ? positionY : this.currentPlacement
-      if (this.currentPlacement === '') {
-        this.currentPlacement = positionX !== '' ? positionX : 'bottom'
+      let modifyArr = ['start', 'end']
+      let modify = this.currentPlacement.split('-')[1] || ''
+      modify = modifyArr.includes(modify) ? modify : ''
+      if (modify) modifyArr.unshift(modify)
+      modifyArr = [...new Set(modifyArr)]
+
+      const _placement = placementArr.find(_placement => {
+        switch(_placement) {
+          case 'bottom':
+            if (windowHeight > top + height + popperHeight) return true
+            break
+          case 'top':
+            if (top > popperHeight) return true
+            break
+          case 'right':
+            if (windowWidth > left + width + popperWidth) return true
+            break
+          case 'left':
+            if (left > popperWidth) return true
+            break
+        }
+      }) || 'bottom'
+      let _currentPlacement = [_placement]
+
+      /* placement????????? */
+      if (!placement) modify = 'start'
+      /* ???????????????? */
+      if (modify) {
+        const _modify = modifyArr.find(type => {
+          switch(type) {
+            case 'start':
+              if (['top', 'bottom'].includes(_placement)) {
+                if (left + popperWidth < windowWidth) return true
+              }
+              if (['left', 'right'].includes(_placement)) {
+                if (top + popperHeight < windowHeight) return true
+              }
+              break
+            case 'end':
+              if (['top', 'bottom'].includes(_placement)) {
+                if (left + width > popperWidth) return true
+              }
+              if (['left', 'right'].includes(_placement)) {
+                if (top + height > popperHeight) return true
+              }
+              break
+          }
+        }) || ''
+        /* ??????????????????????????? */
+        if (_modify) _currentPlacement.push(_modify)
       }
-      const refercenCenter = left - (width2 - width) / 2
-      const windowCenter = (windowWidth - width2) / 2
-      const clientWidth = document.body.clientWidth
+      _currentPlacement = _currentPlacement.join('-')
+      /* ??currentPlacement */
+      this.currentPlacement = _currentPlacement
+
+      /* ??reference???popper????? */
+      const leftReferenceCenter = left - (popperWidth - width) / 2
+      /* ???????popper????? */
+      const windowCenter = (windowWidth - popperWidth) / 2
+
       let positionValue = {
-        top: {
+        'top': {
           top: top + windowScrollY,
-          left: (
-            left + width2 > clientWidth ? 
-              (left2 > 0 ? left2 : (refercenCenter + width2 < clientWidth ? refercenCenter : windowCenter)) : 
-              left
-          ) + windowScrollX
+          left: (leftReferenceCenter + popperWidth < windowWidth ? leftReferenceCenter : windowCenter)  + windowScrollX
         },
-        bottom: {
-          top: top + height + windowScrollY,
-          left: (
-            left + width2 > clientWidth ? 
-              (left2 > 0 ? left2 : (refercenCenter + width2 < clientWidth ? refercenCenter : windowCenter)) : 
-              left
-          ) + windowScrollX
-        },
-        left: {
-          top: top + windowScrollY + (height - height2) / 2,
+        'top-start': {
+          top: top + windowScrollY,
           left: left + windowScrollX
         },
-        right: {
-          top: top + windowScrollY + (height - height2) / 2,
-          left: left + windowScrollX + width
+        'top-end': {
+          top: top + windowScrollY,
+          left: left + width - popperWidth + windowScrollX
+        },
+        'bottom': {
+          top: top + height + windowScrollY,
+          left: (leftReferenceCenter + popperWidth < windowWidth ? leftReferenceCenter : windowCenter) + windowScrollX
+        },
+        'bottom-start': {
+          top: top + height + windowScrollY,
+          left: left + windowScrollX
+        },
+        'bottom-end': {
+          top: top + height + windowScrollY,
+          left: left + width - popperWidth + windowScrollX
+        },
+        'left': {
+          top: top + (height - popperHeight) / 2 + windowScrollY + (this.offset.top || 0),
+          left: left + windowScrollX
+        },
+        'left-start': {
+          top: top + windowScrollY + (this.offset.top || 0),
+          left: left + windowScrollX
+        },
+        'left-end': {
+          top: top + height - popperHeight + windowScrollY + (this.offset.top || 0),
+          left: left + windowScrollX
+        },
+        'right': {
+          top: top + (height - popperHeight) / 2 + windowScrollY + (this.offset.top || 0),
+          left: left + width + windowScrollX
         },
         'right-start': {
           top: top + windowScrollY + (this.offset.top || 0),
-          left: left + windowScrollX + width
+          left: left + width + windowScrollX
         },
         'right-end': {
-          top: top + windowScrollY + height - height2 + (this.offset.top || 0),
-          left: left + windowScrollX + width
+          top: top + height - popperHeight + windowScrollY + (this.offset.top || 0),
+          left: left + width + windowScrollX
         }
       }
 
@@ -226,44 +289,78 @@ export default {
         const { offsetLeft: offsetLeft, offsetTop: offsetTop, offsetHeight: offsetHeight, offsetWidth: offsetWidth } = this.$el
         const { left: left } = this.$el.getBoundingClientRect()
         const { width: parentWidth } = document.body.getBoundingClientRect()
-        const relativeLeft = left - offsetLeft
         positionValue = {
           top: {
             top: offsetTop,
-            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : offsetLeft)
+            left: (left + popperWidth > parentWidth ? offsetLeft- popperWidth + width : offsetLeft)
           },
-          bottom: {
-            top: offsetHeight + offsetTop,
-            left: (left + width2 > parentWidth ? left - relativeLeft - width2 + width : offsetLeft)
-          },
-          left: {
-            top: offsetTop + (offsetHeight - height2) / 2,
+          'top-start': {
+            top: offsetTop,
             left: offsetLeft
           },
-          right: {
-            top: offsetTop + (offsetHeight - height2) / 2,
+          'top-end': {
+            top: offsetTop,
+            left: offsetLeft - popperWidth + width
+          },
+          'bottom': {
+            top: offsetHeight + offsetTop,
+            left: (left + popperWidth > parentWidth ? offsetLeft- popperWidth + width : offsetLeft)
+          },
+          'bottom-start': {
+            top: offsetHeight + offsetTop,
+            left: offsetLeft
+          },
+          'bottom-end': {
+            top: offsetHeight + offsetTop,
+            left: offsetLeft - popperWidth + width
+          },
+          'left': {
+            top: offsetTop + (offsetHeight - popperHeight) / 2,
+            left: offsetLeft
+          },
+          'left-start': {
+            top: offsetTop,
+            left: offsetLeft
+          },
+          'left-end': {
+            top: offsetTop + (offsetHeight - popperHeight),
+            left: offsetLeft
+          },
+          'right': {
+            top: offsetTop + (offsetHeight - popperHeight) / 2,
             left: offsetLeft + offsetWidth
           },
           'right-start': {
             top: offsetTop,
             left: offsetLeft + offsetWidth
+          },
+          'right-end': {
+            top: offsetTop + (offsetHeight - popperHeight),
+            left: offsetLeft + offsetWidth
           }
         }
       }
-      this.popperElm.style.left = positionValue[this.currentPlacement].left + 'px'
-      this.popperElm.style.top = positionValue[this.currentPlacement].top + 'px'
+      this.popperElm.style.left = positionValue[_currentPlacement].left + 'px'
+      this.popperElm.style.top = positionValue[_currentPlacement].top + 'px'
+      const arrowWidthHeight = 12
       if (this.showArrow) {
-        if (['top', 'bottom'].includes(this.currentPlacement)) {
-          this.$refs.arrow.style.left = (width - 12) / 2 + 'px'
+        if (['top', 'bottom'].includes(_currentPlacement)) {
+          this.$refs.arrow.style.left = (popperWidth - arrowWidthHeight) / 2 + 'px'
         }
-        if (['left', 'right'].includes(this.currentPlacement)) {
-          this.$refs.arrow.style.top = (height2 - 12) / 2 + 'px'
+        if (['top-start', 'bottom-start'].includes(_currentPlacement)) {
+          this.$refs.arrow.style.left = (width - arrowWidthHeight) / 2  + 'px'
         }
-        if (['right-start'].includes(this.currentPlacement)) {
-          this.$refs.arrow.style.top = (12) / 2 - (this.offset.top || 0) + 'px'
+        if (['top-end', 'bottom-end'].includes(_currentPlacement)) {
+          this.$refs.arrow.style.left = popperWidth - (width + arrowWidthHeight) / 2 + 'px'
         }
-        if (['right-end'].includes(this.currentPlacement)) {
-          this.$refs.arrow.style.top = height2 - (height + 12) / 2 - (this.offset.top || 0) + 'px'
+        if (['left', 'right'].includes(_currentPlacement)) {
+          this.$refs.arrow.style.top = (popperHeight - arrowWidthHeight) / 2 - (this.offset.top || 0) + 'px'
+        }
+        if (['left-start', 'right-start'].includes(_currentPlacement)) {
+          this.$refs.arrow.style.top = arrowWidthHeight / 2 - (this.offset.top || 0) + 'px'
+        }
+        if (['left-end', 'right-end'].includes(_currentPlacement)) {
+          this.$refs.arrow.style.top = popperHeight - (height + arrowWidthHeight) / 2 - (this.offset.top || 0) + 'px'
         }
       } else {
         this.popperElm.style.marginLeft = 0

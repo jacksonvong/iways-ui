@@ -10,7 +10,7 @@
       :selected-filter="selectedFilter"
       title="车型"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       style="width: 110px;"
       @filterChange="handleFilterChange"
       @change="handleChange"

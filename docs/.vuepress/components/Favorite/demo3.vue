@@ -9,7 +9,7 @@
       is-modal
       title="细分市场"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       @save="handleSave"
       @change="handleChange"
     >
@@ -20,10 +20,11 @@
       :data="data"
       :type-data="typeData"
       :show-search="true"
+      :append-to-body="false"
       type="segment"
       title="细分市场"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom"
       style="width: 128px;"
       @save="handleSave"
       @change="handleChange"

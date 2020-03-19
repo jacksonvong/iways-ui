@@ -73,7 +73,7 @@
                     :multiple="false"
                     :size="iwSize"
                     :placeholder="t('iw.manfbrand.quickppositioning')"
-                    placement="bottomLeft"
+                    placement="bottom-start"
                     style="width:110px;"
                     @change="handleTrackChange"
                   />

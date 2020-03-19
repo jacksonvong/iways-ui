@@ -6,7 +6,7 @@
       :data="data"
       multiple
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       @change="handleChange"
     />
   </div>

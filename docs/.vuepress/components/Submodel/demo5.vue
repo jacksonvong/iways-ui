@@ -12,7 +12,7 @@
       :leafs-per-column="5"
       title="车型"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       style="width: 120px;"
       @filterChange="handleFilterChange"
       @change="handleChange"

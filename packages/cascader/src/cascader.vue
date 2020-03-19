@@ -336,7 +336,7 @@ export default {
     placement: {
       // 气泡框位置， 可选：top left right bottom topLeft topRight bottomLeft bottomRight leftTop leftBottom rightTop rightBottom
       type: String,
-      default: 'bottom'
+      default: ''
     },
     appendToBody: {
       // 是否插入至body下, 默认true
@@ -515,9 +515,6 @@ export default {
       if (submit) {
         this.checkedOptions = deepClone(this.selectTextsTag)
       }
-    },
-    handleClearClick(e) {
-      console.log(e)
     },
     /**
      * 重置
@@ -755,13 +752,13 @@ export default {
     isCheckAllChecked(data) {
       if (data instanceof Array) {
         for (const item of data) {
-          if (!this.isCheckAllChecked(item)) { console.log(item); return false }
+          if (!this.isCheckAllChecked(item)) { return false }
         }
       } else if (data instanceof Object) {
         if (!data.selected) return false
         const children = data[this.optionProps.children]
         if (children && children.length > 0) {
-          if (!this.isCheckAllChecked(children)) { console.log(data); return false }
+          if (!this.isCheckAllChecked(children)) { return false }
         }
       }
       return true

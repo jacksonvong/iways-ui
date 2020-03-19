@@ -5,7 +5,7 @@
       :data="data"
       size="mini"
       style="width:100px;"
-      placement="bottomLeft"
+      placement="bottom-start"
       @change="handleChange"
     />
     <iw-select
@@ -13,7 +13,7 @@
       :data="data"
       size="mini"
       style="width:100px;"
-      placement="bottomLeft"
+      placement="bottom-start"
       @change="handleChange2"
     />
     <iw-select
@@ -21,7 +21,7 @@
       :data="[]"
       size="mini"
       style="width:400px;"
-      placement="bottomLeft"
+      placement="bottom-start"
     />
   </div>
 </template>

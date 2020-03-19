@@ -4,13 +4,13 @@
       v-model="value"
       :data="data"
       :show-search="true"
-      title="型号"
+      title="型坷"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       style="width: 180px;"
       @change="handleChange"
     />
-    <iw-button size="mini" @click="reset" >重置</iw-button>
+    <iw-button size="mini" @click="reset" >針置</iw-button>
   </div>
 </template>
 <script>

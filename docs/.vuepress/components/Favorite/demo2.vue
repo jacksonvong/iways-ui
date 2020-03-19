@@ -9,7 +9,7 @@
       is-modal
       :title="$t('favorite.manfbrand')"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       style="width: 180px;"
       @save="handleSave"
       @change="handleChange"

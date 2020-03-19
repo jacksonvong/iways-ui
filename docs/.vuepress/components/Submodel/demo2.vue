@@ -5,7 +5,7 @@
       :data="data2"
       size="mini"
       style="width: 100px;"
-      placement="bottomLeft"
+      placement="bottom-start"
     />
     <iw-submodel
       v-model="value"
@@ -18,7 +18,7 @@
       :leafs-per-column="leafsPerColumn"
       title="车型"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       style="width: 120px;"
       @filterChange="handleFilterChange"
       @change="handleChange"
@@ -34,7 +34,7 @@
       show-selected
       title="车型"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       style="width: 120px;"
       @filterChange="handleFilterChange"
       @change="handleChange2"

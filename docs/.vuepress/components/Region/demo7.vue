@@ -11,7 +11,6 @@
       :min="min"
       :max="max"
       title="区域选择"
-      placement="bottom-start"
       size="mini"
       @change="handleChange"
     />

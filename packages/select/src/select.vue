@@ -256,7 +256,7 @@ export default {
     valueText() {
       if (this.multiple && this.checkedOptions && this.checkedOptions.length > 0) {
         if (this.checkedOptions.length > 1) {
-          return '已选(' + this.checkedOptions.length + ')'
+          return this.$t('iw.common.selected') + '(' + this.checkedOptions.length + ')'
         } else {
           return this.checkedOptions[0][this.optionProps.label]
         }

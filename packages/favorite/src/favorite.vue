@@ -95,7 +95,7 @@
                               select-on-leaf
                               multiple
                               size="mini"
-                              placement="bottomLeft"
+                              placement="bottom-start"
                               @filterChange="(value, text) => handleFilterChange(value, text, index)"
                               @change="(value, text) => handleChange(value, text, index)"
                             >

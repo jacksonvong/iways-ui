@@ -11,7 +11,7 @@
       show-selected
       title="政策类型"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       style="width: 120px;"
       @change="handleChange"
     />

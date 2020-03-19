@@ -9,7 +9,7 @@
       is-modal
       title="品牌"
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       style="width: 180px;"
       @save="handleSave"
       @change="handleChange"

@@ -10,7 +10,7 @@
       is-modal
       size="mini"
       require
-      placement="bottomLeft"
+      placement="bottom-start"
       @save="handleSave"
       @change="handleChange"
     >
@@ -31,7 +31,7 @@
       type="subModel"
       size="mini"
       require
-      placement="bottomLeft"
+      placement="bottom"
       style="width: 120px;"
       @save="handleSave"
       @change="handleChange2"

@@ -7,7 +7,7 @@
       show-check-all
       show-search
       size="mini"
-      placement="bottomLeft"
+      placement="bottom-start"
       @change="handleChange"
     />
   </div>
