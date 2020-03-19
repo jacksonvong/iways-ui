@@ -174,6 +174,8 @@ export default {
       const windowScrollY = window.scrollY || window.pageYOffset
       const windowHeight = window.innerHeight
       const windowWidth = window.innerWidth
+      /* 获取初始placement */
+      this.currentPlacement = this.convertPlacement(this.placement)
       /**
        * 判断出 top bottom left right 四个主要方向
        * 并且当出现遮挡的时候自动修正方向
@@ -186,7 +188,7 @@ export default {
 
       let modifyArr = ['start', 'end']
       let modify = this.currentPlacement.split('-')[1] || ''
-      modify = modifyArr.includes(modify) ? modify : ''
+      modify = modifyArr.includes(modify) ? modify : (placement ? 'center' : '')
       if (modify) modifyArr.unshift(modify)
       modifyArr = [...new Set(modifyArr)]
 
@@ -211,30 +213,38 @@ export default {
       /* placement为空时，默认左对齐 */
       if (!placement) modify = 'start'
       /* 存在初始对齐方式时，重置对齐方式 */
-      if (modify) {
-        const _modify = modifyArr.find(type => {
-          switch(type) {
-            case 'start':
-              if (['top', 'bottom'].includes(_placement)) {
-                if (left + popperWidth < windowWidth) return true
-              }
-              if (['left', 'right'].includes(_placement)) {
-                if (top + popperHeight < windowHeight) return true
-              }
-              break
-            case 'end':
-              if (['top', 'bottom'].includes(_placement)) {
-                if (left + width > popperWidth) return true
-              }
-              if (['left', 'right'].includes(_placement)) {
-                if (top + height > popperHeight) return true
-              }
-              break
-          }
-        }) || ''
-        /* 对齐方式合理时，重置对齐方式，不合理时，不设置对齐方式 */
-        if (_modify) _currentPlacement.push(_modify)
-      }
+    
+      const _modify = modifyArr.find(type => {
+        switch(type) {
+          case 'center':
+            if (['top', 'bottom'].includes(_placement)) {
+              if (left + (width + popperWidth) / 2 < windowWidth && left + (width - popperWidth) / 2 > 0) return true
+            }
+            if (['left', 'right'].includes(_placement)) {
+              if (top + (height + popperHeight) / 2 < windowHeight && top + (height - popperHeight) / 2 > 0) return true
+            }
+            break
+          case 'start':
+            if (['top', 'bottom'].includes(_placement)) {
+              if (left + popperWidth < windowWidth) return true
+            }
+            if (['left', 'right'].includes(_placement)) {
+              if (top + popperHeight < windowHeight) return true
+            }
+            break
+          case 'end':
+            if (['top', 'bottom'].includes(_placement)) {
+              if (left + width > popperWidth) return true
+            }
+            if (['left', 'right'].includes(_placement)) {
+              if (top + height > popperHeight) return true
+            }
+            break
+        }
+      }) || ''
+      /* 对齐方式合理时，重置对齐方式，不合理时，不设置对齐方式 */
+      if (_modify && _modify !== 'center') _currentPlacement.push(_modify)
+        
       _currentPlacement = _currentPlacement.join('-')
       /* 重置currentPlacement */
       this.currentPlacement = _currentPlacement

@@ -10,7 +10,7 @@
       :show-search="false"
       :column-name="['国家', '大区', '省份', '城市']"
       title="区域选择"
-      placement="bottom-start"
+      placement="bottom"
       size="mini"
       @change="handleChange"
     />
