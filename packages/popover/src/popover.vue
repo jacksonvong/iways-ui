@@ -173,8 +173,8 @@ export default {
       const windowHeight = window.innerHeight
       const windowWidth = window.innerWidth
       /**
-       * ??? top bottom left right ??????
-       * ????????????????
+       * 判断出 top bottom left right 四个主要方向
+       * 并且当出现遮挡的时候自动修正方向
       */
       let placementArr = ['bottom', 'top', 'right', 'left']
       let placement = this.currentPlacement.split('-')[0]
@@ -206,9 +206,9 @@ export default {
       }) || 'bottom'
       let _currentPlacement = [_placement]
 
-      /* placement????????? */
+      /* placement为空时，默认左对齐 */
       if (!placement) modify = 'start'
-      /* ???????????????? */
+      /* 存在初始对齐方式时，重置对齐方式 */
       if (modify) {
         const _modify = modifyArr.find(type => {
           switch(type) {
@@ -230,16 +230,16 @@ export default {
               break
           }
         }) || ''
-        /* ??????????????????????????? */
+        /* 对齐方式合理时，重置对齐方式，不合理时，不设置对齐方式 */
         if (_modify) _currentPlacement.push(_modify)
       }
       _currentPlacement = _currentPlacement.join('-')
-      /* ??currentPlacement */
+      /* 重置currentPlacement */
       this.currentPlacement = _currentPlacement
 
-      /* ??reference???popper????? */
+      /* 相对reference居中时popper左边的距离 */
       const leftReferenceCenter = left - (popperWidth - width) / 2
-      /* ???????popper????? */
+      /* 相对窗口居中时popper左边的距离 */
       const windowCenter = (windowWidth - popperWidth) / 2
 
       let positionValue = {

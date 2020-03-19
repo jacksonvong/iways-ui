@@ -74,7 +74,6 @@
                   :append-to-body="false"
                   :disabled="!datas||datas.length<=0"
                   :placeholder="t('iw.submodel.quickppositioning')"
-                  placement="bottom"
                   style="width: 100px;"
                   @change="handleTrackChange"
                 />
@@ -377,7 +376,7 @@ export default {
     placement: {
       // 气泡框位置， 可选：top left right bottom topLeft topRight bottomLeft bottomRight leftTop leftBottom rightTop rightBottom
       type: String,
-      default: 'bottom'
+      default: ''
     },
     appendToBody: {
       // 是否插入至body下, 默认true

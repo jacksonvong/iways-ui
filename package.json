@@ -20,6 +20,7 @@
   "unpkg": "lib/index.js",
   "style": "lib/theme-chalk/index.css",
   "scripts": {
+    "start": "npm run docs:dev",
     "build:theme": "node build/bin/gen-cssfile && gulp build --gulpfile packages/theme-chalk/gulpfile.js && cp-cli packages/theme-chalk/lib lib/theme-chalk",
     "build:utils": "cross-env BABEL_ENV=utils babel src --out-dir lib --ignore src/index.js",
     "build:umd": "node build/bin/build-locale.js",

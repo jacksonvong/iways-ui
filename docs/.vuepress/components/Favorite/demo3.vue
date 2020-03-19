@@ -23,7 +23,6 @@
       type="segment"
       title="细分市场"
       size="mini"
-      placement="bottomLeft"
       style="width: 128px;"
       @save="handleSave"
       @change="handleChange"
