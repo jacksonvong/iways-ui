@@ -1,6 +1,6 @@
 <template>
   <div>
-    <iw-scrollbar :wrap-style="'height:'+(height+16)+'px;'" keep-show>
+    <iw-scrollbar :wrap-style="'height:'+(height+16)+'px;'" keep-show @scroll="scroll">
       <div>1234</div>
       <div>1234</div>
       <div>1234</div>
@@ -42,6 +42,10 @@ export default {
     return {
       height: 200
     }
+  },
+  methods: {
+    scroll(value) {
+      console.log(value)
   }
 }
 </script>

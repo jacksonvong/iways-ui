@@ -105,6 +105,8 @@ export default {
 
       this.moveY = ((wrap.scrollTop * 100) / wrap.clientHeight)
       this.moveX = ((wrap.scrollLeft * 100) / wrap.clientWidth)
+
+      this.$emit('scroll', { scrollTop: wrap.scrollTop, scrollLeft: wrap.scrollLeft })
     },
 
     update() {
