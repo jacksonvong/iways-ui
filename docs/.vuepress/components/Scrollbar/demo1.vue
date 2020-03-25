@@ -1,8 +1,25 @@
 <template>
   <div>
-    <iw-scrollbar :wrap-style="'height:'+(height+16)+'px;'">
+    <iw-scrollbar :wrap-style="'height:'+(height+16)+'px;'" keep-show>
       <div>1234</div>
       <div>1234</div>
+      <div>1234</div>
+      <div>1234</div>
+      <div class="relative">
+        <iw-popover placement="top-end" show-arrow :body-style="{padding: '10px'}" content="上左" :append-to-body="false">
+          <span slot="reference">上左</span>
+        </iw-popover>
+      </div>
+      <div>1234</div>
+      <div>1234</div>
+      <div>1234</div>
+      <div>1234</div>
+      <div>1234</div>
+      <div class="relative">
+        <iw-popover placement="bottom-start" show-arrow :body-style="{padding: '10px'}" content="下左" :append-to-body="false">
+          <span slot="reference">下左</span>
+        </iw-popover>
+      </div>
       <div>1234</div>
       <div>1234</div>
       <div>1234</div>
@@ -23,8 +40,15 @@
 export default {
   data() {
     return {
-      height: 100
+      height: 200
     }
   }
 }
 </script>
+
+<style>
+.relative {
+  position: relative;
+  cursor: pointer;
+}
+</style>

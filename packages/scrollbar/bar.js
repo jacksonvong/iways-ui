@@ -8,7 +8,8 @@ export default {
   props: {
     vertical: Boolean,
     size: String,
-    move: Number
+    move: Number,
+    keepShow: Boolean
   },
 
   computed: {
@@ -27,6 +28,7 @@ export default {
     return (
       <div
         class={ ['iw-scrollbar__bar', 'is-' + bar.key] }
+        style={ this.keepShow ? 'opacity: 1' : '' }
         onMousedown={ this.clickTrackHandler } >
         <div
           ref='thumb'

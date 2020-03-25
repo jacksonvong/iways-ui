@@ -13,6 +13,7 @@ export default {
 
   props: {
     native: Boolean,
+    keepShow: Boolean,
     wrapStyle: {},
     wrapClass: {},
     viewClass: {},
@@ -77,10 +78,12 @@ export default {
         wrap,
         <Bar
           move={ this.moveX }
+          keepShow={ this.keepShow }
           size={ this.sizeWidth }></Bar>,
         <Bar
           vertical
           move={ this.moveY }
+          keepShow={ this.keepShow }
           size={ this.sizeHeight }></Bar>
       ])
     } else {
