@@ -9,7 +9,8 @@
   "button": "./packages/button",
   "select": "./packages/select",
   "loading": "./packages/loading",
-
+  "table": "./packages/table",
+  "table-column": "./packages/table-column",
   "favorite": "./packages/favorite",
   "submodel": "./packages/submodel",
   "version": "./packages/version",

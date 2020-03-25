@@ -9,7 +9,7 @@ import Popover from '../packages/popover'
 import Dialog from '../packages/dialog'
 import Scrollbar from '../packages/scrollbar'
 import Table from '../packages/table'
-import TableColumn from '../packages/table-column';
+import TableColumn from '../packages/table-column'
 
 import Favorite from '../packages/favorite'
 import Submodel from '../packages/submodel'
