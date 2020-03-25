@@ -36,9 +36,26 @@ pageClass: custom-page-class
   <highlight-code class="codeStyle" slot="showCode" lang="vue">
     <template>
       <div>
-        <iw-scrollbar :wrap-style="'height:'+(height+16)+'px;'">
+        <iw-scrollbar :wrap-style="'height:'+(height+16)+'px;'" keep-show @scroll="scroll">
           <div>1234</div>
           <div>1234</div>
+          <div>1234</div>
+          <div>1234</div>
+          <div class="relative">
+            <iw-popover placement="top-end" show-arrow :body-style="{padding: '10px'}" content="上左" :append-to-body="false">
+              <span slot="reference">上左</span>
+            </iw-popover>
+          </div>
+          <div>1234</div>
+          <div>1234</div>
+          <div>1234</div>
+          <div>1234</div>
+          <div>1234</div>
+          <div class="relative">
+            <iw-popover placement="bottom-start" show-arrow :body-style="{padding: '10px'}" content="下左" :append-to-body="false">
+              <span slot="reference">下左</span>
+            </iw-popover>
+          </div>
           <div>1234</div>
           <div>1234</div>
           <div>1234</div>
@@ -59,11 +76,24 @@ pageClass: custom-page-class
     export default {
       data() {
         return {
-          height: 100
+          height: 200
+        }
+      },
+      methods: {
+        scroll(value) {
+          console.log(value)
         }
       }
     }
     </script>
+
+    <style>
+    .relative {
+      position: relative;
+      cursor: pointer;
+    }
+    </style>
+
   </highlight-code>
 </Common-code-format>
 </ClientOnly>
@@ -82,12 +112,32 @@ pageClass: custom-page-class
   </thead>
   <tbody slot="form-body" class="formBody">
       <tr class="formBodyRow">
-          <td class="formBodyCol">height</td>
-          <td class="formBodyCol">高度</td>
-          <td class="formBodyCol">number</td>
+          <td class="formBodyCol">keepShow</td>
+          <td class="formBodyCol">一直显示</td>
+          <td class="formBodyCol">boolean</td>
           <td class="formBodyCol">—</td>
-          <td class="formBodyCol">—</td>
+          <td class="formBodyCol">false</td>
       </tr>
+  </tbody>
+</Common-create-form>
+</ClientOnly>
+
+#### Methods 
+<ClientOnly>
+<Common-create-form>
+  <thead slot="form-header" class="formHead">
+      <tr class="formHeadRow">
+          <th class="formHeadCol">方法名</th>
+          <th class="formHeadCol">说明</th>
+          <th class="formHeadCol">参数</th>
+      </tr>
+  </thead>
+  <tbody slot="form-body" class="formBody">
+    <tr class="formBodyRow">
+        <td class="formBodyCol">scroll</td>
+        <td class="formBodyCol">滚动时触发</td>
+        <td class="formBodyCol">-</td>
+    </tr>
   </tbody>
 </Common-create-form>
 </ClientOnly>

@@ -13,7 +13,15 @@ $--color-primary: #2e5aa6 !default;
 $--color-white: #FFFFFF !default;
 /// color|1|BackgroundColor|4
 $--color-black: #000000 !default;
-
+$--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
+$--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
+$--color-primary-light-3: mix($--color-white, $--color-primary, 30%) !default; /* 79bbff */
+$--color-primary-light-4: mix($--color-white, $--color-primary, 40%) !default; /* 8cc5ff */
+$--color-primary-light-5: mix($--color-white, $--color-primary, 50%) !default; /* a0cfff */
+$--color-primary-light-6: mix($--color-white, $--color-primary, 60%) !default; /* b3d8ff */
+$--color-primary-light-7: mix($--color-white, $--color-primary, 70%) !default; /* c6e2ff */
+$--color-primary-light-8: mix($--color-white, $--color-primary, 80%) !default; /* d9ecff */
+$--color-primary-light-9: mix($--color-white, $--color-primary, 90%) !default; /* ecf5ff */
 /// color|1|SecondaryColor|1
 $--color-success: #67C23A !default;
 /// color|1|SecondaryColor|1
@@ -47,6 +55,11 @@ $--border-color-extra-light: #F2F6FC !default;
 $--background-color-base: #F5F7FA !default;
 /// color|1|BackgroundColor|4
 $--background-color-blue: #EAF3FC !default;
+
+/* Link
+-------------------------- */
+$--link-color: $--color-primary-light-2 !default;
+$--link-hover-color: $--color-primary !default;
 
 /* Typography
 -------------------------- */
@@ -313,6 +326,22 @@ $--dialog-font-line-height: $--font-line-height-primary !default;
 /// padding||Spacing|3
 $--dialog-padding-primary: 20px !default;
 
+/* Table
+-------------------------- */
+/// color||Color|0
+$--table-border-color: $--border-color-lighter !default;
+$--table-border: 1px solid $--table-border-color !default;
+/// color||Color|0
+$--table-font-color: $--color-text-regular !default;
+/// color||Color|0
+$--table-header-font-color: $--color-text-secondary !default;
+/// color||Color|0
+$--table-row-hover-background-color: $--background-color-base !default;
+$--table-current-row-background-color: $--color-primary-light-9 !default;
+/// color||Color|0
+$--table-header-background-color: $--color-white !default;
+$--table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, .12) !default;
+
 /* Popup
 -------------------------- */
 /// color||Color|0
@@ -377,6 +406,12 @@ $--tag-danger-color: $--color-danger !default;
 $--tag-pink-fill: rgba($--color-pink, 0.10) !default;
 $--tag-pink-border: rgba($--color-pink, 0.20) !default;
 $--tag-pink-color: $--color-pink !default;
+
+/* Dropdown
+-------------------------- */
+$--dropdown-menu-box-shadow: $--box-shadow-light !default;
+$--dropdown-menuItem-hover-fill: $--color-primary-light-9 !default;
+$--dropdown-menuItem-hover-color: $--link-color !default;
 
 /* DatePicker
 --------------------------*/

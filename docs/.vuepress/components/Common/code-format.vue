@@ -127,7 +127,7 @@ export default {
           .iw-show-component-wrapper{
             border-bottom: 1px solid #ebebeb;
             // padding: 10px 0;
-            padding-left: 12px;
+            padding: 0 12px;
             .iw-show-component{
               // border: 1px solid red;
               padding: 16px 0;

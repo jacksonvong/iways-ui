@@ -54,7 +54,7 @@
 
 /* BEM
  -------------------------- */
- @mixin b($block) {
+@mixin b($block) {
   $B: $namespace+'-'+$block !global;
 
   .#{$B} {
@@ -154,6 +154,18 @@
     &.#{$state-prefix + $state} {
       @content;
     }
+  }
+}
+
+@mixin extend-rule($name) {
+  @extend #{'%shared-'+$name};
+}
+
+@mixin share-rule($name) {
+  $rule-name: '%shared-'+$name;
+
+  @at-root #{$rule-name} {
+    @content
   }
 }
 

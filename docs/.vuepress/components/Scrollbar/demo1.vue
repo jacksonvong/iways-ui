@@ -46,6 +46,7 @@ export default {
   methods: {
     scroll(value) {
       console.log(value)
+    }
   }
 }
 </script>

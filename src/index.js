@@ -8,6 +8,8 @@ import Loading from '../packages/loading'
 import Popover from '../packages/popover'
 import Dialog from '../packages/dialog'
 import Scrollbar from '../packages/scrollbar'
+import Table from '../packages/table'
+import TableColumn from '../packages/table-column';
 
 import Favorite from '../packages/favorite'
 import Submodel from '../packages/submodel'
@@ -30,6 +32,8 @@ var components = [
   Popover,
   Dialog,
   Scrollbar,
+  Table,
+  TableColumn,
   Favorite,
   Submodel,
   Version,
@@ -75,6 +79,8 @@ export {
   Popover,
   Dialog,
   Scrollbar,
+  Table,
+  TableColumn,
   Favorite,
   Submodel,
   Version,
@@ -98,6 +104,8 @@ export default {
   Popover,
   Dialog,
   Scrollbar,
+  Table,
+  TableColumn,
   Favorite,
   Submodel,
   Version,
