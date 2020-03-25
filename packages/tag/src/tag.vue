@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     tagSize() {
-      return this.size || (this.$ELEMENT || {}).size
+      return this.size || (this.$IWAYS || {}).size
     }
   },
   methods: {
