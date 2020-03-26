@@ -72,7 +72,9 @@ export default {
     }),
 
     firstDefaultColumnIndex() {
-      return arrayFindIndex(this.columns, ({ type }) => type === 'default');
+      const expandColumnIndex = arrayFindIndex(this.columns, ({ isExpand, type }) => isExpand === true);
+      const defaultColumnIndex = arrayFindIndex(this.columns, ({ isExpand, type }) => type === 'default');
+      return expandColumnIndex > -1 ? expandColumnIndex : defaultColumnIndex;
     }
   },
 
@@ -350,12 +352,12 @@ export default {
               row,
               $index
             };
-            if (cellIndex === firstDefaultColumnIndex && treeRowData) {
+            if (cellIndex === firstDefaultColumnIndex) {
               data.treeNode = {
-                indent: treeRowData.level * treeIndent,
-                level: treeRowData.level
+                indent: treeRowData ? treeRowData.level * treeIndent : 0,
+                level: treeRowData ? treeRowData.level : 1
               };
-              if (typeof treeRowData.expanded === 'boolean') {
+              if (treeRowData && typeof treeRowData.expanded === 'boolean') {
                 data.treeNode.expanded = treeRowData.expanded;
                 // 表明是懒加载
                 if ('loading' in treeRowData) {

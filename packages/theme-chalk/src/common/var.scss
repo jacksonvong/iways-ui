@@ -46,7 +46,7 @@ $--border-color-base: #DCDFE6 !default;
 /// color|1|BorderColor|3
 $--border-color-light: #E4E7ED !default;
 /// color|1|BorderColor|3
-$--border-color-lighter: #EBEEF5 !default;
+$--border-color-lighter: #EEEEEE !default;
 /// color|1|BorderColor|3
 $--border-color-extra-light: #F2F6FC !default;
 
@@ -336,7 +336,7 @@ $--table-font-color: $--color-text-regular !default;
 /// color||Color|0
 $--table-header-font-color: $--color-text-secondary !default;
 /// color||Color|0
-$--table-row-hover-background-color: $--background-color-base !default;
+$--table-row-hover-background-color: #FEF9F3 !default;
 $--table-current-row-background-color: $--color-primary-light-9 !default;
 /// color||Color|0
 $--table-header-background-color: $--color-white !default;

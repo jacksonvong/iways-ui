@@ -1,7 +1,0 @@
-@import "mixins/mixins";
-@import "common/var";
-
-@include b(aaa) {
-  padding: 0;
-  font-size: $--font-size-base;
-}

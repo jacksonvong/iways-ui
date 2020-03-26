@@ -560,4 +560,15 @@
       margin-right: 3px;
     }
   }
+  
+  :not([class*=iw-table__row--level]) {
+    .iw-table__expand-icon {
+      display: inline-block;
+      width: 20px;
+      line-height: 20px;
+      height: 20px;
+      text-align: center;
+      margin-right: 3px;
+    }
+  }
 }

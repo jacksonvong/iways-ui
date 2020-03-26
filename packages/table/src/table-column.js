@@ -12,6 +12,10 @@ export default {
       type: String,
       default: 'default'
     },
+    isExpand: {
+      type: Boolean,
+      default: false
+    },
     label: String,
     className: String,
     labelClassName: String,
@@ -262,6 +266,7 @@ export default {
       ...cellStarts[type],
       id: this.columnId,
       type: type,
+      isExpand: this.isExpand,
       property: this.prop || this.property,
       align: this.realAlign,
       headerAlign: this.realHeaderAlign,
