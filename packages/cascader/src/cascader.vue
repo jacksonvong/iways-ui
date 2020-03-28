@@ -71,9 +71,9 @@
                   <ul v-if="listData[index]&&listData[index].length">
                     <li
                       v-for="row in listData[index]"
-                      :key="row.key"
-                      :class="{on: activeItemKey[index]!==undefined&&row.key===activeItemKey[index]&&row.children, 'has-checkbox': row.children}"
-                      :scroll-key="row.key + '_' + index"
+                      :key="row[optionProps.value]"
+                      :class="{on: activeItemKey[index]!==undefined&&row[optionProps.value]===activeItemKey[index]&&row.children, 'has-checkbox': row.children}"
+                      :scroll-key="row[optionProps.value] + '_' + index"
                       class="iw-cascader__item"
                       @click="handleSelectChange(row)"
                     >
@@ -89,7 +89,7 @@
                           @click="handleItemChange(row)"
                         />
                         <span class="iw-text">
-                          <em :title="row.value" :style="{color: row.disabled?'#c0c4cc':''}">{{ row[optionProps.label] }}</em>
+                          <em :title="row[optionProps.label]" :style="{color: row.disabled?'#c0c4cc':''}">{{ row[optionProps.label] }}</em>
                           <i class="iw-cascader__item-icon iw-icon-arrow-right" />
                         </span>
                       </template>
@@ -102,7 +102,7 @@
                               !multiple&&row.selected?'iw-radio--checked':''
                             ]"
                           />
-                          <em :title="row.value" :class="{'font-orange': row.remark=='进口'}" :style="{color: row.disabled?'#c0c4cc':''}">
+                          <em :title="row[optionProps.label]" :class="{'font-orange': row.remark=='进口'}" :style="{color: row.disabled?'#c0c4cc':''}">
                             {{ row[optionProps.label] }}<abbr class="font-gray">{{ row.date ? `(`+row.date+`)` : '' }}</abbr>
                           </em>
                           <i class="iw-cascader__item-icon" />
@@ -400,7 +400,7 @@ export default {
     },
 
     deep() {
-      return this.data.length ? treeDeep(this.data) : 0
+      return this.data.length ? treeDeep(this.data, this.optionProps.children) : 0
     }
   },
   watch: {
@@ -463,6 +463,7 @@ export default {
       this.datas = getTree(data, {
         son: this.optionProps.children,
         key: this.optionProps.value,
+        value: this.optionProps.label,
         selected: this.selectTexts && this.selectTexts.length ? this.selectTexts : this.selectValues,
         keyword: (this.keyword || '').trim(),
         multiple: this.multiple,
@@ -473,7 +474,7 @@ export default {
       // 初始化activeItemKey
       const selectTexts = arr2table(this.datas, this.optionProps.children, false).filter(item => item.selected === true)
       if (selectTexts && selectTexts.length) {
-        this.activeItemKey = recursiveLoop(this.multiple ? selectTexts[0] : selectTexts.slice(-1), 'parent').reverse()
+        this.activeItemKey = recursiveLoop(this.multiple ? selectTexts[0] : selectTexts.slice(-1), 'parent', this.optionProps.value).reverse()
       }
       // 初始化列表数组
       let datas = this.datas
@@ -494,7 +495,7 @@ export default {
       if (!this.multiple) {
         if (selectTexts.length) {
           this.selectTexts = selectTexts
-          this.selectValues = selectTexts.map(item => item.key)
+          this.selectValues = selectTexts.map(item => item[this.optionProps.value])
         }
         // 把selectTexts的最后一个设置为已选项
         this.selectTextsTag = this.selectTexts.length === 0 ? [] : this.selectTexts.slice(-1)
@@ -503,7 +504,8 @@ export default {
         const selectTexts = arr2table(this.datas, this.optionProps.children, this.selectOnLeaf).filter(item => item.selected === true)
         selectTexts.forEach(item => {
           const key = this.optionProps.value
-          const index = this.selectTextsTag.findIndex(row => { return row[key] === item[key] && row['value'] === item['value'] })
+          const value = this.optionProps.label
+          const index = this.selectTextsTag.findIndex(row => { return row[key] === item[key] && row[value] === item[value] })
           if (index > -1) {
             this.$set(this.selectTextsTag, index, item)
           } else {
@@ -616,7 +618,7 @@ export default {
      */
     handleParentChange(item) {
       if (item.parent) {
-        const parent = findInArray('key', item.parent[this.optionProps.value], this.datas, this.optionProps.children, item.parent.level)
+        const parent = findInArray(this.optionProps.value, item.parent[this.optionProps.value], this.datas, this.optionProps.children, item.parent.level)
         if (parent) {
           parent.selected = parent.children.length === parent.children.filter(item => item.selected === true).length
         }
@@ -633,7 +635,7 @@ export default {
         if (item.selected) {
           selectTexts.forEach(item => {
             const index = this.selectTextsTag.findIndex((child, key) => {
-              return child.key === item.key && child.value === item.value
+              return child[this.optionProps.value] === item[this.optionProps.value] && child[this.optionProps.label] === item[this.optionProps.label]
             })
             if (index === -1) this.selectTextsTag.push(item)
             else this.selectTextsTag[index] = item
@@ -641,7 +643,7 @@ export default {
         } else {
           unselectTexts.forEach(item => {
             const index = this.selectTextsTag.findIndex((child, key) => {
-              return child.key === item.key && child.value === item.value
+              return child[this.optionProps.value] === item[this.optionProps.value] && child[this.optionProps.label] === item[this.optionProps.label]
             })
             if (index !== -1) this.selectTextsTag.splice(index, 1)
           })
@@ -670,7 +672,7 @@ export default {
       if (!selected) {
         if (item.parent) {
           const data = this.listData[item.parent.level]
-          const parent = data.find(child => child.key === item.parent.key)
+          const parent = data.find(child => child[this.optionProps.value] === item.parent[this.optionProps.value])
           if (parent) {
             parent.selected = false
           }
@@ -690,7 +692,7 @@ export default {
       if (!item.children || !item.children.length) return
       const index = Number(item.level)
       const nIndex = index + 1
-      this.$set(this.activeItemKey, index, item.key)
+      this.$set(this.activeItemKey, index, item[this.optionProps.value])
 
       if (item.children && item.children.length) {
         this.$set(this.listData, nIndex, item.children)

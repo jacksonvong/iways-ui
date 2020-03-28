@@ -398,6 +398,7 @@ export default {
       this.datas = getTree(data, {
         son: this.optionProps.children,
         key: this.optionProps.value,
+        value: this.optionProps.label,
         selected: this.selectTexts && this.selectTexts.length ? this.selectTexts : this.selectValues,
         keyword: (this.keyword || '').trim(),
         multiple: this.multiple,
@@ -409,7 +410,7 @@ export default {
         const selectTexts = arr2table(this.datas, this.optionProps.children, false).filter(item => item.selected === true)
         if (selectTexts.length) {
           this.selectTexts = selectTexts
-          this.selectValues = selectTexts.map(item => item.key)
+          this.selectValues = selectTexts.map(item => item[this.optionProps.value])
         }
         // 把selectTexts的最后一个设置为已选项
         this.selectTextsTag = this.selectTexts.length === 0 ? [] : this.selectTexts.slice(-1)
@@ -418,7 +419,8 @@ export default {
         const selectTexts = arr2table(this.datas, this.optionProps.children, this.selectOnLeaf).filter(item => item.selected === true)
         selectTexts.forEach(item => {
           const key = this.optionProps.value
-          const index = this.selectTextsTag.findIndex(row => { return row[key] === item[key] && row['value'] === item['value'] })
+          const value = this.optionProps.label
+          const index = this.selectTextsTag.findIndex(row => { return row[key] === item[key] && row[value] === item[value] })
           if (index > -1) {
             this.$set(this.selectTextsTag, index, item)
           } else {
@@ -521,7 +523,7 @@ export default {
       item.selected = false
       this.selectTextsTag = this.selectTextsTag.filter(child => child.selected)
       this.selectTexts = this.selectTextsTag.filter(child => child.selected)
-      this.selectValues = this.selectTextsTag.map(child => { return child.key })
+      this.selectValues = this.selectTextsTag.map(child => { return child[this.optionProps.value] })
     },
     /**
      * 单/复选方法，设置selected
@@ -565,7 +567,7 @@ export default {
      */
     handleParentChange(item) {
       if (item.parent) {
-        const parent = findInArray('key', item.parent[this.optionProps.value], this.datas, this.optionProps.children, item.parent.level)
+        const parent = findInArray(this.optionProps.value, item.parent[this.optionProps.value], this.datas, this.optionProps.children, item.parent.level)
         if (parent) {
           parent.selected = parent.children.length === parent.children.filter(item => item.selected === true).length
         }
@@ -589,7 +591,7 @@ export default {
         if (item.selected) {
           selectTexts.forEach(item => {
             const index = this.selectTextsTag.findIndex((child, key) => {
-              return child.key === item.key && child.value === item.value
+              return child[this.optionProps.value] === item[this.optionProps.value] && child[this.optionProps.label] === item[this.optionProps.label]
             })
             if (index === -1) this.selectTextsTag.push(item)
             else this.selectTextsTag[index] = item
@@ -597,7 +599,7 @@ export default {
         } else {
           unselectTexts.forEach(item => {
             const index = this.selectTextsTag.findIndex((child, key) => {
-              return child.key === item.key && child.value === item.value
+              return child[this.optionProps.value] === item[this.optionProps.value] && child[this.optionProps.label] === item[this.optionProps.label]
             })
             if (index !== -1) this.selectTextsTag.splice(index, 1)
           })

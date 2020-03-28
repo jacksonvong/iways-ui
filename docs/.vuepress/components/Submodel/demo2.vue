@@ -16,6 +16,11 @@
       :filters="[{key: 1, value: '细分市场'}, {key: 2, value: '品牌'}]"
       :selected-filter="selectedFilter"
       :leafs-per-column="leafsPerColumn"
+      :option-props="{
+        value: 'value',
+        label: 'text',
+        children: 'son'
+      }"
       title="车型"
       size="mini"
       placement="bottom-start"
@@ -31,6 +36,11 @@
       :show-letter="showLetter"
       :filters="[{key: 1, value: '细分市场'}, {key: 2, value: '品牌'}]"
       :selected-filter="selectedFilter"
+      :option-props="{
+        value: 'value',
+        label: 'text',
+        children: 'son'
+      }"
       show-selected
       title="车型"
       size="mini"
@@ -43,7 +53,7 @@
 </template>
 
 <script>
-import { data } from '../../data/get-submodel'
+import { data } from '../../data/get-submodel-2'
 export default {
   name: 'Manfbrand',
   data() {

@@ -4,6 +4,11 @@
       v-model="value"
       :data="data"
       :show-search="true"
+      :option-props="{
+        value: 'value',
+        label: 'text',
+        children: 'son'
+      }"
       title="型坷"
       size="mini"
       placement="bottom-start"
@@ -14,7 +19,7 @@
   </div>
 </template>
 <script>
-import { data } from '../../data/get-version'
+import { data } from '../../data/get-version-2'
 export default {
   name: 'Manfbrand',
   data() {

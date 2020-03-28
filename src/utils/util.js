@@ -210,8 +210,8 @@ export function getTree(_array_tree, options = {}, level = 0, parent) {
     }
     if (parent && parent['level'] >= 0) {
       _tree[pKey] = {
-        key: parent[key],
-        value: parent[value],
+        [key]: parent[key],
+        [value]: parent[value],
         level: parseInt(parent['level'])
       }
       if (parent.parent) {
@@ -292,14 +292,14 @@ export function findInArray(key, value, arr, sub = 'sub', level, output = []) {
   }
   return output.length > 0 ? output[0] : {}
 }
-export function treeDeep(jsonData) {
+export function treeDeep(jsonData, children = 'children') {
   let num = 0
   function recursion(data, k) {
     num = Math.max(num, k)
     for (const x in data) {
       const obj = data[x]
-      if (obj.children) {
-        recursion(obj.children, k + 1)
+      if (obj[children]) {
+        recursion(obj[children], k + 1)
       }
     }
   }

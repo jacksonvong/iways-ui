@@ -17,7 +17,7 @@
         prop="name"
         label="姓名"
         sortable
-        :isExpand="true"
+        :expandable="true"
         width="180">
       </iw-table-column>
       <iw-table-column

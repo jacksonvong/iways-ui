@@ -10,6 +10,11 @@
       :require="true"
       :min="min"
       :max="max"
+      :optionProps="{
+        label: 'text',
+        value: 'value',
+        children: 'sub'
+      }"
       title="区域选择"
       size="mini"
       @change="handleChange"
@@ -17,7 +22,7 @@
   </div>
 </template>
 <script>
-import { data } from '../../data/get-region'
+import { data } from '../../data/get-region-2'
 export default {
   name: 'Region',
   data() {

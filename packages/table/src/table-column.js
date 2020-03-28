@@ -12,7 +12,7 @@ export default {
       type: String,
       default: 'default'
     },
-    isExpand: {
+    expandable: {
       type: Boolean,
       default: false
     },
@@ -266,7 +266,7 @@ export default {
       ...cellStarts[type],
       id: this.columnId,
       type: type,
-      isExpand: this.isExpand,
+      expandable: this.expandable,
       property: this.prop || this.property,
       align: this.realAlign,
       headerAlign: this.realHeaderAlign,

@@ -6,27 +6,32 @@
       :texts="texts"
       :show-search="true"
       :column-name="columnName"
+      :optionProps="{
+        value: 'value',
+        label: 'text',
+        children: 'son'
+      }"
       selectOnLeaf
       show-selected
       show-check-all
       multiple
       title="政策类型"
       size="mini"
-      placement="bottom-start"
+      placement="bottom"
       style="width: 120px;"
       @change="handleChange"
     />
   </div>
 </template>
 <script>
-import { data } from '../../data/get-policy'
+import { data } from '../../data/get-policy-2'
 export default {
   name: '',
   data() {
     return {
       value: [],
       texts: [],
-      columnName: ['类别', '类型', '标签'],
+      columnName: ['类别1', '类型1', '标签1'],
       data: [],
     }
   },

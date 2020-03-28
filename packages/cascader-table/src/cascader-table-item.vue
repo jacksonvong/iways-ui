@@ -24,6 +24,7 @@
             :select-on-leaf="selectOnLeaf"
             :leafs-per-column="leafsPerColumn"
             :multiple="multiple"
+            :option-props="optionProps"
             :exclusion="exclusion"
             :parent="row"
             :deep="deep"
@@ -165,7 +166,7 @@ export default {
       // 选中值
       if (!selected) {
         // 清除所有子节点
-        item.children && item.children.forEach(row => {
+        item[this.optionProps.children] && item[this.optionProps.children].forEach(row => {
           row.selected = false
           this.handleExclusionChange(row, false, false)
         })
@@ -196,9 +197,9 @@ export default {
      */
     handleParentChange(item) {
       if (item.parent) {
-        const parent = findInArray('key', item.parent[this.optionProps.value], this.data, this.optionProps.children, item.parent.level)
-        if (parent && parent.children) {
-          parent.selected = parent.children.length === parent.children.filter(item => item.selected === true).length
+        const parent = findInArray(this.optionProps.value, item.parent[this.optionProps.value], this.data, this.optionProps.children, item.parent.level)
+        if (parent && parent[this.optionProps.children]) {
+          parent.selected = parent[this.optionProps.children].length === parent[this.optionProps.children].filter(item => item.selected === true).length
         }
         if (parent && parent.parent) {
           this.handleParentChange(parent)

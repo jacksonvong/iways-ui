@@ -60,6 +60,7 @@
                   :select-on-leaf="selectOnLeaf"
                   :leafs-per-column="leafsPerColumn"
                   :multiple="multiple"
+                  :option-props="optionProps"
                   :deep="deep"
                   :level="0"
                   :is-header="true" />
@@ -74,6 +75,7 @@
                     :leafs-per-column="leafsPerColumn"
                     :exclusion="exclusion"
                     :multiple="multiple"
+                    :option-props="optionProps"
                     :deep="deep"
                     :level="0"
                     @change="handleItemChange" />
@@ -374,16 +376,16 @@ export default {
     },
 
     deep() {
-      return this.data.length ? treeDeep(this.data) : 0
+      return this.data.length ? treeDeep(this.data, this.optionProps.children) : 0
     },
 
     columnNameData() {
       let data = []
       for (let i = this.deep - 1; i >= 0; i--) {
         if (!this.columnName[i]) continue
-        const tmp = { key: 'title_' + i, value: this.columnName[i] }
+        const tmp = { [this.optionProps.value]: 'title_' + i, [this.optionProps.label]: this.columnName[i] }
         if (data.length) {
-          data = [{ ...tmp, children: data }]
+          data = [{ ...tmp, [this.optionProps.children]: data }]
         } else {
           data = [tmp]
         }
@@ -448,6 +450,7 @@ export default {
       this.datas = getTree(data, {
         son: this.optionProps.children,
         key: this.optionProps.value,
+        value: this.optionProps.label,
         selected: this.selectTexts && this.selectTexts.length ? this.selectTexts : this.selectValues,
         appendPKey: this.appendPKey,
         keyword: (this.keyword || '').trim(),
@@ -460,7 +463,7 @@ export default {
         const selectTexts = arr2table(this.datas, this.optionProps.children, false).filter(item => item.selected === true)
         if (selectTexts.length) {
           this.selectTexts = selectTexts
-          this.selectValues = selectTexts.map(item => item.key)
+          this.selectValues = selectTexts.map(item => item[this.optionProps.value])
         }
         // 把selectTexts的最后一个设置为已选项
         this.selectTextsTag = this.selectTexts.length === 0 ? [] : this.selectTexts.slice(-1)
@@ -469,7 +472,8 @@ export default {
         const selectTexts = arr2table(this.datas, this.optionProps.children, this.selectOnLeaf).filter(item => item.selected === true)
         selectTexts.forEach(item => {
           const key = this.optionProps.value
-          const index = this.selectTextsTag.findIndex(row => { return row[key] === item[key] && row['value'] === item['value'] })
+          const value = this.optionProps.label
+          const index = this.selectTextsTag.findIndex(row => { return row[key] === item[key] && row[value] === item[value] })
           if (index > -1) {
             this.$set(this.selectTextsTag, index, item)
           } else {
@@ -569,7 +573,7 @@ export default {
       item.selected = false
       this.selectTextsTag = this.selectTextsTag.filter(child => child.selected)
       this.selectTexts = this.selectTextsTag.filter(child => child.selected)
-      this.selectValues = this.selectTextsTag.map(child => { return child.key })
+      this.selectValues = this.selectTextsTag.map(child => { return child[this.optionProps.value] })
     },
     handleItemChange(item) {
       if (this.multiple) {
@@ -599,7 +603,7 @@ export default {
         if (item.selected) {
           selectTexts.forEach(item => {
             const index = this.selectTextsTag.findIndex((child, key) => {
-              return child.key === item.key && child.value === item.value
+              return child[this.optionProps.value] === item[this.optionProps.value] && child[this.optionProps.label] === item[this.optionProps.label]
             })
             if (index === -1) this.selectTextsTag.push(item)
             else this.selectTextsTag[index] = item
@@ -607,7 +611,7 @@ export default {
         } else {
           unselectTexts.forEach(item => {
             const index = this.selectTextsTag.findIndex((child, key) => {
-              return child.key === item.key && child.value === item.value
+              return child[this.optionProps.value] === item[this.optionProps.value] && child[this.optionProps.label] === item[this.optionProps.label]
             })
             if (index !== -1) this.selectTextsTag.splice(index, 1)
           })

@@ -257,7 +257,7 @@ export default {
       let positionValue = {
         'top': {
           top: top + windowScrollY,
-          left: (leftReferenceCenter + popperWidth < windowWidth ? leftReferenceCenter : windowCenter)  + windowScrollX
+          left: (leftReferenceCenter + popperWidth < windowWidth && leftReferenceCenter > 0 ? leftReferenceCenter : windowCenter)  + windowScrollX
         },
         'top-start': {
           top: top + windowScrollY,
@@ -269,7 +269,7 @@ export default {
         },
         'bottom': {
           top: top + height + windowScrollY,
-          left: (leftReferenceCenter + popperWidth < windowWidth ? leftReferenceCenter : windowCenter) + windowScrollX
+          left: (leftReferenceCenter + popperWidth < windowWidth && leftReferenceCenter > 0 ? leftReferenceCenter : windowCenter) + windowScrollX
         },
         'bottom-start': {
           top: top + height + windowScrollY,

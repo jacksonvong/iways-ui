@@ -41,9 +41,9 @@
       <div v-if="!disabled" :id="'iw-manfbrand__popover--'+id" :style="{minWidth: '400px', width: '820px'}">
         <!-- 标题区 -->
         <div v-if="title||tabOptions.length" class="iw-manfbrand__title">
-          <div v-if="tabOptions&&tabOptions[selectedTab]" class="iw-manfbrand__inner">{{ tabOptions[selectedTab].value }}</div>
+          <div v-if="tabOptions&&tabOptions[selectedTab]" class="iw-manfbrand__inner">{{ tabOptions[selectedTab][optionProps.label] }}</div>
           <div v-if="tabOptions&&tabOptions.length&&tabOptions.length>1" class="iw-manfbrand__filter">
-            <span v-for="(item, key) in tabOptions" :key="item.key" :class="{on: item.key==selectedTab}" class="iw-manfbrand__filter-item" @click="handleTabChange(item[optionProps.value], key)">{{ item.value }}</span>
+            <span v-for="(item, key) in tabOptions" :key="item[optionProps.value]" :class="{on: item[optionProps.value]==selectedTab}" class="iw-manfbrand__filter-item" @click="handleTabChange(item[optionProps.value], key)">{{ item[optionProps.label] }}</span>
           </div>
           <div v-if="showSearch&&data.length" :class="'iw-manfbrand__search--'+iwSize" class="iw-manfbrand__search">
             <iw-input v-model="keyword" :size="iwSize" :placeholder="t('iw.common.search')" style="width: 120px;" prefix-icon="iw-icon-search" @keyup.native="handleSearchChange" />
@@ -439,7 +439,7 @@ export default {
     this.popover = this.isModal ? 'IwDialog' : 'IwPopover'
     this.referenceWidth = this.$el.offsetWidth
     if (!this.tabs) {
-      this.tabOptions = [{ key: 0, value: this.title }]
+      this.tabOptions = [{ [this.optionProps.value]: 0, [this.optionProps.label]: this.title }]
     } else {
       this.tabOptions = deepClone(this.tabs)
     }
@@ -470,6 +470,7 @@ export default {
       this.datas = getTree(data, {
         son: this.optionProps.children,
         key: this.optionProps.value,
+        value: this.optionProps.label,
         selected: selected,
         keyword: (this.keyword || '').trim(),
         multiple: this.multiple,
@@ -481,7 +482,7 @@ export default {
         const selectTexts = arr2table(this.datas, this.optionProps.children, false).filter(item => item.selected === true)
         if (selectTexts.length) {
           this.selectTexts[this.selectedTab] = selectTexts
-          this.selectValues[this.selectedTab] = selectTexts.map(item => item.key)
+          this.selectValues[this.selectedTab] = selectTexts.map(item => item[this.optionProps.value])
         }
         // 把selectTexts的最后一个设置为已选项
         this.selectTextsTag[this.selectedTab] = this.selectTexts[this.selectedTab].length === 0 ? [] : this.selectTexts[this.selectedTab].slice(-1)
@@ -547,7 +548,7 @@ export default {
         }
       }
       this.checkedTab = this.selectedTab
-      this.$emit('change', this.checkedOptions.map(group => group.map(item => item[this.optionProps.value])), this.checkedOptions)
+      this.$emit('change', this.checkedOptions.map(group => group.map(item => item[this.optionProps.value])), deepClone(this.checkedOptions))
       this.visible = visible
     },
     /**
@@ -599,7 +600,7 @@ export default {
       item.selected = false
       this.selectTextsTag[this.selectedTab] = this.selectTextsTag[this.selectedTab].filter(child => child.selected)
       this.selectTexts[this.selectedTab] = this.selectTextsTag[this.selectedTab].filter(child => child.selected)
-      this.selectValues[this.selectedTab] = this.selectTextsTag[this.selectedTab].map(child => { return child.key })
+      this.selectValues[this.selectedTab] = this.selectTextsTag[this.selectedTab].map(child => { return child[this.optionProps.value] })
     },
     /**
      * 单/复选方法，设置selected
@@ -635,9 +636,9 @@ export default {
      */
     handleParentChange(item) {
       if (item.parent) {
-        const parent = findInArray('key', item.parent[this.optionProps.value], this.datas, this.optionProps.children, item.parent.level)
+        const parent = findInArray(this.optionProps.value, item.parent[this.optionProps.value], this.datas, this.optionProps.children, item.parent.level)
         if (parent) {
-          parent.selected = parent.children.length === parent.children.filter(item => item.selected === true).length
+          parent.selected = parent[this.optionProps.children].length === parent[this.optionProps.children].filter(item => item.selected === true).length
         }
         if (parent && parent.parent) {
           this.handleParentChange(parent)
@@ -659,7 +660,7 @@ export default {
         if (item.selected) {
           selectTexts.forEach(item => {
             const index = this.selectTextsTag[this.selectedTab].findIndex((child, key) => {
-              return child.key === item.key
+              return child[this.optionProps.value] === item[this.optionProps.value]
             })
             if (index === -1) this.selectTextsTag[this.selectedTab].push(item)
             else this.selectTextsTag[this.selectedTab][index] = item
@@ -667,7 +668,7 @@ export default {
         } else {
           unselectTexts.forEach(item => {
             const index = this.selectTextsTag[this.selectedTab].findIndex((child, key) => {
-              return child.key === item.key
+              return child[this.optionProps.value] === item[this.optionProps.value]
             })
             if (index !== -1) this.selectTextsTag[this.selectedTab].splice(index, 1)
           })

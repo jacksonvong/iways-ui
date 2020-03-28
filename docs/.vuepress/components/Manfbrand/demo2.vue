@@ -5,7 +5,12 @@
       :data="data"
       :default-value="[]"
       :show-check-all="true"
-      title="厂商"
+      :option-props="{
+        value: 'value',
+        label: 'text',
+        children: 'son'
+      }"
+      title="厂商2"
       multiple
       placement="bottom-start"
       size="small"
@@ -16,7 +21,7 @@
 </template>
 
 <script>
-import { data } from '../../data/get-manfbrand'
+import { data } from '../../data/get-manfbrand-2'
 export default {
   name: 'Manfbrand',
   data() {

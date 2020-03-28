@@ -72,8 +72,8 @@ export default {
     }),
 
     firstDefaultColumnIndex() {
-      const expandColumnIndex = arrayFindIndex(this.columns, ({ isExpand, type }) => isExpand === true);
-      const defaultColumnIndex = arrayFindIndex(this.columns, ({ isExpand, type }) => type === 'default');
+      const expandColumnIndex = arrayFindIndex(this.columns, ({ expandable, type }) => expandable === true);
+      const defaultColumnIndex = arrayFindIndex(this.columns, ({ expandable, type }) => type === 'default');
       return expandColumnIndex > -1 ? expandColumnIndex : defaultColumnIndex;
     }
   },

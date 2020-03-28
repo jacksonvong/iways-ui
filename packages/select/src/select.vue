@@ -82,8 +82,8 @@
                       multiple&&item.selected?'iw-checkbox--checked':''
                     ]"
                   />
-                  <em :title="item.value" :class="[multiple?'iw-text':'']">
-                    {{ item.value }}<abbr class="font-gray">{{ item.date ? `(`+item.date+`)` : '' }}</abbr>
+                  <em :title="item[optionProps.label]" :class="[multiple?'iw-text':'']">
+                    {{ item[optionProps.label] }}<abbr class="font-gray">{{ item.date ? `(`+item.date+`)` : '' }}</abbr>
                   </em>
                   <i class="iw-select__item-icon" />
                 </span>
