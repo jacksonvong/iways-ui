@@ -309,10 +309,12 @@ export default {
         const { offsetLeft: offsetLeft, offsetTop: offsetTop, offsetHeight: offsetHeight, offsetWidth: offsetWidth } = this.$el
         const { left: left } = this.$el.getBoundingClientRect()
         const { width: parentWidth } = document.body.getBoundingClientRect()
+        const offLeftReferenceCenter = offsetLeft - (popperWidth - width) / 2
+        const parentCenter = (parentWidth - popperWidth) / 2
         positionValue = {
-          top: {
+          'top': {
             top: offsetTop,
-            left: (left + popperWidth > parentWidth ? offsetLeft- popperWidth + width : offsetLeft)
+            left: (offLeftReferenceCenter + popperWidth < parentWidth && offLeftReferenceCenter > 0 ? offLeftReferenceCenter  : parentCenter)
           },
           'top-start': {
             top: offsetTop,
@@ -324,7 +326,7 @@ export default {
           },
           'bottom': {
             top: offsetHeight + offsetTop,
-            left: (left + popperWidth > parentWidth ? offsetLeft- popperWidth + width : offsetLeft)
+            left: (offLeftReferenceCenter + popperWidth < parentWidth && offLeftReferenceCenter > 0 ? offLeftReferenceCenter  : parentCenter)
           },
           'bottom-start': {
             top: offsetHeight + offsetTop,
