@@ -22,7 +22,7 @@
           <div v-if="popover==='IwPopover'" class="iw-input__inner">
             <span v-if="checkedOption[optionProps.value]" class="iw-input__value">
               <input v-if="showFolder" :value="checkedOption[optionProps.label]" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
-              <input v-else :value="checkedOption.children.map(item => item[optionProps.label]).join(', ')" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
+              <input v-else :value="checkedOption[optionProps.children].map(item => item[optionProps.label]).join(', ')" :style="'width:'+(referenceWidth-36)+'px'" :disabled="disabled" unselectable="on" readonly>
             </span>
             <span v-else class="iw-input__value">
               <input :style="'width:'+(referenceWidth-36)+'px'" :value="placeholder || t('iw.common.placeholder')" :disabled="disabled" class="iw-input__placeholder" unselectable="on" readonly >
@@ -67,17 +67,17 @@
                     <dl v-for="(row, index) in tableList" :key="row[optionProps.value]">
                       <dt>
                         <div>
-                          <span v-if="mode!=='edit'" :class="['iw-radio', row.key===checkedValue?'iw-radio--checked':'']" @click="handleRadioClick(row, index)" />
-                          <span v-if="mode!=='edit'" class="iw-text"><label :title="row['value']" @click="handleRadioClick(row, index)">{{ row['value'] }}</label></span>
-                          <span v-if="mode==='edit'" class="iw-text"><iw-input v-model="row['value']" :disabled="mode!=='edit'" :size="iwSize" :placeholder="t('iw.favorite.placeholder')" style="width:146px;" /></span>
+                          <span v-if="mode!=='edit'" :class="['iw-radio', row[optionProps.value]===checkedValue?'iw-radio--checked':'']" @click="handleRadioClick(row, index)" />
+                          <span v-if="mode!=='edit'" class="iw-text"><label :title="row[optionProps.label]" @click="handleRadioClick(row, index)">{{ row[optionProps.label] }}</label></span>
+                          <span v-if="mode==='edit'" class="iw-text"><iw-input v-model="row[optionProps.label]" :disabled="mode!=='edit'" :size="iwSize" :placeholder="t('iw.favorite.placeholder')" style="width:146px;" /></span>
                         </div>
                       </dt>
                       <dt :style="{width: (mode==='edit' ? 385 : 490) + 'px', maxHeight: '48px'}">
                         <div :class="{'children--model-edit':mode==='edit'}">
                           <span
-                            v-if="row.children&&row.children.length"
+                            v-if="row[optionProps.children]&&row[optionProps.children].length"
                             class="iw-favorite__item iw-favorite__item--text"
-                            v-html="row.children.map(item => '<em title='+item.value+' class='+(item.remark=='进口'?'font-orange':'font-blue')+'>'+item.value + '</em>').join(' , ')"
+                            v-html="row[optionProps.children].map(item => '<em title='+item[optionProps.label]+' class='+(item.remark=='进口'?'font-orange':'font-blue')+'>'+item[optionProps.label] + '</em>').join(' , ')"
                           />
                           <span v-if="mode==='edit'" class="iw-favorite__item iw-favorite__item--select">
                             <component
@@ -92,6 +92,7 @@
                               :selected-filter="selectedFilter"
                               :title="titles[type]"
                               :append-to-body="false"
+                              :option-props="optionProps"
                               select-on-leaf
                               multiple
                               size="mini"
@@ -371,26 +372,26 @@ export default {
     },
     initValue() {
       this.checkedValue = this.value
-      this.checkedOption = this.data.find(item => item.key === this.checkedValue) || {}
+      this.checkedOption = this.data.find(item => item[this.optionProps.value] === this.checkedValue) || {}
     },
     initData(data = this.data) {
       this.tableList = deepClone(data).map((row, index) => {
-        row.key = row.key
+        row[this.optionProps.value] = row[this.optionProps.value]
         if (this.checkedValue) {
-          row.selected = this.checkedValue === row.key
-        } else if (row.selected) this.checkedValue = row.key
-        this.checkedOption = this.data.find(item => item.key === this.checkedValue) || {}
+          row.selected = this.checkedValue === row[this.optionProps.value]
+        } else if (row.selected) this.checkedValue = row[this.optionProps.value]
+        this.checkedOption = this.data.find(item => item[this.optionProps.value] === this.checkedValue) || {}
         if (this.type === 'manfBrand') {
-          this.$set(this.dataForm[this.type], index, [row.children.map(item => item.key)])
+          this.$set(this.dataForm[this.type], index, [row[this.optionProps.children].map(item => item[this.optionProps.value])])
           this.$set(this.dataForm[this.type + 'Disabled'], index, [row.disabledChildren])
-          this.$set(this.dataForm[this.type + 'Text'], index, [row.children.map(item => {
+          this.$set(this.dataForm[this.type + 'Text'], index, [row[this.optionProps.children].map(item => {
             item.selected = true
             return item
           })])
         } else {
-          this.$set(this.dataForm[this.type], index, row.children.map(item => item.key))
+          this.$set(this.dataForm[this.type], index, row[this.optionProps.children].map(item => item[this.optionProps.value]))
           this.$set(this.dataForm[this.type + 'Disabled'], index, row.disabledChildren)
-          this.$set(this.dataForm[this.type + 'Text'], index, row.children.map(item => {
+          this.$set(this.dataForm[this.type + 'Text'], index, row[this.optionProps.children].map(item => {
             item.selected = true
             return item
           }))
@@ -419,7 +420,7 @@ export default {
       }
     },
     handleRadioClick(item, index) {
-      this.checkedValue = item.key
+      this.checkedValue = item[this.optionProps.value]
       this.$set(this.tableList[index], 'selected', true)
     },
     beforeClose(done) {
@@ -451,7 +452,7 @@ export default {
         this.error = this.t('iw.common.placeholder')
         return
       }
-      this.checkedOption = this.tableList.find(item => item.key === this.checkedValue)
+      this.checkedOption = this.tableList.find(item => item[this.optionProps.value] === this.checkedValue)
       this.$emit('change', this.checkedValue, this.checkedOption)
       this.visible = false
     },
@@ -460,12 +461,12 @@ export default {
       setTimeout(() => {
         this.tableList.splice(index, 1)
         if (this.type === 'manfBrand') {
-          this.dataForm.manfBrand = this.tableList.map(row => row.children.map(item => item.key))
-          this.dataForm.manfBrandText = this.tableList.map(row => row.children.map(item => item))
+          this.dataForm.manfBrand = this.tableList.map(row => row[this.optionProps.children].map(item => item[this.optionProps.value]))
+          this.dataForm.manfBrandText = this.tableList.map(row => row[this.optionProps.children].map(item => item))
         }
         if (this.type === 'subModel') {
-          this.dataForm.subModel = this.tableList.map(row => row.children.map(item => item.key))
-          this.dataForm.subModelText = this.tableList.map(row => row.children.map(item => item))
+          this.dataForm.subModel = this.tableList.map(row => row[this.optionProps.children].map(item => item[this.optionProps.value]))
+          this.dataForm.subModelText = this.tableList.map(row => row[this.optionProps.children].map(item => item))
         }
         this.initData(this.tableList)
       }, 0)
@@ -479,9 +480,9 @@ export default {
         return false
       }
       const indexData = deepClone(this.tableList[index])
-      indexData['key'] = parseInt(Math.random() * 1000000)
-      indexData['value'] = this.t('iw.favorite.customFolder') + (this.tableList.length + 1)
-      indexData['children'] = isCopy ? indexData['children'] : []
+      indexData[this.optionProps.value] = parseInt(Math.random() * 1000000)
+      indexData[this.optionProps.label] = this.t('iw.favorite.customFolder') + (this.tableList.length + 1)
+      indexData[this.optionProps.children] = isCopy ? indexData[this.optionProps.children] : []
       indexData['selected'] = 0
       setTimeout(() => {
         this.tableList.push(indexData)
@@ -493,24 +494,24 @@ export default {
         this.error = this.t('iw.favorite.placeholder')
         return
       }
-      if (this.tableList.filter(item => !!item.value).length !== this.tableList.length) {
+      if (this.tableList.filter(item => !!item[this.optionProps.label]).length !== this.tableList.length) {
         this.error = this.t('iw.favorite.placeholder')
         return
       }
-      if (this.tableList.length !== this.tableList.filter(item => item.value.length <= 50).length) {
+      if (this.tableList.length !== this.tableList.filter(item => item[this.optionProps.label].length <= 50).length) {
         this.error = this.t('iw.favorite.maxFolderName', {maxLength: 50})
         return
       }
-      if (this.tableList.length !== this.tableList.filter(item => item.children.length > 0).length) {
+      if (this.tableList.length !== this.tableList.filter(item => item[this.optionProps.children].length > 0).length) {
         this.error = this.t('iw.common.placeholder')
         return
       }
-      const names = this.tableList.map(item => item.value)
+      const names = this.tableList.map(item => item[this.optionProps.label])
       if ([...new Set(names)].length !== this.tableList.length) {
         this.error = this.t('iw.favorite.nameExist')
         return
       }
-      if (!this.tableList.every(item => item.children.length < 1000)) {
+      if (!this.tableList.every(item => item[this.optionProps.children].length < 1000)) {
         this.error = this.t('iw.favorite.outOfRange')
         return
       }
@@ -531,12 +532,13 @@ export default {
       }
     },
     handleChange(value, text, index) {
+      console.log(value, text, index)
       const tmpText = this.type === 'manfBrand' ? text[0] : text
       this.$set(this.dataForm[this.type], index, value)
-      this.$set(this.tableList[index], 'children', tmpText.map(item => {
+      this.$set(this.tableList[index], this.optionProps.children, tmpText.map(item => {
         const child = {
-          key: item.key,
-          value: item.value
+          [this.optionProps.value]: item[this.optionProps.value],
+          [this.optionProps.label]: item[this.optionProps.label]
         }
         if (this.type === 'subModel') {
           child['remark'] = item.remark

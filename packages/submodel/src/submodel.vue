@@ -742,6 +742,7 @@ export default {
      * 是否已选
      */
     isItemChecked(data) {
+      if (!data[this.optionProps.children]) return false
       const _selected = data[this.optionProps.children].filter(item => item.selected === true)
       const _children = data[this.optionProps.children]
       data.selected = _selected.length === _children.length
@@ -751,6 +752,7 @@ export default {
      * 是否半选
      */
     isItemIndeterminate(data) {
+      if (!data[this.optionProps.children]) return false
       const _selected = data[this.optionProps.children].filter(item => item.selected === true)
       const _children = data[this.optionProps.children]
       return _selected.length > 0 && _children.length > _selected.length

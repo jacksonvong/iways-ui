@@ -6,6 +6,8 @@
       :type-data="typeData"
       :show-search="true"
       :title="$t('favorite.submodel')"
+      :option-props="{ value: 'value', label: 'text', children: 'son' }"
+      show-selected
       type="subModel"
       is-modal
       size="mini"
@@ -28,6 +30,8 @@
       :show-search="true"
       :append-to-body="false"
       :title="$t('favorite.submodel')"
+      :option-props="{ value: 'value', label: 'text', children: 'son' }"
+      show-selected
       type="subModel"
       size="mini"
       require
@@ -44,8 +48,8 @@
   </div>
 </template>
 <script>
-import { data } from '../../data/get-favorite-submodel'
-import { data as submodel } from '../../data/get-submodel'
+import { data } from '../../data/get-favorite-submodel-2'
+import { data as submodel } from '../../data/get-submodel-2'
 export default {
   name: '',
   data() {
